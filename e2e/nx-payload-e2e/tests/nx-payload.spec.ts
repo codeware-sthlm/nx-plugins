@@ -6,7 +6,7 @@ import {
   uniq,
 } from '@nrwl/nx-plugin/testing';
 
-describe('nx-payload e2e', () => {
+describe('Payload Applications', () => {
   // Setting up individual workspaces per
   // test can cause e2e runs to take a long time.
   // For this reason, we recommend each suite only
@@ -23,36 +23,45 @@ describe('nx-payload e2e', () => {
     runNxCommandAsync('reset');
   });
 
-  it('should create nx-payload', async () => {
-    const project = uniq('nx-payload');
+  it('should generate application', async () => {
+    const appName = uniq('app');
+
     await runNxCommandAsync(
-      `generate @cws-tools/nx-payload:nx-payload ${project}`
+      `generate @cws-tools/nx-payload:application ${appName}`
     );
-    const result = await runNxCommandAsync(`build ${project}`);
-    expect(result.stdout).toContain('Executor ran');
+
+    const result = await runNxCommandAsync(`build ${appName}`);
+    console.log('stdout:\n', result.stdout);
+    console.log('stderr:\n', result.stderr);
+    expect(result.stdout.includes('compiled successfully')).toBeTruthy();
+    expect(() => checkFilesExist(`apps/${appName}/package.json`)).not.toThrow();
   }, 120000);
 
-  describe('--directory', () => {
-    it('should create src in the specified directory', async () => {
-      const project = uniq('nx-payload');
-      await runNxCommandAsync(
-        `generate @cws-tools/nx-payload:nx-payload ${project} --directory subdir`
-      );
-      expect(() =>
-        checkFilesExist(`libs/subdir/${project}/src/index.ts`)
-      ).not.toThrow();
-    }, 120000);
-  });
+  it('should support --directory flag', async () => {
+    const appName = uniq('app');
+    const dirName = uniq('dir');
 
-  describe('--tags', () => {
-    it('should add tags to the project', async () => {
-      const projectName = uniq('nx-payload');
-      ensureNxProject('@cws-tools/nx-payload', 'dist/packages/nx-payload');
-      await runNxCommandAsync(
-        `generate @cws-tools/nx-payload:nx-payload ${projectName} --tags e2etag,e2ePackage`
-      );
-      const project = readJson(`libs/${projectName}/project.json`);
-      expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
-    }, 120000);
-  });
+    await runNxCommandAsync(
+      `generate @cws-tools/nx-payload:application ${appName} --directory ${dirName}`
+    );
+
+    expect(() =>
+      checkFilesExist(`apps/${dirName}/${appName}/package.json`)
+    ).not.toThrow();
+  }, 120000);
+
+  it('should support --tags flag', async () => {
+    const appName = uniq('app');
+    const tags = ['e2etag', 'e2ePackage'];
+
+    await runNxCommandAsync(
+      `generate @cws-tools/nx-payload:application ${appName} --tags ${tags.join(
+        ','
+      )}`
+    );
+    const project = readJson(`apps/${appName}/project.json`);
+    expect(project.tags).toEqual(tags);
+  }, 120000);
+
+  it.todo('should test more flags');
 });

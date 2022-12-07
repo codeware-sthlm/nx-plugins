@@ -3,10 +3,15 @@
   "name": "nx-payload",
   "version": "0.0.1",
   "generators": {
-    "nx-payload": {
-      "factory": "./src/generators/nx-payload/generator",
-      "schema": "./src/generators/nx-payload/schema.json",
-      "description": "nx-payload generator"
+    "application": {
+      "factory": "./src/generators/application/application",
+      "schema": "./src/generators/application/schema.json",
+      "description": "application generator"
+    },
+    "init": {
+      "factory": "./src/generators/init/init",
+      "schema": "./src/generators/init/schema.json",
+      "description": "init generator"
     }
   }
 }

@@ -1,7 +1,11 @@
 {
   "name": "@cws-tools/nx-payload",
   "version": "0.0.1",
-  "main": "src/index.js",
+  "private": false,
+  "main": "./src/index.js",
   "generators": "./generators.json",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "devDependencies": {
+    "eslint-plugin-import": "^2.26.0"
+  }
 }
