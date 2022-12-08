@@ -1,11 +1,10 @@
 import {
+  Tree,
   getWorkspaceLayout,
   joinPathFragments,
   names,
-  Tree,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
-import { Tracing } from 'trace_events';
 
 import { Schema } from '../schema';
 

@@ -1,13 +1,14 @@
-import { NormalizedSchema } from './normalize-options';
 import {
-  joinPathFragments,
   ProjectConfiguration,
-  readProjectConfiguration,
   Tree,
+  joinPathFragments,
+  readProjectConfiguration,
   updateProjectConfiguration,
 } from '@nrwl/devkit';
 
-export function updateProject(host: Tree, options: NormalizedSchema) {
+import { NormalizedSchema } from './normalize-options';
+
+export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
   const targets: Record<string, any> = {};
 
   const projectConfig = readProjectConfiguration(host, options.projectName);

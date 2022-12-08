@@ -1,35 +1,48 @@
-import { Tree, convertNxGenerator, formatFiles } from '@nrwl/devkit';
-
-import { Schema } from './schema';
-import initGenerator from '../init/init';
+import { Tree, convertNxGenerator, formatFiles, toJS } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
-import { normalizeOptions } from './libs/normalize-options';
+
+import initGenerator from '../init/init';
+
+import { createApplicationFiles } from './libs/create-application-files';
+import { createDockerFiles } from './libs/create-docker-files';
 import { createExpressApplication } from './libs/create-express-application';
+import { normalizeOptions } from './libs/normalize-options';
 import { setWorkspaceDefaults } from './libs/set-workspace-defaults';
-import { updateProject } from './libs/update-project';
+import { updateGitignore } from './libs/update-gitignore';
+import { updateProjectConfig } from './libs/update-project-config';
+import { updateTsConfig } from './libs/update-tsconfig';
+import { Schema } from './schema';
 
 export async function applicationGenerator(host: Tree, schema: Schema) {
   const options = normalizeOptions(host, schema);
 
+  // Initialize for Payload support
   const payloadTask = await initGenerator(host, {
     ...schema,
     skipFormat: true,
   });
 
+  // Use Express plugin to scaffold a template application
   const expressTask = await createExpressApplication(host, options);
 
-  // createApplicationFiles(host, options);
-  // createExpressServerFiles(host, options);
-  updateProject(host, options);
+  // Create application files from template folder
+  createApplicationFiles(host, options);
 
-  // TODO: do we need to customize scaffolded files?
-  //  > .eslintrc?
-  //  > jest.config.ts
+  // Application files
+  updateProjectConfig(host, options);
+  updateTsConfig(host, options);
 
+  // Workspace root files
+  createDockerFiles(host, options);
   setWorkspaceDefaults(host, options);
+  updateGitignore(host);
 
-  // addFiles(host, options);
+  // Convert to JavaScript when required
+  if (options.js) {
+    toJS(host);
+  }
 
+  // Format files when not suppressed
   if (!options.skipFormat) {
     await formatFiles(host);
   }

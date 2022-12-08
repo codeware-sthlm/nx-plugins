@@ -1,6 +1,7 @@
 import { Tree } from '@nrwl/devkit';
-import { NormalizedSchema } from './normalize-options';
 import { applicationGenerator } from '@nrwl/express';
+
+import { NormalizedSchema } from './normalize-options';
 
 export async function createExpressApplication(
   host: Tree,
