@@ -37,9 +37,7 @@ export async function initGenerator(tree: Tree, schema: Schema) {
   const installTask = updateDependencies(tree);
   tasks.push(installTask);
 
-  if (!schema.skipFormat) {
-    await formatFiles(tree);
-  }
+  await formatFiles(tree);
 
   return runTasksInSerial(...tasks);
 }

@@ -9,6 +9,7 @@ export async function createExpressApplication(
 ) {
   const expressTask = await applicationGenerator(host, {
     ...options,
+    js: false,
     skipFormat: true,
     skipPackageJson: false,
     pascalCaseFiles: false,

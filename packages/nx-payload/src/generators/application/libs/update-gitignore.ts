@@ -1,13 +1,13 @@
 import type { Tree } from '@nrwl/devkit';
 
 export function updateGitignore(host: Tree): void {
-  let ignoreFile = host.read('.gitignore').toString();
+  let ignoreContent = host.read('.gitignore')?.toString() ?? '';
 
-  if (ignoreFile.indexOf('# Payload files') === -1) {
-    ignoreFile = `${ignoreFile}
+  if (ignoreContent.indexOf('# Payload files') === -1) {
+    ignoreContent = `${ignoreContent}
 # Payload files
 build
   `;
   }
-  host.write('.gitignore', ignoreFile);
+  host.write('.gitignore', ignoreContent);
 }

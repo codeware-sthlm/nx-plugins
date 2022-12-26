@@ -9,6 +9,7 @@ import {
 import { NormalizedSchema } from './normalize-options';
 
 export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const targets: Record<string, any> = {};
 
   const projectConfig = readProjectConfiguration(host, options.projectName);

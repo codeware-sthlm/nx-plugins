@@ -15,7 +15,6 @@ export interface NormalizedSchema extends Schema {
   fileName: string;
   linter: Linter;
   unitTestRunner: 'jest' | 'none';
-  js: boolean;
 }
 
 export function normalizeOptions(
@@ -45,8 +44,6 @@ export function normalizeOptions(
     projectRoot,
     linter: options.linter || Linter.EsLint,
     unitTestRunner: options.unitTestRunner || 'jest',
-    standaloneConfig: options.standaloneConfig || true,
-    js: options.js || false,
     parsedTags,
     fileName,
   };

@@ -1,4 +1,4 @@
-import { Tree, convertNxGenerator, formatFiles, toJS } from '@nrwl/devkit';
+import { Tree, convertNxGenerator, formatFiles } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
 import initGenerator from '../init/init';
@@ -8,6 +8,7 @@ import { createDockerFiles } from './libs/create-docker-files';
 import { createExpressApplication } from './libs/create-express-application';
 import { normalizeOptions } from './libs/normalize-options';
 import { setWorkspaceDefaults } from './libs/set-workspace-defaults';
+import { updateEslintignore } from './libs/update-eslintignore';
 import { updateGitignore } from './libs/update-gitignore';
 import { updateProjectConfig } from './libs/update-project-config';
 import { updateTsConfig } from './libs/update-tsconfig';
@@ -17,10 +18,7 @@ export async function applicationGenerator(host: Tree, schema: Schema) {
   const options = normalizeOptions(host, schema);
 
   // Initialize for Payload support
-  const payloadTask = await initGenerator(host, {
-    ...schema,
-    skipFormat: true,
-  });
+  const payloadTask = await initGenerator(host, schema);
 
   // Use Express plugin to scaffold a template application
   const expressTask = await createExpressApplication(host, options);
@@ -35,17 +33,11 @@ export async function applicationGenerator(host: Tree, schema: Schema) {
   // Workspace root files
   createDockerFiles(host, options);
   setWorkspaceDefaults(host, options);
+  updateEslintignore(host);
   updateGitignore(host);
 
-  // Convert to JavaScript when required
-  if (options.js) {
-    toJS(host);
-  }
-
-  // Format files when not suppressed
-  if (!options.skipFormat) {
-    await formatFiles(host);
-  }
+  // Format files
+  await formatFiles(host);
 
   return runTasksInSerial(payloadTask, expressTask);
 }
