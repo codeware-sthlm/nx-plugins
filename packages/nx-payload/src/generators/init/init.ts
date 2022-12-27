@@ -9,7 +9,7 @@ import { initGenerator as expressInitGenerator } from '@nrwl/express/src/generat
 import { jestInitGenerator } from '@nrwl/jest';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
-import { payloadVersion } from '../../utils/versions';
+import { payloadVersion, tsLibVersion } from '../../utils/versions';
 
 import { Schema } from './schema';
 
@@ -18,6 +18,7 @@ function updateDependencies(tree: Tree) {
     tree,
     {
       payload: payloadVersion,
+      tslib: tsLibVersion,
     },
     {}
   );

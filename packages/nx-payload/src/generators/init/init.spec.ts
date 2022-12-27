@@ -1,7 +1,7 @@
 import { Tree, addDependenciesToPackageJson, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
-import { payloadVersion } from '../../utils/versions';
+import { payloadVersion, tsLibVersion } from '../../utils/versions';
 
 import { initGenerator } from './init';
 
@@ -26,6 +26,13 @@ describe('init', () => {
     expect(packageJson.dependencies['express']).toBeDefined();
     expect(packageJson.devDependencies['@nrwl/express']).toBeDefined();
     expect(packageJson.devDependencies['express']).toBeUndefined();
+  });
+
+  it('should add tslib dependency', async () => {
+    await initGenerator(tree, {});
+    const packageJson = readJson(tree, 'package.json');
+    expect(packageJson.dependencies['tslib']).toBe(tsLibVersion);
+    expect(packageJson.devDependencies['tslib']).toBeUndefined();
   });
 
   it('should keep existing dependencies', async () => {

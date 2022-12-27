@@ -1,11 +1,36 @@
 {
   "name": "@cws-tools/nx-payload",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
+  "description": "The Nx-Payload plugin adds support for Payload CMS applications within an Nx workspace.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codeware-sthlm/cws-tools.git",
+    "directory": "packages/nx-payload"
+  },
+  "author": {
+    "name": "Håkan Ströberg",
+    "email": "hello@codeware.se"
+  },
+  "license": "MIT",
+  "keywords": [
+    "Nx",
+    "PayloadCMS",
+    "Monorepo",
+    "Express",
+    "Jest",
+    "CLI"
+  ],
   "main": "./src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json",
+  "dependencies": {
+    "@nrwl/devkit": "15.2.4",
+    "@nrwl/express": "15.2.4",
+    "@nrwl/jest": "15.2.4",
+    "@nrwl/linter": "15.2.4"
+  },
   "devDependencies": {
-    "eslint-plugin-import": "^2.26.0"
+    "tslib": "^2.4.1"
   }
 }
