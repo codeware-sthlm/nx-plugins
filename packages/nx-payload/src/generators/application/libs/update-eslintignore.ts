@@ -6,7 +6,7 @@ export function updateEslintignore(host: Tree): void {
   if (ignoreContent.indexOf('# Payload files') === -1) {
     ignoreContent = `${ignoreContent}
 # Payload files
-/apps/**/payload-types.ts
+/**/payload-types.ts
   `;
   }
   host.write('.eslintignore', ignoreContent);
