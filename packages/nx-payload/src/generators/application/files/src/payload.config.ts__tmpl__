@@ -1,0 +1,19 @@
+import { resolve } from 'path';
+
+import { buildConfig } from 'payload/config';
+
+import Users from './collections/Users';
+
+export default buildConfig({
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
+  admin: { user: Users.slug },
+  collections: [Users],
+  typescript: {
+    outputFile: resolve(__dirname, 'payload-types.ts')
+  },
+  graphQL: {
+    disable: false,
+    schemaOutputFile: resolve(__dirname, 'generated-schema.graphql')
+  },
+  telemetry: false
+});

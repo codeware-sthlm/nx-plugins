@@ -1,3 +1,10 @@
 {
-  "eslint.validate": ["json"]
+  "editor.codeActionsOnSave": { "source.fixAll": true },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "eslint.validate": ["json"],
+  "[json]": {
+    "editor.codeActionsOnSave": { "source.fixAll": false }
+  }
 }

@@ -1,4 +1,5 @@
 {
+  "name": "nx-payload",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-payload/src",
   "projectType": "library",
@@ -49,7 +50,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/nx-payload"],
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-payload"],
       "options": {
         "jestConfig": "packages/nx-payload/jest.config.ts",
         "passWithNoTests": true

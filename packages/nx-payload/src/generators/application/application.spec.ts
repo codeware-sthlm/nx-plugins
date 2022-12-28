@@ -1,12 +1,12 @@
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
-import generator from './generator';
-import { NxPayloadGeneratorSchema } from './schema';
+import generator from './application';
+import { Schema } from './schema';
 
-describe('nx-payload generator', () => {
+describe('application generator', () => {
   let appTree: Tree;
-  const options: NxPayloadGeneratorSchema = { name: 'test' };
+  const options: Schema = { name: 'test' };
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
