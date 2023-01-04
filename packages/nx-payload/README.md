@@ -51,16 +51,16 @@ Commands can now start with `nx` directly.
 
 ```sh
 # npm
-npm install --save-dev @cws-tools/nx-payload
+npm install --save-dev @codeware-sthlm/nx-payload
 
 # yarn
-yarn add -D @cws-tools/nx-payload
+yarn add -D @codeware-sthlm/nx-payload
 ```
 
 ### Generate Payload Admin Application <!-- omit in toc -->
 
 ```sh
-npx nx g @cws-tools/nx-payload:application demo
+npx nx g @codeware-sthlm/nx-payload:application demo
 ```
 
 ### Descide where your MongoDB is hosted <!-- omit in toc -->
@@ -105,7 +105,7 @@ Generate code.
 
 ### init _(internal)_ <!-- omit in toc -->
 
-Initialize the `@cws-tools/nx-payload` plugin.
+Initialize the `@codeware-sthlm/nx-payload` plugin.
 
 | Option         | Type   | Required | Default | Description              |
 | -------------- | ------ | -------- | ------- | ------------------------ |

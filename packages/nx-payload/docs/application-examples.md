@@ -4,14 +4,14 @@
 {% tab label="Create app in a directory" %}
 
 ```shell
-nx g @cws-tools/nx-payload:application myapp --directory
+nx g @codeware-sthlm/nx-payload:application myapp --directory
 ```
 
 {% /tab %}
 {% tab label="Set tags" %}
 
 ```shell
-nx g @cws-tools/nx-payload:application myapp --tags
+nx g @codeware-sthlm/nx-payload:application myapp --tags
 ```
 
 {% /tab %}

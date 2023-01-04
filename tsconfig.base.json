@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cws-tools/nx-payload": ["packages/nx-payload/src/index.ts"]
+      "@nx-plugins/nx-payload": ["packages/nx-payload/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

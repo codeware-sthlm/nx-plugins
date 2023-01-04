@@ -14,13 +14,13 @@ export function setWorkspaceDefaults(host: Tree, options: NormalizedSchema) {
   }
 
   workspace.generators = workspace.generators || {};
-  workspace.generators['@cws-tools/nx-payload'] =
-    workspace.generators['@cws-tools/nx-payload'] || {};
-  const prev = workspace.generators['@cws-tools/nx-payload'];
+  workspace.generators['@codeware-sthlm/nx-payload'] =
+    workspace.generators['@codeware-sthlm/nx-payload'] || {};
+  const prev = workspace.generators['@codeware-sthlm/nx-payload'];
 
   workspace.generators = {
     ...workspace.generators,
-    '@cws-tools/nx-payload': {
+    '@codeware-sthlm/nx-payload': {
       ...prev,
       application: {
         linter: options.linter,

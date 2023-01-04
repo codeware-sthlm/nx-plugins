@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "cws-tools",
+  "npmScope": "nx-plugins",
   "affected": {
     "defaultBase": "master"
   },

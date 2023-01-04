@@ -10,7 +10,7 @@ describe('Payload Applications', () => {
   let appName: string;
 
   beforeAll(() => {
-    ensureNxProject('@cws-tools/nx-payload', 'dist/packages/nx-payload');
+    ensureNxProject('@nx-plugins/nx-payload', 'dist/packages/nx-payload');
   });
 
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('Payload Applications', () => {
 
   it('should generate a valid application', async () => {
     await runNxCommandAsync(
-      `generate @cws-tools/nx-payload:application ${appName}`
+      `generate @nx-plugins/nx-payload:application ${appName}`
     );
     expect(() => checkFilesExist(`apps/${appName}/project.json`)).not.toThrow();
 
@@ -53,7 +53,7 @@ describe('Payload Applications', () => {
       const dirName = uniq('dir');
 
       await runNxCommandAsync(
-        `generate @cws-tools/nx-payload:application ${appName} --directory=${dirName}`
+        `generate @nx-plugins/nx-payload:application ${appName} --directory=${dirName}`
       );
 
       expect(() =>
@@ -65,7 +65,7 @@ describe('Payload Applications', () => {
   describe('--tags flag', () => {
     it('should generate application with tags', async () => {
       await runNxCommandAsync(
-        `generate @cws-tools/nx-payload:application ${appName} --tags=e2etag,e2ePackage`
+        `generate @nx-plugins/nx-payload:application ${appName} --tags=e2etag,e2ePackage`
       );
 
       expect(readJson(`apps/${appName}/project.json`).tags).toEqual([
