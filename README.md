@@ -1,10 +1,10 @@
-# CWS Tools
+# Nx Plugins
 
-A collection of Nx community plugins and other miscallaneous tools.
+A collection of Nx community plugins.
 
 ## Plugins
 
 | Plugin                  | Description                                                                               |
 | ----------------------- | ----------------------------------------------------------------------------------------- |
-| `@csw-tools/nx-payload` | Support for [Payload CMS](https://payloadcms.com) in your [Nx](https://nx.dev) workspace. |
+| `@nx-plugins/nx-payload` | Support for [Payload CMS](https://payloadcms.com) in your [Nx](https://nx.dev) workspace. |
 |                         |
