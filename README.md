@@ -6,5 +6,5 @@ A collection of Nx community plugins.
 
 | Plugin                  | Description                                                                               |
 | ----------------------- | ----------------------------------------------------------------------------------------- |
-| `@nx-plugins/nx-payload` | Support for [Payload CMS](https://payloadcms.com) in your [Nx](https://nx.dev) workspace. |
+| `@codeware-sthlm/nx-payload` | Support for [Payload CMS](https://payloadcms.com) in your [Nx](https://nx.dev) workspace. |
 |                         |
