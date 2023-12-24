@@ -1,7 +1,11 @@
 import { Tree, addDependenciesToPackageJson, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
-import { payloadVersion, tsLibVersion } from '../../utils/versions';
+import {
+  payloadPluginsVersions,
+  payloadVersion,
+  tsLibVersion,
+} from '../../utils/versions';
 
 import { initGenerator } from './init';
 
@@ -17,6 +21,39 @@ describe('init', () => {
     const packageJson = readJson(tree, 'package.json');
     expect(packageJson.dependencies['payload']).toBe(payloadVersion);
     expect(packageJson.devDependencies['payload']).toBeUndefined();
+  });
+
+  it('should add payload webpack dependency', async () => {
+    await initGenerator(tree, {});
+    const packageJson = readJson(tree, 'package.json');
+    expect(packageJson.dependencies['@payloadcms/bundler-webpack']).toBe(
+      payloadPluginsVersions['@payloadcms/bundler-webpack']
+    );
+    expect(
+      packageJson.devDependencies['@payloadcms/bundler-webpack']
+    ).toBeUndefined();
+  });
+
+  it('should add payload mongodb dependency', async () => {
+    await initGenerator(tree, {});
+    const packageJson = readJson(tree, 'package.json');
+    expect(packageJson.dependencies['@payloadcms/db-mongodb']).toBe(
+      payloadPluginsVersions['@payloadcms/db-mongodb']
+    );
+    expect(
+      packageJson.devDependencies['@payloadcms/db-mongodb']
+    ).toBeUndefined();
+  });
+
+  it('should add payload ricktext-slate dependency', async () => {
+    await initGenerator(tree, {});
+    const packageJson = readJson(tree, 'package.json');
+    expect(packageJson.dependencies['@payloadcms/richtext-slate']).toBe(
+      payloadPluginsVersions['@payloadcms/richtext-slate']
+    );
+    expect(
+      packageJson.devDependencies['@payloadcms/richtext-slate']
+    ).toBeUndefined();
   });
 
   it('should add express dependencies', async () => {

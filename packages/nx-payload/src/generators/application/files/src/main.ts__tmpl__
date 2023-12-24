@@ -21,12 +21,10 @@ app.get('/', (_, res) => {
 // Initialize Payload
 payload.init({
   secret: process.env.PAYLOAD_SECRET_KEY,
-  mongoURL: process.env.MONGO_URL,
   express: app,
   onInit: () => {
     payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`);
-    // Until mongoURL is provided as parts this will output the complete connection string, including credentials!
-    payload.logger.info(`Using MongoURL: ${payload.mongoURL}`);
+    payload.logger.info(`Using DB Host: ${payload.db.connection.host}`);
   }
 });
 
