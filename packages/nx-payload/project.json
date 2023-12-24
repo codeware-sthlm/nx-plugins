@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/nx-payload",
@@ -37,23 +37,14 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "packages/nx-payload/**/*.ts",
-          "packages/nx-payload/generators.json",
-          "packages/nx-payload/executors.json",
-          "packages/nx-payload/package.json"
-        ]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/nx-payload"],
       "options": {
-        "jestConfig": "packages/nx-payload/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "packages/nx-payload/jest.config.ts"
       }
     }
   },

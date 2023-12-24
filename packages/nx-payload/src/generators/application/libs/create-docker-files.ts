@@ -1,6 +1,6 @@
-import type { Tree } from '@nrwl/devkit';
+import type { Tree } from '@nx/devkit';
 
-import { NormalizedSchema } from './normalize-options';
+import type { NormalizedSchema } from './normalize-options';
 
 export function createDockerFiles(host: Tree, options: NormalizedSchema): void {
   const dockerIgnoreContent = `
@@ -27,23 +27,10 @@ tmp
     host.write('.dockerignore', dockerIgnoreContent);
   }
 
-  let composeFile = 'docker-compose.yml';
-  if (host.exists(composeFile)) {
-    composeFile = `docker-compose.${options.name}.yml`;
-  }
-
   host.write(
-    composeFile,
+    `${options.directory}/docker-compose.yml`,
     `
-###
-### Build and run payload app in Docker
-###
-### > docker compose build
-### > docker compose up [-d]
-###
-### Navigate to Payload admin
-###  http://localhost:3000/admin
-###
+# Only for Development
 
 services:
   mongo:
@@ -59,11 +46,11 @@ services:
     image: ${options.name}
     build:
       context: .
-      dockerfile: ${options.projectRoot}/Dockerfile
+      dockerfile: ${options.directory}/Dockerfile
     ports:
       - 3000:3000
     env_file:
-      - ${options.projectRoot}/.env
+      - ${options.directory}/.env
     environment:
       # Override the values different from dev mode
       - NODE_ENV=production
@@ -76,6 +63,6 @@ services:
 networks:
   payload:
     name: payload-network
-    `
+    `,
   );
 }

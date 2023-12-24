@@ -1,18 +1,18 @@
 import {
-  ProjectConfiguration,
-  Tree,
+  type ProjectConfiguration,
+  type Tree,
   joinPathFragments,
   readProjectConfiguration,
   updateProjectConfiguration,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 
-import { NormalizedSchema } from './normalize-options';
+import type { NormalizedSchema } from './normalize-options';
 
 export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const targets: Record<string, any> = {};
 
-  const projectConfig = readProjectConfiguration(host, options.projectName);
+  const projectConfig = readProjectConfiguration(host, options.name);
 
   const projectBuild = projectConfig.targets.build;
   const projectLint = projectConfig.targets.lint;
@@ -21,12 +21,12 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
 
   targets.build = {
     ...projectBuild,
-    executor: '@nrwl/js:tsc',
+    executor: '@nx/js:tsc',
     options: {
-      outputPath: joinPathFragments('dist', options.projectRoot),
-      main: joinPathFragments(options.projectRoot, 'src', 'main.ts'),
-      tsConfig: joinPathFragments(options.projectRoot, 'tsconfig.app.json'),
-      assets: [joinPathFragments(options.projectRoot, 'src', 'assets')],
+      outputPath: joinPathFragments('dist', options.directory),
+      main: joinPathFragments(options.directory, 'src', 'main.ts'),
+      tsConfig: joinPathFragments(options.directory, 'tsconfig.app.json'),
+      assets: [joinPathFragments(options.directory, 'src', 'assets')],
       updateBuildableProjectDepsInPackageJson: true,
       buildableProjectDepsInPackageJsonType: 'dependencies',
     },
@@ -38,7 +38,7 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
     configurations: {
       ...projectServe.configurations,
       development: {
-        tsConfig: joinPathFragments(options.projectRoot, 'tsconfig.dev.json'),
+        tsConfig: joinPathFragments(options.directory, 'tsconfig.dev.json'),
       },
     },
   };
@@ -59,7 +59,7 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
     },
     configurations: {
       production: {
-        outputPath: joinPathFragments('dist', options.projectRoot),
+        outputPath: joinPathFragments('dist', options.directory),
       },
     },
   };
@@ -87,7 +87,7 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
     tags: projectConfig.tags,
   };
 
-  updateProjectConfiguration(host, options.projectName, {
+  updateProjectConfiguration(host, options.name, {
     ...project,
   });
 }

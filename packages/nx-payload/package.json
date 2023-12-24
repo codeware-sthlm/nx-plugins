@@ -13,15 +13,22 @@
     "email": "hello@codeware.se"
   },
   "license": "MIT",
-  "keywords": ["Nx", "PayloadCMS", "Monorepo", "Express", "Jest", "CLI"],
+  "keywords": [
+    "Nx",
+    "PayloadCMS",
+    "Monorepo",
+    "Express",
+    "Jest",
+    "CLI"
+  ],
   "main": "./src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json",
   "dependencies": {
-    "@nrwl/devkit": "15.2.4",
-    "@nrwl/express": "15.2.4",
-    "@nrwl/jest": "15.2.4",
-    "@nrwl/linter": "15.2.4"
+    "@nx/devkit": "17.2.7",
+    "@nx/jest": "17.2.7",
+    "@nx/express": "17.2.7",
+    "@nx/eslint": "17.2.7"
   },
   "devDependencies": {
     "tslib": "^2.4.1"

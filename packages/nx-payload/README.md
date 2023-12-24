@@ -19,6 +19,9 @@ Support for [Payload CMS](https://payloadcms.com) in your [Nx](https://nx.dev) w
 
 ## Prerequisites
 
+- Node 18 or later
+- Docker compose (to start app bundle)
+
 You have previously created a Nx workspace supporting integrated repos.
 
 👉 <https://nx.dev/getting-started>
@@ -57,13 +60,23 @@ npm install --save-dev @codeware-sthlm/nx-payload
 yarn add -D @codeware-sthlm/nx-payload
 ```
 
-### Generate Payload Admin Application <!-- omit in toc -->
+### Generate Payload admin application <!-- omit in toc -->
+
+> ℹ️ `apps/demo` will be used as example in the readme
+>
+> 💡 Application name and path are generated using `as-provided`.
+>
+> <https://nx.dev/deprecated/as-provided-vs-derived#generate-paths-and-names>
 
 ```sh
-npx nx g @codeware-sthlm/nx-payload:application demo
+nx g @codeware-sthlm/nx-payload:application demo --directory apps/demo
 ```
 
-### Descide where your MongoDB is hosted <!-- omit in toc -->
+### Serve application <!-- omit in toc -->
+
+Run MongoDB in Docker and application in dev mode.
+
+#### Descide where your MongoDB is hosted <!-- omit in toc -->
 
 1. Start in a local Docker container (development)
 
@@ -73,31 +86,39 @@ npx nx g @codeware-sthlm/nx-payload:application demo
 
 2. Custom hosting (production/staging/test)
 
-   Edit `[project dir]/[app name]/.env` and set environment variable `MONGO_URL` to the instance of choice.
+   Edit `apps/demo/.env` and set environment variable `MONGO_URL` to the instance of choice.
 
-### Serve Application <!-- omit in toc -->
+#### Dev mode <!-- omit in toc -->
 
 ```sh
-npx nx serve demo
+nx serve demo
 ```
 
-Browse to `http://localhost:3000` and setup your first user.
+Open browser to `http://localhost:3000` and setup your first user.
+
+### Launch application bundle <!-- omit in toc -->
+
+Run MongoDB and application in Docker with Docker Compose.
+
+```sh
+docker compose -f apps/demo/docker-compose.yml up -d
+```
+
+Open browser to `http://localhost:3000` and setup your first user.
 
 ## Running tests
 
 ```sh
 # Unit test
-npx nx test demo
+nx test demo
 
 # Linting
-npx nx lint demo
+nx lint demo
 ```
 
 ## Executors
 
-Run tasks.
-
-Todo...
+None.
 
 ## Generators
 
@@ -115,10 +136,13 @@ Initialize the `@codeware-sthlm/nx-payload` plugin.
 
 Create a Payload admin application served by Express.
 
-| Option         | Type   | Required           | Default  | Description                                   |
-| -------------- | ------ | ------------------ | -------- | --------------------------------------------- |
-| directory      | string |                    | `apps`   | The directory of the application              |
-| name           | string | :heavy_check_mark: |          | The name of the application                   |
-| tags           | string |                    |          | Add tags to the application (comma separated) |
-| unitTestRunner | string |                    | `jest`   | Set `none` to skip tests                      |
-| linter         | string |                    | `eslint` | The tool to use for running lint checks       |
+| Option         | Type    | Required           | Default  | Description                                   |
+| -------------- | ------- | ------------------ | -------- | --------------------------------------------- |
+| name           | string  | :heavy_check_mark: |          | Name of the application                       |
+| directory      | string  | :heavy_check_mark: |          | Path to the application                       |
+| tags           | string  |                    |          | Add tags to the application (comma separated) |
+| unitTestRunner | string  |                    | `jest`   | Set `none` to skip tests                      |
+| linter         | string  |                    | `eslint` | The tool to use for running lint checks       |
+| skipE2e        | boolean |                    | `false`  | Do not create e2e application                 |
+
+> 💡 `name` can be provided via option `--name` or as the first argument (used in the examples in this readme)

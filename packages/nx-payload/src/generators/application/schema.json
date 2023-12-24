@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "Application",
   "title": "Generate a Payload admin application running Express",
   "type": "object",
@@ -16,15 +15,9 @@
       "pattern": "^[a-zA-Z].*$"
     },
     "directory": {
-      "description": "The directory of the new application.",
+      "description": "The path to the new application (Generate paths and names `as-provided`).",
       "type": "string",
       "alias": "d"
-    },
-    "linter": {
-      "description": "The tool to use for running lint checks.",
-      "type": "string",
-      "enum": ["eslint"],
-      "default": "eslint"
     },
     "unitTestRunner": {
       "type": "string",
@@ -36,8 +29,13 @@
       "type": "string",
       "description": "Add tags to the project (used for linting)",
       "alias": "t"
+    },
+    "skipE2e": {
+      "type": "boolean",
+      "description": "Skip generating e2e application.",
+      "default": false
     }
   },
-  "required": ["name"],
+  "required": ["directory", "name"],
   "examplesFile": "../../../docs/application-examples.md"
 }

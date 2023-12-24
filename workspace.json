@@ -1,8 +1,0 @@
-{
-  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
-  "version": 2,
-  "projects": {
-    "nx-payload": "packages/nx-payload",
-    "nx-payload-e2e": "e2e/nx-payload-e2e"
-  }
-}

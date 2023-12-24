@@ -2,99 +2,85 @@ import {
   checkFilesExist,
   ensureNxProject,
   readJson,
-  runNxCommandAsync,
   uniq,
-} from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
 
-describe('Payload Applications', () => {
+import { runNxCommandAsync } from '../../utils/run-nx-command-async';
+
+describe('Payload application', () => {
   let appName: string;
+
+  /** Application generate command without arguments */
+  const baseCmd = 'generate @nx-plugins/nx-payload:application';
+
+  console.log = jest.fn();
+  jest.setTimeout(100000);
 
   beforeAll(() => {
     ensureNxProject('@nx-plugins/nx-payload', 'dist/packages/nx-payload');
   });
 
-  beforeEach(() => {
-    appName = uniq('app');
-  });
-
-  afterAll(() => {
-    runNxCommandAsync('reset');
-  });
-
-  describe('generate application', () => {
-    it('should have a project file', async () => {
+  describe('required options', () => {
+    it('should generate default application', async () => {
+      appName = uniq('app');
       await runNxCommandAsync(
-        `generate @nx-plugins/nx-payload:application ${appName}`
-      );
-      expect(() =>
-        checkFilesExist(`apps/${appName}/project.json`)
-      ).not.toThrow();
-    }, 300000);
-
-    it('should build application', async () => {
-      await runNxCommandAsync(
-        `generate @nx-plugins/nx-payload:application ${appName}`
+        `${baseCmd} ${appName} --directory apps/${appName}`,
       );
 
-      expect((await runNxCommandAsync(`build ${appName}`)).stdout).toContain(
-        'Successfully ran target build'
-      );
       expect(() =>
         checkFilesExist(
           `apps/${appName}/project.json`,
-          `build/index.html`,
-          `dist/apps/${appName}/package.json`,
-          `dist/apps/${appName}/src/main.js`
-        )
+          `apps/${appName}/src/main.ts`,
+          `apps/${appName}-e2e/project.json`,
+          `apps/${appName}-e2e/src/${appName}/${appName}.spec.ts`,
+        ),
       ).not.toThrow();
-    }, 300000);
+    });
 
-    it('should test application', async () => {
-      await runNxCommandAsync(
-        `generate @nx-plugins/nx-payload:application ${appName}`
-      );
-
-      expect((await runNxCommandAsync(`test ${appName}`)).stdout).toContain(
-        'Successfully ran target test'
-      );
-    }, 300000);
-
-    it('should lint application', async () => {
-      await runNxCommandAsync(
-        `generate @nx-plugins/nx-payload:application ${appName}`
-      );
-
-      expect((await runNxCommandAsync(`lint ${appName}`)).stdout).toContain(
-        'Successfully ran target lint'
-      );
-    }, 300000);
-  });
-
-  describe('--directory flag', () => {
-    it('should generate application in custom directory', async () => {
-      const dirName = uniq('dir');
-
-      await runNxCommandAsync(
-        `generate @nx-plugins/nx-payload:application ${appName} --directory=${dirName}`
-      );
+    it('should be able to build', async () => {
+      await runNxCommandAsync(`build ${appName}`);
 
       expect(() =>
-        checkFilesExist(`apps/${dirName}/${appName}/project.json`)
+        checkFilesExist(
+          `build/index.html`,
+          `dist/apps/${appName}/package.json`,
+          `dist/apps/${appName}/src/main.js`,
+        ),
       ).not.toThrow();
-    }, 300000);
+    });
+
+    it('should be able to test', async () => {
+      expect(await runNxCommandAsync(`test ${appName}`)).toBeTruthy();
+    });
+
+    it('should be able to lint', async () => {
+      expect(await runNxCommandAsync(`lint ${appName}`)).toBeTruthy();
+    });
   });
 
-  describe('--tags flag', () => {
+  describe('optional options', () => {
     it('should generate application with tags', async () => {
+      appName = uniq('app');
       await runNxCommandAsync(
-        `generate @nx-plugins/nx-payload:application ${appName} --tags=e2etag,e2ePackage`
+        `${baseCmd} ${appName} --directory apps/${appName} --tags e2etag,e2ePackage`,
       );
 
       expect(readJson(`apps/${appName}/project.json`).tags).toEqual([
         'e2etag',
         'e2ePackage',
       ]);
-    }, 300000);
+    });
+
+    it('should generate application without e2e project', async () => {
+      appName = uniq('app');
+      await runNxCommandAsync(
+        `${baseCmd} ${appName} --directory apps/${appName} --skip-e2e`,
+      );
+
+      expect(() =>
+        checkFilesExist(`apps/${appName}-e2e/project.json`),
+      ).toThrow();
+    });
   });
 
   describe('launch application', () => {

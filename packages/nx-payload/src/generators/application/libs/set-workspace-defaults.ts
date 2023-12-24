@@ -1,16 +1,12 @@
-import {
-  Tree,
-  readWorkspaceConfiguration,
-  updateWorkspaceConfiguration,
-} from '@nrwl/devkit';
+import { type Tree, readNxJson, updateNxJson } from '@nx/devkit';
 
-import { NormalizedSchema } from './normalize-options';
+import type { NormalizedSchema } from './normalize-options';
 
 export function setWorkspaceDefaults(host: Tree, options: NormalizedSchema) {
-  const workspace = readWorkspaceConfiguration(host);
+  const workspace = readNxJson(host);
 
   if (!workspace.defaultProject) {
-    workspace.defaultProject = options.projectName;
+    workspace.defaultProject = options.name;
   }
 
   workspace.generators = workspace.generators || {};
@@ -28,5 +24,5 @@ export function setWorkspaceDefaults(host: Tree, options: NormalizedSchema) {
       },
     },
   };
-  updateWorkspaceConfiguration(host, workspace);
+  updateNxJson(host, workspace);
 }

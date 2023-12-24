@@ -1,5 +1,10 @@
-import { Tree, convertNxGenerator, formatFiles } from '@nrwl/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import {
+  type GeneratorCallback,
+  type Tree,
+  convertNxGenerator,
+  formatFiles,
+  runTasksInSerial,
+} from '@nx/devkit';
 
 import initGenerator from '../init/init';
 
@@ -12,9 +17,12 @@ import { updateEslintignore } from './libs/update-eslintignore';
 import { updateGitignore } from './libs/update-gitignore';
 import { updateProjectConfig } from './libs/update-project-config';
 import { updateTsConfig } from './libs/update-tsconfig';
-import { Schema } from './schema';
+import type { Schema } from './schema';
 
-export async function applicationGenerator(host: Tree, schema: Schema) {
+export async function applicationGenerator(
+  host: Tree,
+  schema: Schema,
+): Promise<GeneratorCallback> {
   const options = normalizeOptions(host, schema);
 
   // Initialize for Payload support

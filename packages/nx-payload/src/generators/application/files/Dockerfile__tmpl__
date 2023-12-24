@@ -20,7 +20,7 @@ COPY . .
 
 # Admin bundle need the configuration when building a static app
 # https://payloadcms.com/docs/configuration/overview
-RUN PAYLOAD_CONFIG_PATH=<%= projectRoot %>/src/payload.config.ts \
+RUN PAYLOAD_CONFIG_PATH=<%= directory %>/src/payload.config.ts \
   yarn nx build <%= name %> --no-cloud
 
 # Final image
@@ -29,8 +29,8 @@ WORKDIR /app
 
 # We'll create a structure similar to scaffolding a default payload workspace
 COPY --from=build /app/build ./build
-COPY --from=build /app/dist/<%= projectRoot %>/src ./dist
-COPY --from=build /app/dist/<%= projectRoot %>/package.json ./
+COPY --from=build /app/dist/<%= directory %>/src ./dist
+COPY --from=build /app/dist/<%= directory %>/package.json ./
 
 # 1. Create symlink to root which will make Payload find it natively
 #    without setting PAYLOAD_CONFIG_PATH.

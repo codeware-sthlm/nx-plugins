@@ -1,7 +1,8 @@
 import { BuildExecutorSchema } from './schema';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function runExecutor(options: BuildExecutorSchema) {
-  console.log('Executor ran for Build', options);
+  console.log('No executor implemented');
   return {
     success: true,
   };

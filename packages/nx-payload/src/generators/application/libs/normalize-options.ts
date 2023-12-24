@@ -1,50 +1,21 @@
-import {
-  Tree,
-  getWorkspaceLayout,
-  joinPathFragments,
-  names,
-} from '@nrwl/devkit';
-import { Linter } from '@nrwl/linter';
+import { type Tree, names } from '@nx/devkit';
+import { Linter } from '@nx/eslint';
 
-import { Schema } from '../schema';
+import type { Schema } from '../schema';
 
-export interface NormalizedSchema extends Schema {
-  projectName: string;
-  projectRoot: string;
-  parsedTags: string[];
-  fileName: string;
-  linter: Linter;
-  unitTestRunner: 'jest' | 'none';
-}
+export type NormalizedSchema = Required<Schema>;
 
 export function normalizeOptions(
   host: Tree,
-  options: Schema
+  options: Schema,
 ): NormalizedSchema {
-  const appDirectory = options.directory
-    ? `${names(options.directory).fileName}/${names(options.name).fileName}`
-    : names(options.name).fileName;
-
-  const { appsDir } = getWorkspaceLayout(host);
-
-  const projectName = appDirectory.replace(new RegExp('/', 'g'), '-');
-
-  const projectRoot = joinPathFragments(appsDir, appDirectory);
-
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
-
-  const fileName = 'index';
-
   return {
     ...options,
     name: names(options.name).fileName,
-    projectName,
-    projectRoot,
-    linter: options.linter || Linter.EsLint,
-    unitTestRunner: options.unitTestRunner || 'jest',
-    parsedTags,
-    fileName,
+    linter: options?.linter || Linter.EsLint,
+    unitTestRunner: options?.unitTestRunner || 'jest',
+    projectNameAndRootFormat: 'as-provided',
+    tags: options?.tags || '',
+    skipE2e: options?.skipE2e || false,
   };
 }

@@ -1,21 +1,22 @@
 import {
-  GeneratorCallback,
-  Tree,
+  type GeneratorCallback,
+  type Tree,
   addDependenciesToPackageJson,
   convertNxGenerator,
   formatFiles,
-} from '@nrwl/devkit';
-import { initGenerator as expressInitGenerator } from '@nrwl/express/src/generators/init/init';
-import { jestInitGenerator } from '@nrwl/jest';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+  runTasksInSerial,
+} from '@nx/devkit';
+import { initGenerator as expressInitGenerator } from '@nx/express/src/generators/init/init';
+import { jestInitGenerator } from '@nx/jest';
 
 import {
+  mongodbVersion,
   payloadPluginsVersions,
   payloadVersion,
   tsLibVersion,
 } from '../../utils/versions';
 
-import { Schema } from './schema';
+import type { Schema } from './schema';
 
 function updateDependencies(tree: Tree) {
   return addDependenciesToPackageJson(
@@ -25,15 +26,21 @@ function updateDependencies(tree: Tree) {
       ...payloadPluginsVersions,
       tslib: tsLibVersion,
     },
-    {}
+    { mongodb: mongodbVersion },
   );
 }
 
-export async function initGenerator(tree: Tree, schema: Schema) {
+/**
+ * Add required application dependencies
+ */
+export async function initGenerator(
+  tree: Tree,
+  schema: Schema,
+): Promise<GeneratorCallback> {
   const tasks: GeneratorCallback[] = [];
 
   if (!schema.unitTestRunner || schema.unitTestRunner === 'jest') {
-    const jestTask = jestInitGenerator(tree, {});
+    const jestTask = await jestInitGenerator(tree, {});
     tasks.push(jestTask);
   }
 

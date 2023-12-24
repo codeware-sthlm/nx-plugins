@@ -1,8 +1,8 @@
 import { join } from 'path';
 
-import { Tree, generateFiles, names } from '@nrwl/devkit';
+import { type Tree, generateFiles, names } from '@nx/devkit';
 
-import { NormalizedSchema } from './normalize-options';
+import type { NormalizedSchema } from './normalize-options';
 
 export function createApplicationFiles(host: Tree, options: NormalizedSchema) {
   const templateVariables = {
@@ -11,12 +11,12 @@ export function createApplicationFiles(host: Tree, options: NormalizedSchema) {
     tmpl: '',
   };
 
-  host.delete(`${options.projectName}/src/main.ts`);
+  host.delete(`${options.name}/src/main.ts`);
 
   generateFiles(
     host,
     join(__dirname, '../files'),
-    options.projectRoot,
-    templateVariables
+    options.directory,
+    templateVariables,
   );
 }
