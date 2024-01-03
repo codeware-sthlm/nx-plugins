@@ -1,21 +1,18 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "NxPayloadApp",
-  "title": "Generate a Payload admin application running Express",
+  "$id": "NxPayloadPreset",
+  "title": "Nx Payload Preset",
   "type": "object",
+  "description": "Generate a Payload CMS application in a integrated workspace. Can be used with `create-nx-workspace --preset=@cdwr/nx-payload`.",
   "properties": {
-    "name": {
+    "appName": {
       "description": "The name of the application.",
       "type": "string",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
       "x-prompt": "What name would you like to use for the application?",
       "pattern": "^[a-zA-Z].*$"
     },
-    "directory": {
-      "description": "The path to the new application.",
+    "appDirectory": {
+      "description": "The path to the new application (Generate paths and names `as-provided`).",
       "type": "string",
       "alias": "d"
     },
@@ -30,17 +27,11 @@
       "description": "Add tags to the project (used for linting)",
       "alias": "t"
     },
-    "skipFormat": {
-      "type": "boolean",
-      "description": "Skip formatting application files.",
-      "default": false
-    },
     "skipE2e": {
       "type": "boolean",
       "description": "Skip generating e2e application.",
       "default": false
     }
   },
-  "required": ["directory", "name"],
-  "examplesFile": "../../../docs/application-examples.md"
+  "required": ["appName", "appDirectory"]
 }

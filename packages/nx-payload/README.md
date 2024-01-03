@@ -1,46 +1,34 @@
 # Nx with Payload CMS <!-- omit in toc -->
 
-Support for [Payload CMS](https://payloadcms.com) in your [Nx](https://nx.dev) workspace.
+> Adding support for [Payload CMS](https://payloadcms.com) in your [Nx](https://nx.dev) workspace.
 
-<div style="display:flex; flex-direction:row; gap:32px; align-items:center; margin:32px;">
-  <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" height="200" />
-  <div style="font-size:32px;">+</div>
-  <img src="https://avatars.githubusercontent.com/u/62968818?s=200&v=4" height="250" />
+<div style="display:flex; flex-direction:row; align-items:center; margin:2rem;">
+  <picture>
+    <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" height="200" />
+  </picture>
+  <span style="font-size:2rem; margin:2rem;">+</span>
+  <picture>
+    <img src="https://avatars.githubusercontent.com/u/62968818?s=200&v=4" height="200" />
+  </picture>
 </div>
 
 ## Contents <!-- omit in toc -->
 
 - [Prerequisites](#prerequisites)
-- [Recommended](#recommended)
-- [Getting started](#getting-started)
-- [Running tests](#running-tests)
-- [Executors](#executors)
+- [Quickstart](#quickstart)
+- [Adding to an existing Nx workspace](#adding-to-an-existing-nx-workspace)
 - [Generators](#generators)
+- [Migrations](#migrations)
+- [Versions Compatibility](#versions-compatibility)
 
 ## Prerequisites
 
 - Node 18 or later
-- Docker compose (to start app bundle)
+- Docker compose (to be able to start app dev bundle)
 
-You have previously created a Nx workspace supporting integrated repos.
+### Recommended <!-- omit in toc -->
 
-👉 <https://nx.dev/getting-started>
-
-```sh
-# Quick start
-npx create-nx-workspace@latest myorg --preset=ts
-```
-
-### Mongo Database <!-- omit in toc -->
-
-Payload requires a running Mongo instance to work properly.
-
-Production deployments must use something stable, for example [MongoDB Atlas](https://www.mongodb.com/atlas).
-But for local test and development it's very easy and flexible to start MongoDB in a local Docker container instead.
-
-## Recommended
-
-### Global install `nx` <!-- omit in toc -->
+Install `nx` globally.
 
 ```sh
 npm install --global nx
@@ -48,85 +36,59 @@ npm install --global nx
 
 Commands can now start with `nx` directly.
 
-## Getting started
+## Quickstart
 
-### Install Plugin <!-- omit in toc -->
+Create a new Nx workspace `my-workspace` with a Payload CMS admin application.
+
+```sh
+npx create-nx-payload my-workspace
+```
+
+or
+
+```sh
+npx create-nx-workspace my-workspace --preset=@cdwr/nx-payload
+```
+
+Enter the new workspace
+
+```sh
+cd my-workspace
+```
+
+Launch Payload CMS admin application in Docker
+
+```sh
+nx dx:launch payload-admin
+```
+
+Open your browser and navigate to <http://localhost:3000> to setup your first user.
+
+## Adding to an existing Nx workspace
+
+Install the Payload CMS plugin.
 
 ```sh
 # npm
-npm install --save-dev @codeware-sthlm/nx-payload
+npm install -D @cdwr/nx-payload
 
 # yarn
-yarn add -D @codeware-sthlm/nx-payload
+yarn add -D @cdwr/nx-payload
 ```
 
-### Generate Payload admin application <!-- omit in toc -->
-
-> ℹ️ `apps/demo` will be used as example in the readme
->
-> 💡 Application name and path are generated using `as-provided`.
->
-> <https://nx.dev/deprecated/as-provided-vs-derived#generate-paths-and-names>
+Generate a Payload CMS admin application.
 
 ```sh
-nx g @codeware-sthlm/nx-payload:application demo --directory apps/demo
+nx g @cdwr/nx-payload:app my-app --directory apps/my-app
 ```
 
-### Serve application <!-- omit in toc -->
-
-Run MongoDB in Docker and application in dev mode.
-
-#### Descide where your MongoDB is hosted <!-- omit in toc -->
-
-1. Start in a local Docker container (development)
-
-   ```sh
-   docker run --rm -d -p 27017:27017 mongo
-   ```
-
-2. Custom hosting (production/staging/test)
-
-   Edit `apps/demo/.env` and set environment variable `MONGO_URL` to the instance of choice.
-
-#### Dev mode <!-- omit in toc -->
-
-```sh
-nx serve demo
-```
-
-Open browser to `http://localhost:3000` and setup your first user.
-
-### Launch application bundle <!-- omit in toc -->
-
-Run MongoDB and application in Docker with Docker Compose.
-
-```sh
-docker compose -f apps/demo/docker-compose.yml up -d
-```
-
-Open browser to `http://localhost:3000` and setup your first user.
-
-## Running tests
-
-```sh
-# Unit test
-nx test demo
-
-# Linting
-nx lint demo
-```
-
-## Executors
-
-None.
+Launch app as described in the [Quickstart](#quickstart) section.
 
 ## Generators
 
-Generate code.
-
 ### init _(internal)_ <!-- omit in toc -->
 
-Initialize the `@codeware-sthlm/nx-payload` plugin.
+Initialize the `@cdwr/nx-payload` plugin.
 
 | Option         | Type   | Required | Default | Description              |
 | -------------- | ------ | -------- | ------- | ------------------------ |
@@ -134,15 +96,25 @@ Initialize the `@codeware-sthlm/nx-payload` plugin.
 
 ### application <!-- omit in toc -->
 
-Create a Payload admin application served by Express.
+Generate a Payload CMS admin application served by Express.
 
-| Option         | Type    | Required           | Default  | Description                                   |
-| -------------- | ------- | ------------------ | -------- | --------------------------------------------- |
-| name           | string  | :heavy_check_mark: |          | Name of the application                       |
-| directory      | string  | :heavy_check_mark: |          | Path to the application                       |
-| tags           | string  |                    |          | Add tags to the application (comma separated) |
-| unitTestRunner | string  |                    | `jest`   | Set `none` to skip tests                      |
-| linter         | string  |                    | `eslint` | The tool to use for running lint checks       |
-| skipE2e        | boolean |                    | `false`  | Do not create e2e application                 |
+| Option         | Type    | Required | Default  | Description                                       |
+| -------------- | ------- | :------: | -------- | ------------------------------------------------- |
+| name           | string  |    ✅    |          | Name of the application                           |
+| directory      | string  |    ✅    |          | Path to the application                           |
+| tags           | string  |          |          | Add tags to the application (comma separated)     |
+| unitTestRunner | string  |          | `jest`   | Set `none` to skip tests                          |
+| linter         | string  |          | `eslint` | The tool to use for running lint checks           |
+| skipE2e        | boolean |          | `false`  | Whether to skip generating e2e application or not |
 
 > 💡 `name` can be provided via option `--name` or as the first argument (used in the examples in this readme)
+
+## Migrations
+
+None.
+
+## Versions Compatibility
+
+| nx-payload version | Nx version |
+| ------------------ | ---------- |
+| >= 0.0.1           | ^17.0.0    |

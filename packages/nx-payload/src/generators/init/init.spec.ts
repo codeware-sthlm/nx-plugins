@@ -5,7 +5,7 @@ import type { PackageJson } from 'nx/src/utils/package-json';
 import {
   payloadPluginsVersions,
   payloadVersion,
-  tsLibVersion,
+  tsLibVersion
 } from '../../utils/versions';
 
 import { initGenerator } from './init';
@@ -33,10 +33,10 @@ describe('init', () => {
 
     const packageJson = readJson<PackageJson>(tree, 'package.json');
     expect(packageJson.dependencies['@payloadcms/bundler-webpack']).toBe(
-      payloadPluginsVersions['@payloadcms/bundler-webpack'],
+      payloadPluginsVersions['@payloadcms/bundler-webpack']
     );
     expect(
-      packageJson.devDependencies['@payloadcms/bundler-webpack'],
+      packageJson.devDependencies['@payloadcms/bundler-webpack']
     ).toBeUndefined();
   });
 
@@ -45,10 +45,10 @@ describe('init', () => {
     const packageJson = readJson<PackageJson>(tree, 'package.json');
 
     expect(packageJson.dependencies['@payloadcms/db-mongodb']).toBe(
-      payloadPluginsVersions['@payloadcms/db-mongodb'],
+      payloadPluginsVersions['@payloadcms/db-mongodb']
     );
     expect(
-      packageJson.devDependencies['@payloadcms/db-mongodb'],
+      packageJson.devDependencies['@payloadcms/db-mongodb']
     ).toBeUndefined();
   });
 
@@ -57,10 +57,10 @@ describe('init', () => {
     const packageJson = readJson<PackageJson>(tree, 'package.json');
 
     expect(packageJson.dependencies['@payloadcms/richtext-slate']).toBe(
-      payloadPluginsVersions['@payloadcms/richtext-slate'],
+      payloadPluginsVersions['@payloadcms/richtext-slate']
     );
     expect(
-      packageJson.devDependencies['@payloadcms/richtext-slate'],
+      packageJson.devDependencies['@payloadcms/richtext-slate']
     ).toBeUndefined();
   });
 
@@ -94,10 +94,10 @@ describe('init', () => {
     const existing = 'existing';
     const existingVersion = '1.0.0';
     const dependencies = {
-      [existing]: existingVersion,
+      [existing]: existingVersion
     };
     const devDependencies = {
-      [existing]: existingVersion,
+      [existing]: existingVersion
     };
     addDependenciesToPackageJson(tree, dependencies, devDependencies);
 

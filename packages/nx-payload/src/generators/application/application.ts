@@ -3,13 +3,13 @@ import {
   type Tree,
   convertNxGenerator,
   formatFiles,
-  runTasksInSerial,
+  runTasksInSerial
 } from '@nx/devkit';
 
 import initGenerator from '../init/init';
 
 import { createApplicationFiles } from './libs/create-application-files';
-import { createDockerFiles } from './libs/create-docker-files';
+import { createDockerfile } from './libs/create-dockerfile';
 import { createExpressApplication } from './libs/create-express-application';
 import { normalizeOptions } from './libs/normalize-options';
 import { setWorkspaceDefaults } from './libs/set-workspace-defaults';
@@ -17,11 +17,11 @@ import { updateEslintignore } from './libs/update-eslintignore';
 import { updateGitignore } from './libs/update-gitignore';
 import { updateProjectConfig } from './libs/update-project-config';
 import { updateTsConfig } from './libs/update-tsconfig';
-import type { Schema } from './schema';
+import type { AppGeneratorSchema } from './schema';
 
 export async function applicationGenerator(
   host: Tree,
-  schema: Schema,
+  schema: AppGeneratorSchema
 ): Promise<GeneratorCallback> {
   const options = normalizeOptions(host, schema);
 
@@ -34,18 +34,22 @@ export async function applicationGenerator(
   // Create application files from template folder
   createApplicationFiles(host, options);
 
-  // Application files
+  // Create application files dynamically
+  createDockerfile(host, options);
+
+  // Application config files
   updateProjectConfig(host, options);
   updateTsConfig(host, options);
 
-  // Workspace root files
-  createDockerFiles(host, options);
+  // Workspace root config files
   setWorkspaceDefaults(host, options);
   updateEslintignore(host);
   updateGitignore(host);
 
   // Format files
-  await formatFiles(host);
+  if (!options.skipFormat) {
+    await formatFiles(host);
+  }
 
   return runTasksInSerial(payloadTask, expressTask);
 }

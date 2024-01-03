@@ -5,7 +5,7 @@ import type { NormalizedSchema } from './normalize-options';
 
 export async function createExpressApplication(
   host: Tree,
-  options: NormalizedSchema,
+  options: NormalizedSchema
 ) {
   // `e2eTestRunner` not found among devkit types?
   const e2e = options?.skipE2e ? { e2eTestRunner: 'none' } : {};
@@ -16,7 +16,7 @@ export async function createExpressApplication(
     skipFormat: true,
     skipPackageJson: false,
     pascalCaseFiles: false,
-    ...e2e,
+    ...e2e
   });
 
   return expressTask;

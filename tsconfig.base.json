@@ -13,9 +13,15 @@
     "lib": ["ES2022", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-plugins/nx-payload": ["packages/nx-payload/src/index.ts"]
+      "@nx-plugins/create-nx-payload": [
+        "packages/create-nx-payload/bin/index.ts"
+      ],
+      "@nx-plugins/e2e/utils": ["e2e/utils"],
+      "@nx-plugins/nx-payload": ["packages/nx-payload/src/index.ts"],
+      "@nx-plugins/nx-payload/*": ["packages/nx-payload/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
