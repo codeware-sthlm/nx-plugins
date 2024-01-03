@@ -1,18 +1,13 @@
 # Application examples
 
-{% tabs %}
-{% tab label="Generate `myapp` in `apps` directory" %}
+## Generate `myapp` in `apps` directory
 
-```shell
-nx g @codeware-sthlm/nx-payload:application myapp --directory=apps/myapp
+```sh
+nx g @cdwr/nx-payload:app myapp --directory=apps/myapp
 ```
 
-{% /tab %}
-{% tab label="Apply tags" %}
+## Apply tags
 
-```shell
-nx g @codeware-sthlm/nx-payload:application myapp --directory=apps/myapp --tags=scope:apps,type:app
+```sh
+nx g @cdwr/nx-payload:app myapp --directory=apps/myapp --tags=scope:apps,type:app
 ```
-
-{% /tab %}
-{% /tabs %}

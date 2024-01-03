@@ -1,0 +1,35 @@
+# Only for Development.
+# Should be started from workspace root.
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - payload
+
+  <%= name %>:
+    container_name: <%= name %>
+    image: <%= name %>
+    build:
+      context: ../../
+      dockerfile: <%= directory %>/Dockerfile
+      network: host
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    environment:
+      # Override the values different from .env
+      - MONGO_URL=mongodb://mongo/<%= name %>
+    networks:
+      - payload
+    depends_on:
+      - mongo
+
+networks:
+  payload:
+    external: true
+    name: host

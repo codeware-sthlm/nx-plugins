@@ -1,0 +1,35 @@
+{
+  "name": "create-nx-payload",
+  "version": "0.0.0",
+  "private": false,
+  "description": "Quickly scaffold a new Nx workspace with a Payload CMS admin application.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codeware-sthlm/nx-plugins.git",
+    "directory": "packages/create-nx-payload"
+  },
+  "author": "Håkan Ströberg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codeware-sthlm/nx-plugins/issues"
+  },
+  "homepage": "https://github.com/codeware-sthlm/nx-plugins",
+  "keywords": [
+    "PayloadCMS",
+    "Nx",
+    "Monorepo",
+    "Express",
+    "Web",
+    "CLI"
+  ],
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "create-nx-workspace": "^17.2.7",
+    "enquirer": "^2.4.1",
+    "tslib": "^2.4.1",
+    "yargs": "^17.7.2"
+  },
+  "bin": {
+    "create-nx-payload": "./bin/index.js"
+  }
+}

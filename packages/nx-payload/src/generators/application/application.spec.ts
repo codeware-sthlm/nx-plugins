@@ -3,11 +3,14 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import type { PackageJson } from 'nx/src/utils/package-json';
 
 import generator from './application';
-import type { Schema } from './schema';
+import type { AppGeneratorSchema } from './schema';
 
 describe('application generator', () => {
   let tree: Tree;
-  const options: Schema = { directory: 'apps/test-dir', name: 'test-app' };
+  const options: AppGeneratorSchema = {
+    directory: 'apps/test-dir',
+    name: 'test-app'
+  };
 
   console.log = jest.fn();
   console.warn = jest.fn();
@@ -22,11 +25,11 @@ describe('application generator', () => {
 
     expect(packageJson.dependencies['payload']).toBeDefined();
     expect(
-      packageJson.dependencies['@payloadcms/bundler-webpack'],
+      packageJson.dependencies['@payloadcms/bundler-webpack']
     ).toBeDefined();
     expect(packageJson.dependencies['@payloadcms/db-mongodb']).toBeDefined();
     expect(
-      packageJson.dependencies['@payloadcms/richtext-slate'],
+      packageJson.dependencies['@payloadcms/richtext-slate']
     ).toBeDefined();
   });
 
@@ -49,7 +52,7 @@ describe('application generator', () => {
     await generator(tree, options);
 
     expect(
-      tree.exists(`${options.directory}/src/payload.config.ts`),
+      tree.exists(`${options.directory}/src/payload.config.ts`)
     ).toBeTruthy();
 
     expect(tree.exists(`${options.directory}/.eslintrc.json`)).toBeTruthy();
@@ -79,4 +82,17 @@ describe('application generator', () => {
 
     expect(tree.exists(`${options.directory}-e2e/project.json`)).toBeFalsy();
   });
+
+  it('should add docker files', async () => {
+    await generator(tree, options);
+
+    expect(tree.exists(`${options.directory}/docker-compose.yml`)).toBeTruthy();
+    expect(tree.exists(`${options.directory}/Dockerfile`)).toBeTruthy();
+    expect(
+      tree.exists(`${options.directory}/Dockerfile.dockerignore`)
+    ).toBeTruthy();
+  });
+
+  // @see https://github.com/nrwl/nx/blob/master/packages/remix/src/generators/application/application.impl.spec.ts
+  it.todo('should test all options');
 });

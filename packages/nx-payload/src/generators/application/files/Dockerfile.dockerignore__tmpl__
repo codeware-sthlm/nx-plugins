@@ -1,0 +1,20 @@
+.DS_Store
+.git
+
+# Config
+.settings
+.verdaccio
+.vscode
+
+# Nx
+.nx
+migrations.json
+tools
+*.log
+
+# Temporary files
+build
+coverage
+dist
+node_modules
+tmp

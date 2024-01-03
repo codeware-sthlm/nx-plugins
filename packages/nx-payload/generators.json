@@ -1,17 +1,28 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "name": "nx-payload",
-  "version": "0.0.1",
+  "name": "NxPayload",
+  "version": "0.0.0",
+  "extends": ["@nx/express"],
   "generators": {
-    "application": {
-      "factory": "./src/generators/application/application",
-      "schema": "./src/generators/application/schema.json",
-      "description": "application generator"
+    "preset": {
+      "implementation": "./src/generators/preset/preset",
+      "schema": "./src/generators/preset/schema.json",
+      "description": "Generate a new Payload CMS workspace",
+      "hidden": true,
+      "x-use-standalone-layout": false
     },
     "init": {
-      "factory": "./src/generators/init/init",
+      "implementation": "./src/generators/init/init",
       "schema": "./src/generators/init/schema.json",
-      "description": "init generator"
+      "description": "Initialize Express and Payload CMS dependencies",
+      "hidden": true
+    },
+    "application": {
+      "implementation": "./src/generators/application/application",
+      "schema": "./src/generators/application/schema.json",
+      "description": "Generate a new Payload CMS application",
+      "aliases": ["app"],
+      "x-type": "application"
     }
   }
 }

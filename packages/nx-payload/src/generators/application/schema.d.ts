@@ -1,9 +1,20 @@
 import { Schema as ExpressSchema } from '@nx/express/src/generators/application/schema';
 
-export type Schema = Required<Pick<ExpressSchema, 'directory' | 'name'>> &
-  Partial<
-    Pick<
-      ExpressSchema,
-      'linter' | 'projectNameAndRootFormat' | 'unitTestRunner' | 'tags'
-    >
-  > & { skipE2e?: boolean };
+export type AppGeneratorSchema =
+  // Not supporting `projectNameAndRootFormat='derived'`, which is deprecated and removed in Nx 18.
+  // Hence `directory` is required.
+  Required<Pick<ExpressSchema, 'directory' | 'name'>> &
+    // Optional generator properties
+    Partial<
+      Pick<
+        ExpressSchema,
+        | 'linter'
+        | 'projectNameAndRootFormat'
+        | 'skipFormat'
+        | 'tags'
+        | 'unitTestRunner'
+      >
+    > & {
+      // Custom property to set `e2eTestRunner`
+      skipE2e?: boolean;
+    };
