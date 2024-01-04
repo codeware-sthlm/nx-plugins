@@ -12,7 +12,7 @@ import { runNxCommandAsync as _runNxCommandAsync } from '@nx/plugin/testing';
  */
 export async function runNxCommandAsync(
   command: string,
-  options: { env?: object } = {},
+  options: { env?: object } = {}
 ): Promise<boolean> {
   const { stdout, stderr } = await _runNxCommandAsync(`${command} --verbose`, {
     silenceError: true,
@@ -22,8 +22,8 @@ export async function runNxCommandAsync(
       YARN_ENABLE_HARDENED_MODE: '0',
       // Yarn 3
       YARN_ENABLE_IMMUTABLE_INSTALLS: 'false',
-      ...options.env,
-    },
+      ...options.env
+    }
   });
 
   console.log(stdout);
