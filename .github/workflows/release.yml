@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+      - next
+      - '*.x'
+
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: Run release process without making any changes or pushing to npm
+        default: true
+        type: boolean
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      # Required by npm provenance
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_SEMVER_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          check-latest: true
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - run: npx nx run-many -t semantic-release --parallel=false ${{ inputs.dry-run && '--dry-run' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_SEMVER_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          # Override default semantic-release commit user
+          GIT_AUTHOR_NAME: ${{ vars.SEMVER_COMMIT_NAME }}
+          GIT_AUTHOR_EMAIL: ${{ vars.SEMVER_COMMIT_EMAIL }}
+          GIT_COMMITTER_NAME: ${{ vars.SEMVER_COMMIT_NAME }}
+          GIT_COMMITTER_EMAIL: ${{ vars.SEMVER_COMMIT_EMAIL }}
+          # Enable npm provenance
+          NPM_CONFIG_PROVENANCE: true

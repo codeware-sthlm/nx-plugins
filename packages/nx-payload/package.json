@@ -1,6 +1,6 @@
 {
   "name": "@cdwr/nx-payload",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": false,
   "description": "The Nx Payload plugin adds support for Payload CMS applications within an Nx workspace.",
   "repository": {
@@ -18,6 +18,9 @@
     "Jest",
     "CLI"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@nx/devkit": "17.2.7",
     "@nx/jest": "17.2.7",

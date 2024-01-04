@@ -10,7 +10,7 @@ export function updateTsConfig(tree: Tree, options: NormalizedSchema): void {
     (json) => {
       json.references = [...json.references, { path: './tsconfig.dev.json' }];
       return json;
-    },
+    }
   );
 
   updateJson(
@@ -19,9 +19,9 @@ export function updateTsConfig(tree: Tree, options: NormalizedSchema): void {
     (json) => {
       json = {
         extends: './tsconfig.dev.json',
-        compilerOptions: { sourceMap: false },
+        compilerOptions: { sourceMap: false }
       };
       return json;
-    },
+    }
   );
 }

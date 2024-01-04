@@ -34,9 +34,11 @@ Install `nx` globally.
 npm install --global nx
 ```
 
-Commands can now start with `nx` directly.
+Commands can now use `nx` without specifying the package manager.
 
 ## Quickstart
+
+### Generate a new workspace <!-- omit in toc -->
 
 Create a new Nx workspace `my-workspace` with a Payload CMS admin application.
 
@@ -44,23 +46,29 @@ Create a new Nx workspace `my-workspace` with a Payload CMS admin application.
 npx create-nx-payload my-workspace
 ```
 
-or
+Follow the interactive guide to get started.
+
+-- or --
 
 ```sh
 npx create-nx-workspace my-workspace --preset=@cdwr/nx-payload
 ```
 
-Enter the new workspace
+### Launch Payload CMS admin application <!-- omit in toc -->
+
+Enter the new workspace.
 
 ```sh
 cd my-workspace
 ```
 
-Launch Payload CMS admin application in Docker
+Launch Payload CMS admin application in Docker.
 
 ```sh
 nx dx:launch payload-admin
 ```
+
+> Assuming the default app name `payload-admin` was chosen. Change to match your app name when needed.
 
 Open your browser and navigate to <http://localhost:3000> to setup your first user.
 
@@ -69,11 +77,7 @@ Open your browser and navigate to <http://localhost:3000> to setup your first us
 Install the Payload CMS plugin.
 
 ```sh
-# npm
 npm install -D @cdwr/nx-payload
-
-# yarn
-yarn add -D @cdwr/nx-payload
 ```
 
 Generate a Payload CMS admin application.
@@ -115,6 +119,6 @@ None.
 
 ## Versions Compatibility
 
-| nx-payload version | Nx version |
-| ------------------ | ---------- |
-| >= 0.0.1           | ^17.0.0    |
+| Plugin version | Nx version |
+| -------------- | ---------- |
+| ^1.0.0         | ^17.0.0    |

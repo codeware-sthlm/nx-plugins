@@ -50,6 +50,10 @@
       "options": {
         "jestConfig": "packages/nx-payload/jest.config.ts"
       }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {}
     }
   },
   "tags": []

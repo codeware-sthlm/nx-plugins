@@ -19,10 +19,6 @@ export async function runCommandAsync(
     cwd: options.cwd,
     env: {
       CI: 'true',
-      // Yarn 4
-      YARN_ENABLE_HARDENED_MODE: '0',
-      // Yarn 3
-      YARN_ENABLE_IMMUTABLE_INSTALLS: 'false',
       ...options.env
     }
   });

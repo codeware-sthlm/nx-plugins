@@ -2,14 +2,25 @@
   "name": "@nx-plugins/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
   "private": true,
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "c": "czg",
+    "cai": "czg ai",
+    "commit": "czg",
+    "prepare": "is-ci || husky install",
+    "semver:dry": "nx run-many -t semantic-release --parallel=false --dry-run --verbose"
+  },
   "dependencies": {
     "@swc/helpers": "0.5.3",
     "create-nx-workspace": "17.2.7",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
     "@nx/devkit": "17.2.7",
     "@nx/eslint": "17.2.7",
     "@nx/eslint-plugin": "17.2.7",
@@ -21,28 +32,56 @@
     "@swc-node/register": "1.6.8",
     "@swc/cli": "0.1.63",
     "@swc/core": "1.3.101",
+    "@theunderscorer/nx-semantic-release": "^2.10.0",
     "@types/express": "4.17.14",
     "@types/jest": "29.5.11",
     "@types/node": "18.16.9",
+    "@types/semantic-release": "^20.0.6",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "6.15.0",
     "@typescript-eslint/parser": "6.15.0",
     "chalk": "^4.1.0",
+    "cz-git": "^1.8.0",
+    "czg": "^1.8.0",
     "enquirer": "^2.4.1",
     "eslint": "8.48.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "^2.26.0",
+    "husky": "^8.0.3",
+    "is-ci": "^3.0.1",
     "jest": "^29.4.1",
     "jest-environment-jsdom": "^29.4.1",
     "jsonc-eslint-parser": "^2.1.0",
+    "lint-staged": "^15.2.0",
     "nx": "17.2.7",
     "prettier": "^3.1.1",
+    "semantic-release-slack-bot": "^4.0.2",
+    "semantic-release-plugin-decorators": "github:tjg184/semantic-release-plugin-decorators#e3c3c66",
     "supertest": "^6.3.3",
     "ts-jest": "29.1.1",
     "ts-node": "10.9.1",
     "typescript": "5.2.2",
     "verdaccio": "^5.0.4",
     "yargs": "^17.7.2"
+  },
+  "resolutions": {
+    "semantic-release-plugin-decorators": "github:tjg184/semantic-release-plugin-decorators#e3c3c66"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  },
+  "lint-staged": {
+    "*.{css,less,scss,html,json,js,ts}": [
+      "prettier --write ."
+    ],
+    "*.js": "eslint --fix"
   },
   "nx": {
     "includedScripts": []
