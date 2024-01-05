@@ -1,56 +1,68 @@
 {
-  "name": "nx-payload",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/nx-payload/src",
+  "name": "nx-payload",
   "projectType": "library",
+  "sourceRoot": "packages/nx-payload/src",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/nx-payload",
-        "main": "packages/nx-payload/src/index.ts",
-        "tsConfig": "packages/nx-payload/tsconfig.lib.json",
         "assets": [
           "packages/nx-payload/*.md",
           {
-            "input": "./packages/nx-payload/src",
             "glob": "**/!(*.ts)",
-            "output": "./src"
-          },
-          {
             "input": "./packages/nx-payload/src",
-            "glob": "**/*.d.ts",
             "output": "./src"
           },
           {
-            "input": "./packages/nx-payload",
+            "glob": "**/*.d.ts",
+            "input": "./packages/nx-payload/src",
+            "output": "./src"
+          },
+          {
             "glob": "generators.json",
+            "input": "./packages/nx-payload",
             "output": "."
           },
           {
-            "input": "./packages/nx-payload",
             "glob": "executors.json",
+            "input": "./packages/nx-payload",
             "output": "."
           }
-        ]
-      }
+        ],
+        "main": "packages/nx-payload/src/index.ts",
+        "outputPath": "dist/packages/nx-payload",
+        "tsConfig": "packages/nx-payload/tsconfig.lib.json"
+      },
+      "outputs": ["{options.outputPath}"]
     },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs nx-payload {args.ver} {args.tag}",
-      "dependsOn": ["build"]
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {}
     },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
+    "npm": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {}
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs nx-payload {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/nx-payload"],
       "options": {
         "jestConfig": "packages/nx-payload/jest.config.ts"
-      }
+      },
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-payload"]
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {}
     }
-  },
-  "tags": []
+  }
 }

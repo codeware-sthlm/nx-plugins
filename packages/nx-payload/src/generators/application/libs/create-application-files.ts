@@ -8,7 +8,7 @@ export function createApplicationFiles(host: Tree, options: NormalizedSchema) {
   const templateVariables = {
     ...names(options.name),
     ...options,
-    tmpl: '',
+    tmpl: ''
   };
 
   host.delete(`${options.name}/src/main.ts`);
@@ -17,6 +17,6 @@ export function createApplicationFiles(host: Tree, options: NormalizedSchema) {
     host,
     join(__dirname, '../files'),
     options.directory,
-    templateVariables,
+    templateVariables
   );
 }

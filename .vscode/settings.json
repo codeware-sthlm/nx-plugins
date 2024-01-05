@@ -6,6 +6,7 @@
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "eslint.validate": ["json"],
+  "markdownlint.ignore": ["CHANGELOG.md", "packages/**/CHANGELOG.md"],
   "[json]": {
     "editor.codeActionsOnSave": {
       "source.fixAll": "never"

@@ -1,0 +1,48 @@
+name: Test
+
+description: Build, lint, format affected code (require setup action)
+
+inputs:
+  codecov-token:
+    description: Provide codecov token to upload test coverage
+    required: false
+    default: ''
+
+runs:
+  using: composite
+
+  steps:
+    - name: Derive SHA's for Nx affected `base` and `head` arguments
+      id: sha
+      uses: nrwl/nx-set-shas@v4
+      env:
+        # Pull request target branch or the branch pushed to
+        branch: ${{ github.head_ref || github.ref_name }}
+      with:
+        main-branch-name: ${{ env.branch }}
+
+    - name: Check for un-formatted files
+      shell: bash
+      run: yarn nx format:check --all
+
+    - name: Lint affected code
+      shell: bash
+      run: yarn nx affected -t lint --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
+
+    - name: Build affected code
+      shell: bash
+      run: yarn nx affected -t build --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
+
+    - name: Test affected code
+      shell: bash
+      run: yarn nx affected -t test --codeCoverage --verbose --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
+
+    - name: E2e affected code
+      shell: bash
+      run: yarn nx affected -t e2e --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
+
+    - name: Code coverage upload
+      if: ${{ inputs.codecov-token }}
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ inputs.codecov-token }}

@@ -1,6 +1,6 @@
 {
   "name": "create-nx-payload",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": false,
   "description": "Quickly scaffold a new Nx workspace with a Payload CMS admin application.",
   "repository": {
@@ -22,6 +22,9 @@
     "Web",
     "CLI"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "chalk": "^4.1.0",
     "create-nx-workspace": "^17.2.7",

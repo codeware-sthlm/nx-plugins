@@ -3,9 +3,6 @@
   "affected": {
     "defaultBase": "master"
   },
-  "release": {
-    "projects": ["packages/*", "!@nx-plugins/source"]
-  },
   "targetDefaults": {
     "build": {
       "cache": true,
@@ -20,6 +17,33 @@
         "{workspaceRoot}/.eslintignore",
         "{workspaceRoot}/eslint.config.js"
       ]
+    },
+    "version": {
+      "dependsOn": ["build", "^version"],
+      "cache": false,
+      "options": {
+        "baseBranch": "master",
+        "commitMessageFormat": "chore({projectName}): release version {version} [skip ci]",
+        "skipCommitTypes": ["build", "chore", "ci", "docs"],
+        "preset": {
+          "name": "angular"
+        },
+        "trackDeps": true,
+        "postTargets": ["npm", "github"]
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
+      }
+    },
+    "npm": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
     },
     "@nx/jest:jest": {
       "cache": true,

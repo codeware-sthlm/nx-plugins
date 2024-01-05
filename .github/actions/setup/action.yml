@@ -1,0 +1,53 @@
+name: Setup
+
+description: Setup Node.js, Git user, Npm and install dependencies
+
+inputs:
+  git-token:
+    description: Git token with permission to push to protected branches (github token cannot)
+    required: true
+  node-version:
+    description: 'Node.js version (default: 18)'
+    required: false
+    default: '18'
+  commit-user-name:
+    description: User name on the release commit created by git (defaults to action user)
+    required: false
+  commit-user-email:
+    description: Email on the release commit created by git (defaults to action user)
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout all commits
+      uses: actions/checkout@v4
+      with:
+        token: ${{ inputs.git-token }}
+        fetch-depth: 0
+
+    - name: Set git user name
+      if: ${{ inputs.commit-user-name }}
+      shell: bash
+      run: git config user.name "${{ inputs.commit-user-name }}"
+
+    - name: Set git user email
+      if: ${{ inputs.commit-user-email }}
+      shell: bash
+      run: git config user.email "${{ inputs.commit-user-email }}"
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        check-latest: true
+        cache: yarn
+        # This also sets the right configuration in .npmrc
+        # that reads NPM token from NPM_AUTH_TOKEN environment variable.
+        # It creates a .npmrc in a temporary folder
+        # and sets the NPM_CONFIG_USERCONFIG environment variable.
+        registry-url: https://registry.npmjs.org
+
+    - name: Install dependencies
+      shell: bash
+      run: yarn install --immutable

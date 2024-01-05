@@ -1,5 +1,5 @@
 {
-  "name": "@nx-plugins/source",
+  "name": "workspace",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "targets": {
     "local-registry": {
@@ -13,6 +13,13 @@
     },
     "local-registry:stop": {
       "command": "kill 4873 || true"
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "trackDeps": false,
+        "postTargets": []
+      }
     }
   }
 }

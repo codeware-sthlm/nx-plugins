@@ -4,7 +4,7 @@ import {
   addDependenciesToPackageJson,
   convertNxGenerator,
   formatFiles,
-  runTasksInSerial,
+  runTasksInSerial
 } from '@nx/devkit';
 import { initGenerator as expressInitGenerator } from '@nx/express/src/generators/init/init';
 import { jestInitGenerator } from '@nx/jest';
@@ -13,7 +13,7 @@ import {
   mongodbVersion,
   payloadPluginsVersions,
   payloadVersion,
-  tsLibVersion,
+  tsLibVersion
 } from '../../utils/versions';
 
 import type { Schema } from './schema';
@@ -24,9 +24,9 @@ function updateDependencies(tree: Tree) {
     {
       payload: payloadVersion,
       ...payloadPluginsVersions,
-      tslib: tsLibVersion,
+      tslib: tsLibVersion
     },
-    { mongodb: mongodbVersion },
+    { mongodb: mongodbVersion }
   );
 }
 
@@ -35,7 +35,7 @@ function updateDependencies(tree: Tree) {
  */
 export async function initGenerator(
   tree: Tree,
-  schema: Schema,
+  schema: Schema
 ): Promise<GeneratorCallback> {
   const tasks: GeneratorCallback[] = [];
 

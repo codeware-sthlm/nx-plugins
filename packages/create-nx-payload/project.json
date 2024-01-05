@@ -1,35 +1,47 @@
 {
-  "name": "create-nx-payload",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/create-nx-payload/bin",
+  "implicitDependencies": ["nx-payload"],
+  "name": "create-nx-payload",
   "projectType": "library",
+  "sourceRoot": "packages/create-nx-payload/bin",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/create-nx-payload",
+        "assets": ["packages/create-nx-payload/*.md"],
         "main": "packages/create-nx-payload/bin/create-nx-payload.ts",
-        "tsConfig": "packages/create-nx-payload/tsconfig.lib.json",
-        "assets": ["packages/create-nx-payload/*.md"]
-      }
+        "outputPath": "dist/packages/create-nx-payload",
+        "tsConfig": "packages/create-nx-payload/tsconfig.lib.json"
+      },
+      "outputs": ["{options.outputPath}"]
     },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs create-nx-payload {args.ver} {args.tag}",
-      "dependsOn": ["build"]
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {}
     },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
+    "npm": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {}
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs create-nx-payload {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/create-nx-payload/jest.config.ts"
-      }
+      },
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {}
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["nx-payload"]
+  }
 }
