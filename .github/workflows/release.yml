@@ -51,11 +51,11 @@ jobs:
           commit-user-name: ${{ vars.SEMVER_COMMIT_NAME }}
           commit-user-email: ${{ vars.SEMVER_COMMIT_EMAIL }}
 
-      - name: Release beta pre-minor on branch 'beta' and skip publish to npm
+      - name: Release beta pre-minor on branch 'beta' and skip gitlab release and npm publish
         id: beta
         shell: bash
         run: |
-          options="${{ github.ref_name == 'beta' && '--baseBranch=beta --releaseAs=preminor --preid=beta --postTargets=github' || '' }}"
+          options="${{ github.ref_name == 'beta' && '--baseBranch=beta --releaseAs=preminor --preid=beta --push=true --postTargets=' || '' }}"
           echo "options=$options" >> $GITHUB_OUTPUT
 
       # ? @deprecated : We only rely on affected and semver version lookup.
@@ -72,7 +72,7 @@ jobs:
       - name: Release version for affected projects
         shell: bash
         env:
-          dry-run: ${{ inputs.dry-run && '--dry-run --verbose' }}
+          dry-run: ${{ inputs.dry-run && '--dry-run --verbose' || '' }}
           beta: ${{ steps.beta.outputs.options }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

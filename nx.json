@@ -29,20 +29,22 @@
           "name": "angular"
         },
         "trackDeps": true,
-        "postTargets": ["npm", "github"]
+        "push": false,
+        "postTargets": ["npm-publish", "git-push", "github-release"]
       }
     },
-    "github": {
+    "github-release": {
       "executor": "@jscutlery/semver:github",
       "options": {
         "tag": "{tag}",
         "notes": "{notes}"
       }
     },
-    "npm": {
+    "npm-publish": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
-        "access": "public"
+        "access": "public",
+        "tag": "{version}"
       }
     },
     "@nx/jest:jest": {

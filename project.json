@@ -14,7 +14,7 @@
     "local-registry:stop": {
       "command": "kill 4873 || true"
     },
-    "github": {
+    "github-release": {
       "executor": "@jscutlery/semver:github",
       "options": {}
     },
@@ -22,7 +22,8 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "trackDeps": false,
-        "postTargets": ["github"]
+        "push": true,
+        "postTargets": ["github-release"]
       }
     }
   }

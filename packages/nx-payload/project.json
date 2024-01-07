@@ -37,7 +37,10 @@
       },
       "outputs": ["{options.outputPath}"]
     },
-    "github": {
+    "git-push": {
+      "command": "git push --atomic --follow-tags"
+    },
+    "github-release": {
       "executor": "@jscutlery/semver:github",
       "options": {}
     },
@@ -45,7 +48,7 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
-    "npm": {
+    "npm-publish": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {}
     },
