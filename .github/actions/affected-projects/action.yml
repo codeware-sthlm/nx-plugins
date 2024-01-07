@@ -1,0 +1,82 @@
+name: Affected projects
+
+description: Get affected Nx projects by code changes which have 'version' target
+
+inputs:
+  node-version:
+    description: 'Node.js version (default: 18)'
+    required: false
+    default: '18'
+
+outputs:
+  projects-array:
+    description: Affected projects by current code changes, returned as array
+    value: ${{ steps.affected.outputs.projectsArray }}
+  projects-list:
+    description: Affected projects by current code changes, returned as comma separated list
+    value: ${{ steps.affected.outputs.projectsList }}
+  count:
+    description: Number of affected projects
+    value: ${{ steps.affected.outputs.count }}
+  base:
+    description: The value intended for use with `--base` in all subsequent `nx affected` commands within the current workflow
+    value: ${{ steps.sha.outputs.base }}
+  head:
+    description: The value intended for use with `--head` in all subsequent `nx affected` commands within the current workflow
+    value: ${{ steps.sha.outputs.head }}
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout all commits
+      uses: actions/checkout@v4
+      with:
+        # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+        fetch-depth: 0
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        check-latest: true
+        cache: yarn
+
+    - name: Install dependencies
+      shell: bash
+      run: yarn install
+
+    - name: Get main branch
+      id: main
+      shell: bash
+      # PR target branch or the branch pushed to
+      run: |
+        branch=${{ github.head_ref || github.ref_name }}
+        echo "Main branch: $branch"
+        echo "branch=$branch" >> $GITHUB_OUTPUT
+
+    - name: Derive SHA's for Nx affected `base` and `head` arguments
+      id: sha
+      uses: nrwl/nx-set-shas@v4
+      with:
+        main-branch-name: ${{ steps.main.outputs.branch }}
+
+    - name: Get affected projects with version target
+      id: affected
+      shell: bash
+      env:
+        head: ${{ steps.sha.outputs.head }}
+        base: ${{ steps.sha.outputs.base }}
+      run: |
+        affectedProjects=$(npx nx show projects --base ${{ env.base }} --head ${{ env.head }} --affected --with-target version)
+        echo "$affectedProjects"
+
+        projectsArray=$(echo $affectedProjects | jq -R | jq -cs)
+        projectsList=$(echo $affectedProjects | jq -R | jq -s 'join(",")' | jq -r)
+        projectsCount=$(echo $projectsArray | jq '. | length')
+        echo "Projects array: $projectsArray"
+        echo "Projects list: $projectsList"
+        echo "Count: $projectsCount"
+
+        echo "projectsArray=$projectsArray" >> $GITHUB_OUTPUT
+        echo "projectsList=$projectsList" >> $GITHUB_OUTPUT
+        echo "count=$projectsCount" >> $GITHUB_OUTPUT

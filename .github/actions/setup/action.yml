@@ -4,8 +4,8 @@ description: Setup Node.js, Git user, Npm and install dependencies
 
 inputs:
   git-token:
-    description: Git token with permission to push to protected branches (github token cannot)
-    required: true
+    description: Git token with permission to push to protected branches (github token cannot, though it's default)
+    required: false
   node-version:
     description: 'Node.js version (default: 18)'
     required: false
@@ -23,7 +23,7 @@ runs:
     - name: Checkout all commits
       uses: actions/checkout@v4
       with:
-        token: ${{ inputs.git-token }}
+        token: ${{ inputs.git-token || github.token }}
         fetch-depth: 0
 
     - name: Set git user name
