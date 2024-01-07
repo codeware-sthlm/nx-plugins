@@ -13,15 +13,13 @@ on:
 env:
   # TODO: Using last release tag pattern require a 'last-release' tag per package
   tag_last_release: false
+  node_version: 18
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    if: github.ref_name == 'master'
-
-    env:
-      node_version: 18
+    if: github.ref_name == 'master' || github.ref_name == 'beta'
 
     steps:
       - uses: actions/checkout@v4
@@ -29,10 +27,7 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
         with:
-          git-token: ${{ secrets.GH_SEMVER_TOKEN }}
-          node_version: ${{ env.node_version }}
-          commit-user-name: ${{ vars.SEMVER_COMMIT_NAME }}
-          commit-user-email: ${{ vars.SEMVER_COMMIT_EMAIL }}
+          node-version: ${{ env.node_version }}
 
       - name: Test
         uses: ./.github/actions/test
@@ -46,28 +41,40 @@ jobs:
       group: ${{ github.ref }}
 
     steps:
+      - uses: actions/checkout@v4
+
       - name: Setup
         uses: ./.github/actions/setup
         with:
           git-token: ${{ secrets.GH_SEMVER_TOKEN }}
+          node-version: ${{ env.node_version }}
+          commit-user-name: ${{ vars.SEMVER_COMMIT_NAME }}
+          commit-user-email: ${{ vars.SEMVER_COMMIT_EMAIL }}
+
+      - name: Release beta pre-minor on branch 'beta' and skip publish to npm
+        id: beta
+        shell: bash
+        run: |
+          options="${{ github.ref_name == 'beta' && '--baseBranch=beta --releaseAs=preminor --preid=beta --postTargets=github' || '' }}"
+          echo "options=$options" >> $GITHUB_OUTPUT
+
+      # ? @deprecated : We only rely on affected and semver version lookup.
+      # @see https://github.com/jscutlery/semver?tab=readme-ov-file#version-calculation
+      # Calculated affetced projects depends on last successful commit which doesn't have to be a release,
+      # hence we might not get what we want from this action.
+      - name: Get affected projects (debug info only)
+        uses: ./.github/actions/affected-projects
+        with:
+          node-version: ${{ env.node_version }}
 
       # Use `npx` instead of `yarn` because `yarn` sets NPM_* environment variables (like NPM_CONFIG_REGISTRY).
       # This affects `npm publish` ignoring the .npmrc file, which is set up by `setup-node` action.
-      - run: npx nx affected -t version --parallel false ${{ inputs.dry-run && '--dry-run --verbose' }}
+      - name: Release version for affected projects
+        shell: bash
         env:
+          dry-run: ${{ inputs.dry-run && '--dry-run --verbose' }}
+          beta: ${{ steps.beta.outputs.options }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Tag last-release
-        if: env.tag_last_release
-        shell: bash
-        run: git tag -f last-release
-
-      - name: Push changes
-        if: env.tag_last_release
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
-          force: true
-          tags: true
+        run: |
+          npx nx run-many -t version ${{ env.beta }} --parallel false ${{ env.dry-run }}

@@ -14,11 +14,15 @@
     "local-registry:stop": {
       "command": "kill 4873 || true"
     },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {}
+    },
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
         "trackDeps": false,
-        "postTargets": []
+        "postTargets": ["github"]
       }
     }
   }
