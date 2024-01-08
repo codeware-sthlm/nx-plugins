@@ -22,12 +22,12 @@
       "dependsOn": ["build", "^version"],
       "cache": false,
       "options": {
+        "preset": "angular",
         "baseBranch": "master",
-        "commitMessageFormat": "chore({projectName}): release version {version} [skip ci]",
-        "skipCommitTypes": ["build", "chore", "ci", "docs"],
-        "preset": {
-          "name": "angular"
-        },
+        "tagPrefix": "{projectName}-",
+        "commitMessageFormat": "release({projectName}): version {version} [skip ci]",
+        "skipCommitTypes": ["build", "ci", "docs", "release"],
+        "syncVersions": false,
         "trackDeps": true,
         "push": false,
         "postTargets": ["npm-publish", "git-push", "github-release"]
@@ -43,8 +43,7 @@
     "npm-publish": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
-        "access": "public",
-        "tag": "{version}"
+        "access": "public"
       }
     },
     "@nx/jest:jest": {
