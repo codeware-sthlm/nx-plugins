@@ -15,8 +15,7 @@
       "command": "kill 4873 || true"
     },
     "github-release": {
-      "executor": "@jscutlery/semver:github",
-      "options": {}
+      "executor": "@jscutlery/semver:github"
     },
     "version": {
       "executor": "@jscutlery/semver:version",

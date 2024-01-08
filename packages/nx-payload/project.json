@@ -38,19 +38,17 @@
       "outputs": ["{options.outputPath}"]
     },
     "git-push": {
-      "command": "git push --atomic --follow-tags"
+      "executor": "nx:run-commands"
     },
     "github-release": {
-      "executor": "@jscutlery/semver:github",
-      "options": {}
+      "executor": "@jscutlery/semver:github"
     },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
     "npm-publish": {
-      "executor": "ngx-deploy-npm:deploy",
-      "options": {}
+      "executor": "ngx-deploy-npm:deploy"
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs nx-payload {args.ver} {args.tag}",

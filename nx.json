@@ -33,6 +33,17 @@
         "postTargets": ["npm-publish", "git-push", "github-release"]
       }
     },
+    "git-push": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "git push --atomic --follow-tags",
+            "forwardAllArgs": false
+          }
+        ]
+      }
+    },
     "github-release": {
       "executor": "@jscutlery/semver:github",
       "options": {
