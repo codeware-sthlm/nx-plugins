@@ -1,11 +1,4 @@
-import {
-  type Tree,
-  detectPackageManager,
-  getPackageManagerCommand,
-  readNxJson
-} from '@nx/devkit';
-
-import { packageManagerLockFiles } from '../../../utils/definitions';
+import { type Tree, getPackageManagerCommand, readNxJson } from '@nx/devkit';
 
 import type { NormalizedSchema } from './normalize-options';
 
@@ -18,7 +11,6 @@ export function createDockerfile(host: Tree, options: NormalizedSchema): void {
   const skipNxCloud = readNxJson(host)?.nxCloudAccessToken === undefined;
 
   const pmCommand = getPackageManagerCommand();
-  const lockFileName = packageManagerLockFiles[detectPackageManager()];
 
   const content = `
   # Payload app
@@ -36,17 +28,16 @@ export function createDockerfile(host: Tree, options: NormalizedSchema): void {
 
   WORKDIR /app
 
-  COPY package.json ${lockFileName} ./
+  COPY package.json ./
   RUN ${pmCommand.install}
 
   COPY . .
 
   # Admin bundle need the configuration when building a static app
   # https://payloadcms.com/docs/configuration/overview
-  RUN PAYLOAD_CONFIG_PATH=${directory}/src/payload.config.ts ${pmCommand.run(
-    'build',
-    `${name} ${skipNxCloud ? '--no-cloud' : ''}`
-  )}
+  RUN PAYLOAD_CONFIG_PATH=${directory}/src/payload.config.ts ${
+    pmCommand.exec
+  } nx build ${name} ${skipNxCloud ? '--no-cloud' : ''}
 
   # Final image
   FROM node:18-alpine3.18

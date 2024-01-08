@@ -20,8 +20,7 @@
         "packages/create-nx-payload/bin/index.ts"
       ],
       "@nx-plugins/e2e/utils": ["e2e/utils"],
-      "@nx-plugins/nx-payload": ["packages/nx-payload/src/index.ts"],
-      "@nx-plugins/nx-payload/*": ["packages/nx-payload/*"]
+      "@nx-plugins/nx-payload": ["packages/nx-payload/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
