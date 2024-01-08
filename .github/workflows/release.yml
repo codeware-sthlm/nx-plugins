@@ -58,9 +58,9 @@ jobs:
           options="${{ github.ref_name == 'beta' && '--baseBranch=beta --releaseAs=prerelease --preid=beta --push=true --postTargets=' || '' }}"
           echo "options=$options" >> $GITHUB_OUTPUT
 
-      # ? @deprecated : We only rely on affected and semver version lookup.
+      # ! Debug info step: We only rely on semver version lookup, not Nx affected.
       # @see https://github.com/jscutlery/semver?tab=readme-ov-file#version-calculation
-      # Calculated affetced projects depends on last successful commit which doesn't have to be a release,
+      # Calculated affected projects by Nx depends on last successful push commit which doesn't have to be a release,
       # hence we might not get what we want from this action.
       - name: Get affected projects (debug info only)
         uses: ./.github/actions/affected-projects
@@ -69,6 +69,7 @@ jobs:
 
       # Use `npx` instead of `yarn` because `yarn` sets NPM_* environment variables (like NPM_CONFIG_REGISTRY).
       # This affects `npm publish` ignoring the .npmrc file, which is set up by `setup-node` action.
+      # Run for all version projects and let semver decide whether to create a new release for each project.
       - name: Release version for affected projects
         shell: bash
         env:
@@ -78,4 +79,4 @@ jobs:
         run: |
           beta="${{ steps.beta.outputs.options }}"
           dryRun="${{ inputs.dry-run && '--dry-run --verbose' || '' }}"
-          npx nx affected -t version $beta --parallel=1 --nxBail=true $dryRun
+          npx nx run-many -t version $beta --parallel=1 --nxBail=true $dryRun
