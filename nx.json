@@ -29,19 +29,8 @@
         "skipCommitTypes": ["build", "ci", "docs", "release"],
         "syncVersions": false,
         "trackDeps": true,
-        "push": false,
-        "postTargets": ["npm-publish", "git-push", "github-release"]
-      }
-    },
-    "git-push": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          {
-            "command": "git push --atomic --follow-tags",
-            "forwardAllArgs": false
-          }
-        ]
+        "push": true,
+        "postTargets": ["npm-publish", "github-release"]
       }
     },
     "github-release": {
