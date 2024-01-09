@@ -48,8 +48,6 @@ jobs:
         with:
           git-token: ${{ secrets.GH_SEMVER_TOKEN }}
           node-version: ${{ env.node_version }}
-          commit-user-name: ${{ vars.SEMVER_COMMIT_NAME }}
-          commit-user-email: ${{ vars.SEMVER_COMMIT_EMAIL }}
 
       - name: Pre-Release beta on branch 'beta' and skip gitlab release and npm publish
         id: beta
@@ -58,22 +56,12 @@ jobs:
           options="${{ github.ref_name == 'beta' && '--baseBranch=beta --releaseAs=prerelease --preid=beta --postTargets=' || '' }}"
           echo "options=$options" >> $GITHUB_OUTPUT
 
-      # ! Debug info step: We only rely on semver version lookup, not Nx affected.
-      # @see https://github.com/jscutlery/semver?tab=readme-ov-file#version-calculation
-      # Calculated affected projects by Nx depends on last successful push commit which doesn't have to be a release,
-      # hence we might not get what we want from this action.
-      - name: Get affected projects (debug info only)
-        uses: ./.github/actions/affected-projects
-        with:
-          node-version: ${{ env.node_version }}
-
       # Use `npx` instead of `yarn` because `yarn` sets NPM_* environment variables (like NPM_CONFIG_REGISTRY).
       # This affects `npm publish` ignoring the .npmrc file, which is set up by `setup-node` action.
       # Run for all version projects and let semver decide whether to create a new release for each project.
       - name: Release version for affected projects
         shell: bash
         env:
-          GH_TOKEN: ${{ secrets.GH_SEMVER_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
