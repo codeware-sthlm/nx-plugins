@@ -21,7 +21,6 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "trackDeps": false,
-        "push": true,
         "postTargets": ["github-release"]
       }
     }

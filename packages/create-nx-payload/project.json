@@ -16,9 +16,6 @@
       },
       "outputs": ["{options.outputPath}"]
     },
-    "git-push": {
-      "executor": "nx:run-commands"
-    },
     "github-release": {
       "executor": "@jscutlery/semver:github"
     },

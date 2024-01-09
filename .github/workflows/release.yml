@@ -55,7 +55,7 @@ jobs:
         id: beta
         shell: bash
         run: |
-          options="${{ github.ref_name == 'beta' && '--baseBranch=beta --releaseAs=prerelease --preid=beta --push=true --postTargets=' || '' }}"
+          options="${{ github.ref_name == 'beta' && '--baseBranch=beta --releaseAs=prerelease --preid=beta --postTargets=' || '' }}"
           echo "options=$options" >> $GITHUB_OUTPUT
 
       # ! Debug info step: We only rely on semver version lookup, not Nx affected.
