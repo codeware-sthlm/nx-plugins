@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.1.0...create-nx-payload-0.1.1) (2024-01-09)
+
+### Dependency Updates
+
+* `nx-payload` updated to version `0.1.0`
+
+
 # 0.1.0 (2024-01-08)
 
 ### Dependency Updates
