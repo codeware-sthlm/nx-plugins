@@ -48,6 +48,8 @@ jobs:
         with:
           git-token: ${{ secrets.GH_SEMVER_TOKEN }}
           node-version: ${{ env.node_version }}
+          commit-user-name: ${{ vars.SEMVER_COMMIT_NAME }}
+          commit-user-email: ${{ vars.SEMVER_COMMIT_EMAIL }}
 
       - name: Pre-Release beta on branch 'beta' and skip gitlab release and npm publish
         id: beta
