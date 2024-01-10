@@ -8,7 +8,11 @@ services:
     ports:
       - 27017:27017
     networks:
-      - payload
+      - local
+    volumes:
+      - type: volume
+        source: db_mongo
+        target: /data/db
 
   <%= name %>:
     container_name: <%= name %>
@@ -16,7 +20,6 @@ services:
     build:
       context: ../../
       dockerfile: <%= directory %>/Dockerfile
-      network: host
     ports:
       - 3000:3000
     env_file:
@@ -25,11 +28,15 @@ services:
       # Override the values different from .env
       - MONGO_URL=mongodb://mongo/<%= name %>
     networks:
-      - payload
+      - local
     depends_on:
       - mongo
 
 networks:
-  payload:
-    external: true
-    name: host
+  local:
+    name: payload-local
+    driver: bridge
+
+volumes:
+  db_mongo:
+    driver: local

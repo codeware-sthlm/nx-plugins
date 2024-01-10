@@ -65,10 +65,10 @@ cd my-workspace
 Launch Payload CMS admin application in Docker.
 
 ```sh
-nx dx:launch payload-admin
+nx dx:launch [app]
 ```
 
-> Assuming the default app name `payload-admin` was chosen. Change to match your app name when needed.
+> The generated app name can be ommited since it's set as the default app in `nx.json`. Provide your app name when needed.
 
 Open your browser and navigate to <http://localhost:3000> to setup your first user.
 

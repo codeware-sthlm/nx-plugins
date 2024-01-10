@@ -24,6 +24,8 @@ nx dx:launch <%= name %>
 nx dx:down <%= name %>
 ```
 
+> Mongo database is stored in a persistent volume, so containers can be stopped and started without loosing the data
+
 ## Serve application and database manually
 
 Run MongoDB in Docker and application in dev mode.
@@ -64,3 +66,4 @@ Payload requires a running Mongo instance to work properly.
 
 Production deployments must use something stable, for example [MongoDB Atlas](https://www.mongodb.com/atlas).
 But for local test and development it's very easy and flexible to start MongoDB in a local Docker container instead.
+
