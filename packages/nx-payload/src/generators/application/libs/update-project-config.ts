@@ -7,7 +7,7 @@ import {
   updateProjectConfiguration
 } from '@nx/devkit';
 
-import type { NormalizedSchema } from './normalize-options';
+import { type NormalizedSchema } from './normalize-options';
 
 export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

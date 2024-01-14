@@ -1,4 +1,4 @@
-import { PackageManager } from '@nx/devkit';
+import { type PackageManager } from '@nx/devkit';
 
 /** Map package manager to lock file name */
 export const packageManagerLockFiles: Record<PackageManager, string> = {

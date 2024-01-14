@@ -1,4 +1,3 @@
-import { buildImage, runNxCommandAsync } from '@nx-plugins/e2e/utils';
 import {
   checkFilesExist,
   ensureNxProject,
@@ -6,6 +5,7 @@ import {
   tmpProjPath,
   uniq
 } from '@nx/plugin/testing';
+import { buildImage, runNxCommandAsync } from '@nx-plugins/e2e/utils';
 
 describe('Generate Payload application', () => {
   let appName: string;
@@ -72,7 +72,7 @@ describe('Generate Payload application', () => {
   });
 
   describe('optional options', () => {
-    it('should generate application with tags', async () => {
+    it('should apply tags (--tags)', async () => {
       appName = uniq('app');
       await runNxCommandAsync(
         `${baseCmd} ${appName} --directory apps/${appName} --tags e2etag,e2ePackage`
@@ -84,7 +84,18 @@ describe('Generate Payload application', () => {
       ]);
     });
 
-    it('should generate application without e2e project', async () => {
+    it('should apply tags (alias -t)', async () => {
+      appName = uniq('app');
+      await runNxCommandAsync(
+        `${baseCmd} ${appName} --directory apps/${appName} -t aliasTag`
+      );
+
+      expect(readJson(`apps/${appName}/project.json`).tags).toEqual([
+        'aliasTag'
+      ]);
+    });
+
+    it('should skip e2e project', async () => {
       appName = uniq('app');
       await runNxCommandAsync(
         `${baseCmd} ${appName} --directory apps/${appName} --skip-e2e`

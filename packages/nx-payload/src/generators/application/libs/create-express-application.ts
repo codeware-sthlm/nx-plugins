@@ -1,7 +1,7 @@
-import type { Tree } from '@nx/devkit';
+import { type Tree } from '@nx/devkit';
 import { applicationGenerator } from '@nx/express';
 
-import type { NormalizedSchema } from './normalize-options';
+import { type NormalizedSchema } from './normalize-options';
 
 export async function createExpressApplication(
   host: Tree,

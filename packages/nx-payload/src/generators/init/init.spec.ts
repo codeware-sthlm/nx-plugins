@@ -1,6 +1,6 @@
 import { type Tree, addDependenciesToPackageJson, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import type { PackageJson } from 'nx/src/utils/package-json';
+import { type PackageJson } from 'nx/src/utils/package-json';
 
 import {
   payloadPluginsVersions,

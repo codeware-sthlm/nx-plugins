@@ -2,7 +2,7 @@ import { join } from 'path';
 
 import { type Tree, generateFiles, names } from '@nx/devkit';
 
-import type { NormalizedSchema } from './normalize-options';
+import { type NormalizedSchema } from './normalize-options';
 
 export function createApplicationFiles(host: Tree, options: NormalizedSchema) {
   const templateVariables = {

@@ -1,9 +1,9 @@
 import { type Tree, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import type { PackageJson } from 'nx/src/utils/package-json';
+import { type PackageJson } from 'nx/src/utils/package-json';
 
 import generator from './application';
-import type { AppGeneratorSchema } from './schema';
+import { type AppGeneratorSchema } from './schema';
 
 describe('application generator', () => {
   let tree: Tree;

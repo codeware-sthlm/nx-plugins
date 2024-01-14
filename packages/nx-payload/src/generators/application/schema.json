@@ -17,7 +17,7 @@
     "directory": {
       "description": "The path to the new application.",
       "type": "string",
-      "alias": "d"
+      "x-prompt": "Where would you like to create the application files?"
     },
     "unitTestRunner": {
       "type": "string",

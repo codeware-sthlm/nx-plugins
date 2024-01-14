@@ -17,7 +17,7 @@ import { updateEslintignore } from './libs/update-eslintignore';
 import { updateGitignore } from './libs/update-gitignore';
 import { updateProjectConfig } from './libs/update-project-config';
 import { updateTsConfig } from './libs/update-tsconfig';
-import type { AppGeneratorSchema } from './schema';
+import { type AppGeneratorSchema } from './schema';
 
 export async function applicationGenerator(
   host: Tree,

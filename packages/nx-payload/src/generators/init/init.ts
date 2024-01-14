@@ -16,7 +16,7 @@ import {
   tsLibVersion
 } from '../../utils/versions';
 
-import type { Schema } from './schema';
+import { type Schema } from './schema';
 
 function updateDependencies(tree: Tree) {
   return addDependenciesToPackageJson(

@@ -23,10 +23,12 @@ import * as enquirer from 'enquirer';
 import * as yargs from 'yargs';
 
 export interface Arguments extends CreateWorkspaceOptions {
-  /** Payload app name required by nx-payload preset */
-  appName: string;
-  /** Payload app path required by nx-payload preset */
-  appDirectory: string;
+  /** Payload app name required by `nx-payload:preset` */
+  payloadAppName: string;
+
+  /** Payload app path required by `nx-payload:preset` */
+  payloadAppDirectory: string;
+
   /** Plugin version to install */
   pluginVersion?: string;
 }
@@ -56,11 +58,11 @@ export const commandsObject: yargs.Argv<Arguments> = yargs
             describe: chalk.dim`Workspace name (e.g. org name)`,
             type: 'string'
           })
-          .option('appName', {
+          .option('payloadAppName', {
             describe: chalk.dim`The name of the Payload CMS admin application`,
             type: 'string'
           })
-          .option('appDirectory', {
+          .option('payloadAppDirectory', {
             describe: chalk.dim`The path to where the application is installed (Default: 'apps/<appName>')`,
             type: 'string'
           })
@@ -154,8 +156,8 @@ const normalizeArgsMiddleware: yargs.MiddlewareFunction<Arguments> = async (
 
     const preset = pluginName;
     const name = await resolveWorkspaceName(argv);
-    const appName = await resolveAppName(argv);
-    const appDirectory = await resolveDirectory(argv);
+    const payloadAppName = await resolveAppName(argv);
+    const payloadAppDirectory = await resolveDirectory(argv, payloadAppName);
 
     const packageManager = await determinePackageManager(argv);
     const defaultBase = await determineDefaultBase(argv);
@@ -164,8 +166,8 @@ const normalizeArgsMiddleware: yargs.MiddlewareFunction<Arguments> = async (
 
     Object.assign(argv, {
       name,
-      appName,
-      appDirectory,
+      payloadAppName,
+      payloadAppDirectory,
       preset,
       nxCloud,
       packageManager,
@@ -229,63 +231,65 @@ async function resolveWorkspaceName(
 async function resolveAppName(
   parsedArgs: yargs.Arguments<Arguments>
 ): Promise<string> {
-  if (parsedArgs.appName) {
-    return Promise.resolve(parsedArgs.appName);
+  if (parsedArgs.payloadAppName) {
+    return Promise.resolve(parsedArgs.payloadAppName);
   }
 
   return enquirer
-    .prompt<{ AppName: string }>([
+    .prompt<{ PayloadAppName: string }>([
       {
-        name: 'AppName',
-        message: `Application name                     `,
+        name: 'PayloadAppName',
+        message: `Application name                    `,
         type: 'input',
         initial: 'payload-admin'
       }
     ])
     .then((a) => {
-      if (!a.AppName) {
+      if (!a.PayloadAppName) {
         output.error({
           title: 'Invalid name',
           bodyLines: [`Name cannot be empty`]
         });
         process.exit(1);
       }
-      return a.AppName;
+      return a.PayloadAppName;
     });
 }
 
 /**
  * Resolve application path
  *
- * Fallback: suggest `apps/payload-admin`
+ * Fallback: suggest `apps/{appName}`
  *
  * @param parsedArgs Parsed command arguments
+ * @param appName Selected app name
  * @returns Application path
  */
 async function resolveDirectory(
-  parsedArgs: yargs.Arguments<Arguments>
+  parsedArgs: yargs.Arguments<Arguments>,
+  appName: string
 ): Promise<string> {
-  if (parsedArgs.appDirectory) {
-    return Promise.resolve(parsedArgs.appDirectory);
+  if (parsedArgs.payloadAppDirectory) {
+    return Promise.resolve(parsedArgs.payloadAppDirectory);
   }
 
   return enquirer
-    .prompt<{ AppDirectory: string }>([
+    .prompt<{ PayloadAppDirectory: string }>([
       {
-        name: 'AppDirectory',
+        name: 'PayloadAppDirectory',
         message: `Application path                     `,
         type: 'input',
-        initial: 'apps/payload-admin'
+        initial: `apps/${appName}`
       }
     ])
     .then((a) => {
-      if (!a.AppDirectory) {
+      if (!a.PayloadAppDirectory) {
         output.error({
           title: 'Invalid path',
           bodyLines: [`Application path cannot be empty`]
         });
         process.exit(1);
       }
-      return a.AppDirectory;
+      return a.PayloadAppDirectory;
     });
 }
