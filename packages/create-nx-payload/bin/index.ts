@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { Arguments, commandsObject } from './create-nx-payload';
+import { type Arguments, commandsObject } from './create-nx-payload';
 
-export { Arguments };
+export { type Arguments };
 
 commandsObject.argv;

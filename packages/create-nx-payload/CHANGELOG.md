@@ -30,12 +30,3 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 ### Features
 
 * **workspace:** implement semver and improve workflows ([2bee60b](https://github.com/codeware-sthlm/nx-plugins/commit/2bee60bfd1e1e03ca83725a76e32a80be13ef7f0))
-
-
-
-# [1.0.0](https://github.com/codeware-sthlm/nx-plugins/compare/...create-nx-payload-v1.0.0) (2024-01-04)
-
-
-### Features
-
-* **core:** implement semantic-release on packages level ([9fe9aa5](https://github.com/codeware-sthlm/nx-plugins/commit/9fe9aa563e8cb02b0410fb5e8fedcc3f371ad968))

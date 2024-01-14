@@ -1,6 +1,6 @@
 import { type Tree, getPackageManagerCommand, readNxJson } from '@nx/devkit';
 
-import type { NormalizedSchema } from './normalize-options';
+import { type NormalizedSchema } from './normalize-options';
 
 /**
  * Create application Dockerfile. Use commands depending on current package manager.

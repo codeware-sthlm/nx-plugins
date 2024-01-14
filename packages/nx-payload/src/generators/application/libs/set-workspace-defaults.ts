@@ -1,6 +1,6 @@
 import { type Tree, readNxJson, updateNxJson } from '@nx/devkit';
 
-import type { NormalizedSchema } from './normalize-options';
+import { type NormalizedSchema } from './normalize-options';
 
 export function setWorkspaceDefaults(host: Tree, options: NormalizedSchema) {
   const workspace = readNxJson(host);

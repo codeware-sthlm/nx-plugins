@@ -7,23 +7,19 @@ import {
 
 import applicationGenerator from '../application/application';
 
+import { normalizeOptions } from './libs/normalize-options';
 import { type PresetGeneratorSchema } from './schema';
 
 export async function presetGenerator(
   tree: Tree,
-  options: PresetGeneratorSchema
+  _options: PresetGeneratorSchema
 ) {
   const tasks: GeneratorCallback[] = [];
 
-  const name = options?.appName ?? options?.name ?? 'nx-payload-workspace';
-  const directory = options?.appDirectory ?? `apps/${name}`;
+  const options = normalizeOptions(tree, _options);
 
   // Generate application
-  const appGenTask = await applicationGenerator(tree, {
-    ...options,
-    name,
-    directory
-  });
+  const appGenTask = await applicationGenerator(tree, options);
   tasks.push(appGenTask);
 
   tree.delete('libs');

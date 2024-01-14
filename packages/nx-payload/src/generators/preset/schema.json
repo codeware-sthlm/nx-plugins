@@ -5,33 +5,16 @@
   "type": "object",
   "description": "Generate a Payload CMS application in a integrated workspace. Can be used with `create-nx-workspace --preset=@cdwr/nx-payload`.",
   "properties": {
-    "appName": {
+    "payloadAppName": {
       "description": "The name of the application.",
       "type": "string",
-      "x-prompt": "What name would you like to use for the application?",
-      "pattern": "^[a-zA-Z].*$"
+      "x-prompt": "What name would you like to use for the application?"
     },
-    "appDirectory": {
-      "description": "The path to the new application (Generate paths and names `as-provided`).",
+    "payloadAppDirectory": {
+      "description": "The path to the new application.",
       "type": "string",
-      "alias": "d"
-    },
-    "unitTestRunner": {
-      "type": "string",
-      "enum": ["jest", "none"],
-      "description": "Test runner to use for unit tests.",
-      "default": "jest"
-    },
-    "tags": {
-      "type": "string",
-      "description": "Add tags to the project (used for linting)",
-      "alias": "t"
-    },
-    "skipE2e": {
-      "type": "boolean",
-      "description": "Skip generating e2e application.",
-      "default": false
+      "x-prompt": "Where would you like to create the application files?"
     }
   },
-  "required": ["appName", "appDirectory"]
+  "required": ["payloadAppName", "payloadAppDirectory"]
 }

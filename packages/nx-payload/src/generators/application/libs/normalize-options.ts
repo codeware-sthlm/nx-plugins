@@ -1,7 +1,7 @@
 import { type Tree, names } from '@nx/devkit';
 import { Linter } from '@nx/eslint';
 
-import type { AppGeneratorSchema } from '../schema';
+import { type AppGeneratorSchema } from '../schema';
 
 export type NormalizedSchema = Required<AppGeneratorSchema>;
 

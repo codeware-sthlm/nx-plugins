@@ -1,4 +1,4 @@
-import type { Tree } from '@nx/devkit';
+import { type Tree } from '@nx/devkit';
 
 export function updateEslintignore(host: Tree): void {
   let ignoreContent = host.read('.eslintignore')?.toString() ?? '';
