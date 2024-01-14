@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.2](https://github.com/codeware-sthlm/nx-plugins/compare/workspace-0.1.1...workspace-0.1.2) (2024-01-14)
+
+
+### Bug Fixes
+
+* set name and directory properly when using preset ([adef13c](https://github.com/codeware-sthlm/nx-plugins/commit/adef13c3e81a32f0ce71ec26950e86b5b6a79abe))
+
+
+
 ## [0.1.1](https://github.com/codeware-sthlm/nx-plugins/compare/workspace-0.1.0...workspace-0.1.1) (2024-01-10)
 
 
