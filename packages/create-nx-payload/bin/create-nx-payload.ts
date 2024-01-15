@@ -1,3 +1,5 @@
+import { basename } from 'path';
+
 import * as chalk from 'chalk';
 import {
   type CreateWorkspaceOptions,
@@ -202,12 +204,14 @@ async function resolveWorkspaceName(
     return Promise.resolve(name);
   }
 
+  const initial = basename(parsedArgs['$0']);
+
   const a = await enquirer.prompt<{ Name: string }>([
     {
       name: 'Name',
       message: `Workspace name                      `,
       type: 'input',
-      initial: yargs.name
+      initial
     }
   ]);
   if (!a.Name) {
