@@ -11,6 +11,7 @@
     "cai": "czg ai",
     "commit": "czg",
     "prepare": "is-ci || husky install",
+    "publish:local": "nx run-many -t publish --ver 0.0.3-local --tag local",
     "semver:dry": "nx affected -t version --parallel false --verbose --dry-run"
   },
   "dependencies": {
