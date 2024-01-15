@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.4](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.1.3...create-nx-payload-0.1.4) (2024-01-15)
+
+
+### Bug Fixes
+
+* **create-nx-payload:** use command name as initial workspace name ([d3fb8c1](https://github.com/codeware-sthlm/nx-plugins/commit/d3fb8c1d162e554c9324660a697d91cfe1fd2c97))
+
+
+
 ## [0.1.3](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.1.2...create-nx-payload-0.1.3) (2024-01-14)
 
 ### Dependency Updates
