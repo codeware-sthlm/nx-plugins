@@ -7,6 +7,8 @@ on:
       - reopened
       - synchronize
   push:
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
@@ -35,5 +37,4 @@ jobs:
       - name: Test
         uses: ./.github/actions/test
         with:
-          # TODO: Connect repository to codecov
-          codecov-token: ''
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
