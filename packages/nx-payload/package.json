@@ -2,7 +2,7 @@
   "name": "@cdwr/nx-payload",
   "version": "0.1.4",
   "private": false,
-  "description": "The Nx Payload plugin adds support for Payload CMS applications within an Nx workspace.",
+  "description": "The Nx Payload plugin adds support for Payload applications within an Nx workspace.",
   "repository": {
     "type": "git",
     "url": "https://github.com/codeware-sthlm/nx-plugins.git",
@@ -12,9 +12,11 @@
   "license": "MIT",
   "keywords": [
     "Nx",
-    "PayloadCMS",
+    "Payload",
     "Monorepo",
     "Express",
+    "Mongo",
+    "Docker",
     "Jest",
     "CLI"
   ],
