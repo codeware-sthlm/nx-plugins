@@ -14,6 +14,9 @@
 <div align='center'>
   A collection of Nx plugins powered by Codeware Sthlm.
   <br/><br/>
+  <a href="https://codecov.io/gh/codeware-sthlm/nx-plugins" >
+    <img src="https://codecov.io/gh/codeware-sthlm/nx-plugins/graph/badge.svg?token=70BMKT2097"/>
+  </a>
   <a href='https://opensource.org/licenses/MIT'>
     <img src='https://img.shields.io/badge/License-MIT-green.svg' alt='MIT'>
   </a>
