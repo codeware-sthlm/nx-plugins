@@ -24,12 +24,25 @@
       "options": {
         "preset": "angular",
         "baseBranch": "master",
+        "skipCommitTypes": ["build", "ci", "docs", "release"],
+        "trackDeps": true,
+        "skipCommit": true,
+        "push": false
+      }
+    },
+    "version-publish": {
+      "dependsOn": ["build", "^version"],
+      "cache": false,
+      "options": {
+        "preset": "angular",
+        "baseBranch": "master",
         "tagPrefix": "{projectName}-",
         "commitMessageFormat": "release({projectName}): version {version} [skip ci]",
         "skipCommitTypes": ["build", "ci", "docs", "release"],
         "syncVersions": false,
         "trackDeps": true,
-        "push": true,
+        "push": false,
+        "releaseAs": "release",
         "postTargets": ["npm-publish", "github-release"]
       }
     },
