@@ -1,6 +1,6 @@
 name: Test
 
-description: Build, lint, format affected code (require setup action)
+description: Build, lint, test and format code
 
 inputs:
   codecov-token:
@@ -33,9 +33,9 @@ runs:
       shell: bash
       run: yarn nx affected -t build --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
 
-    - name: Test affected code
+    - name: Test all code
       shell: bash
-      run: yarn nx affected -t test --codeCoverage --verbose --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
+      run: yarn nx run-many -t test --codeCoverage --verbose
 
     - name: E2e affected code
       shell: bash
@@ -46,3 +46,4 @@ runs:
       uses: codecov/codecov-action@v3
       with:
         token: ${{ inputs.codecov-token }}
+        verbose: true
