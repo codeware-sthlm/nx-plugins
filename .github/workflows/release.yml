@@ -74,5 +74,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          projects="${{ inputs.package == 'all' && '' || inputs.package }}"
-          npx nx run-many --target=version-publish --cconfiguration=${{ inputs.release-type }} --projects=$projects --parallel=1 --nxBail=true --push=true --baseBranch=${{ github.ref_name }}
+          projects="${{ inputs.package != 'all' && inputs.package || '' }}"
+          npx nx run-many --target=version-publish --configuration=${{ inputs.release-type }} --projects=$projects --parallel=1 --nxBail=true --push=true --baseBranch=${{ github.ref_name }}
