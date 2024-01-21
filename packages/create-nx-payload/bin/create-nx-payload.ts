@@ -61,7 +61,7 @@ export const commandsObject: yargs.Argv<Arguments> = yargs
             type: 'string'
           })
           .option('payloadAppName', {
-            describe: chalk.dim`The name of the Payload CMS admin application`,
+            describe: chalk.dim`The name of the Payload admin application`,
             type: 'string'
           })
           .option('payloadAppDirectory', {

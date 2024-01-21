@@ -15,10 +15,11 @@
   },
   "homepage": "https://github.com/codeware-sthlm/nx-plugins",
   "keywords": [
-    "PayloadCMS",
+    "Payload",
     "Nx",
     "Monorepo",
     "Express",
+    "Mongo",
     "Web",
     "CLI"
   ],

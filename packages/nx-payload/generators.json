@@ -14,13 +14,13 @@
     "init": {
       "implementation": "./src/generators/init/init",
       "schema": "./src/generators/init/schema.json",
-      "description": "Initialize Express and Payload CMS dependencies",
+      "description": "Initialize Express and Payload dependencies",
       "hidden": true
     },
     "application": {
       "implementation": "./src/generators/application/application",
       "schema": "./src/generators/application/schema.json",
-      "description": "Generate a new Payload CMS application",
+      "description": "Generate a new Payload application",
       "aliases": ["app"],
       "x-type": "application"
     }

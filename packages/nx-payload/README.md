@@ -1,124 +1,119 @@
-# Nx with Payload CMS <!-- omit in toc -->
-
-> Adding support for [Payload CMS](https://payloadcms.com) in your [Nx](https://nx.dev) workspace.
-
-<div style="display:flex; flex-direction:row; align-items:center; margin:2rem;">
+<p align="center">
+  <br/>
   <picture>
-    <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" height="200" />
+    <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" height="140" />
   </picture>
-  <span style="font-size:2rem; margin:2rem;">+</span>
+  <span style="margin:2rem;"></span>
   <picture>
-    <img src="https://avatars.githubusercontent.com/u/62968818?s=200&v=4" height="200" />
+    <img src="https://avatars.githubusercontent.com/u/62968818?s=200&v=4" height="150" />
   </picture>
+  <br/><br/>
+</p>
+
+<h1 align='center'>@cdwr/nx-payload</h1>
+
+<div align='center'>
+  Adding support for <a href='https://payloadcms.com'>Payload</a> in your <a href='https://nx.dev'>Nx</a> workspace.
+  <br/><br/>
+  <a href='https://www.npmjs.com/package/@cdwr/nx-payload'>
+    <img src='https://img.shields.io/npm/v/@cdwr/nx-payload?label=npm%20version' alt='@cdwr/nx-payload npm'>
+  </a>
+  <a href='https://opensource.org/licenses/MIT'>
+    <img src='https://img.shields.io/badge/License-MIT-green.svg' alt='MIT'>
+  </a>
+  <br/><br/>
 </div>
 
 ## Contents <!-- omit in toc -->
 
 - [Prerequisites](#prerequisites)
-- [Quickstart](#quickstart)
-- [Adding to an existing Nx workspace](#adding-to-an-existing-nx-workspace)
-- [Generators](#generators)
-- [Migrations](#migrations)
+- [Usage](#usage)
+- [You don't have an Nx workspace?](#you-dont-have-an-nx-workspace)
+- [Plugin Generators](#plugin-generators)
+- [Plugin Migrations](#plugin-migrations)
 - [Versions Compatibility](#versions-compatibility)
 
 ## Prerequisites
 
+- You have already created an Nx workspace
 - Node 18 or later
-- Docker compose (to be able to start app dev bundle)
+- Docker compose (to use `dx:launch`)
 
-### Recommended <!-- omit in toc -->
+## Usage
 
-Install `nx` globally.
-
-```sh
-npm install --global nx
-```
-
-Commands can now use `nx` without specifying the package manager.
-
-## Quickstart
-
-### Generate a new workspace <!-- omit in toc -->
-
-Create a new Nx workspace `my-workspace` with a Payload CMS admin application.
-
-```sh
-npx create-nx-payload my-workspace
-```
-
-Follow the interactive guide to get started.
-
--- or --
-
-```sh
-npx create-nx-workspace my-workspace --preset=@cdwr/nx-payload
-```
-
-### Launch Payload CMS admin application <!-- omit in toc -->
-
-Enter the new workspace.
-
-```sh
-cd my-workspace
-```
-
-Launch Payload CMS admin application in Docker.
-
-```sh
-nx dx:launch [app]
-```
-
-> The generated app name can be ommited since it's set as the default app in `nx.json`. Provide your app name when needed.
-
-Open your browser and navigate to <http://localhost:3000> to setup your first user.
-
-## Adding to an existing Nx workspace
-
-Install the Payload CMS plugin.
+### Add Payload plugin to an existing workspace <!-- omit in toc -->
 
 ```sh
 npm install -D @cdwr/nx-payload
 ```
 
-Generate a Payload CMS admin application.
+### Generate a Payload application <!-- omit in toc -->
 
 ```sh
-nx g @cdwr/nx-payload:app my-app --directory apps/my-app
+npx nx generate @cdwr/nx-payload:app
 ```
 
-Launch app as described in the [Quickstart](#quickstart) section.
+### Launch Payload admin and database in Docker <!-- omit in toc -->
 
-## Generators
+Payload admin app and a Mongo database will run in each Docker container
 
-### init _(internal)_ <!-- omit in toc -->
+```sh
+npx nx dx:launch [app-name]
+```
+
+> App name doesn't have to be provided for the default app in `nx.json`. Provide the name when you have more apps and some other should be launched.
+
+Open your browser and navigate to <http://localhost:3000> to setup your first user.
+
+Mongo db connection string: `mongodb://mongo/{app-name}`.
+
+#### Shutdown <!-- omit in toc -->
+
+```sh
+npx nx dx:down [app-name]
+```
+
+Database volumes are persistent, hence all data is available on next launch.
+
+## You don't have an Nx workspace?
+
+Just use the plugin create package to get started from scratch.
+
+See [`create-nx-payload`](https://github.com/codeware-sthlm/nx-plugins/tree/master/packages/create-nx-payload/README.md) for more details.
+
+## Plugin Generators
+
+### `init` _(internal)_ <!-- omit in toc -->
 
 Initialize the `@cdwr/nx-payload` plugin.
 
-| Option         | Type   | Required | Default | Description              |
-| -------------- | ------ | -------- | ------- | ------------------------ |
-| unitTestRunner | string |          | `jest`  | Set `none` to skip tests |
+| Option           | Type   | Required | Default | Description              |
+| ---------------- | ------ | -------- | ------- | ------------------------ |
+| `unitTestRunner` | string |          | `jest`  | Set `none` to skip tests |
 
-### application <!-- omit in toc -->
+### `application` <!-- omit in toc -->
 
-Generate a Payload CMS admin application served by Express.
+Alias: `app`
 
-| Option         | Type    | Required | Default  | Description                                       |
-| -------------- | ------- | :------: | -------- | ------------------------------------------------- |
-| name           | string  |    ✅    |          | Name of the application                           |
-| directory      | string  |    ✅    |          | Path to the application                           |
-| tags           | string  |          |          | Add tags to the application (comma separated)     |
-| unitTestRunner | string  |          | `jest`   | Set `none` to skip tests                          |
-| linter         | string  |          | `eslint` | The tool to use for running lint checks           |
-| skipE2e        | boolean |          | `false`  | Whether to skip generating e2e application or not |
+Generate a Payload admin application served by Express.
+
+| Option           | Type    | Required | Default  | Description                                       |
+| ---------------- | ------- | :------: | -------- | ------------------------------------------------- |
+| `name`           | string  |    ✅    |          | Name of the application                           |
+| `directory`      | string  |    ✅    |          | Path to the application files                     |
+| `tags`           | string  |          | `''`     | Add tags to the application (comma separated)     |
+| `unitTestRunner` | string  |          | `jest`   | Set `none` to skip tests                          |
+| `linter`         | string  |          | `eslint` | The tool to use for running lint checks           |
+| `skipE2e`        | boolean |          | `false`  | Whether to skip generating e2e application or not |
 
 > 💡 `name` can be provided via option `--name` or as the first argument (used in the examples in this readme)
 
-## Migrations
+## Plugin Migrations
 
 None.
 
 ## Versions Compatibility
 
-| Plugin version | Nx version |
-| -------------- | ---------- |
-| ^1.0.0         | ^17.0.0    |
+| Plugin version | Nx version | Payload version |
+| -------------- | ---------- | --------------- |
+| `^0.1.0`       | `^17.0.0`  | `^2.5.0`        |
