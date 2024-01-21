@@ -12,7 +12,7 @@
     "commit": "czg",
     "prepare": "is-ci || husky install",
     "publish:local": "nx run-many -t publish --ver 0.0.3-local --tag local",
-    "semver:dry": "nx affected -t version --parallel false --verbose --dry-run"
+    "semver:local": "nx run-many -t version --parallel=1 --verbose"
   },
   "dependencies": {
     "@swc/helpers": "0.5.3",

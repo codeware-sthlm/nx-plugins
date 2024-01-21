@@ -19,9 +19,26 @@
     },
     "version": {
       "executor": "@jscutlery/semver:version",
+      "options": { "trackDeps": false }
+    },
+    "version-publish": {
+      "executor": "@jscutlery/semver:version",
       "options": {
         "trackDeps": false,
         "postTargets": ["github-release"]
+      },
+      "configurations": {
+        "prerelease": {
+          "releaseAs": "prerelease",
+          "preid": "beta"
+        },
+        "premajor": {
+          "releaseAs": "premajor",
+          "preid": "rc"
+        },
+        "major": {
+          "releaseAs": "major"
+        }
       }
     }
   }
