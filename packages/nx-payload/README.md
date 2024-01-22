@@ -44,7 +44,7 @@
 ### Add Payload plugin to an existing workspace <!-- omit in toc -->
 
 ```sh
-npm install -D @cdwr/nx-payload
+npm add -D @cdwr/nx-payload
 ```
 
 ### Generate a Payload application <!-- omit in toc -->
@@ -87,9 +87,9 @@ See [`create-nx-payload`](https://github.com/codeware-sthlm/nx-plugins/tree/mast
 
 Initialize the `@cdwr/nx-payload` plugin.
 
-| Option           | Type   | Required | Default | Description              |
-| ---------------- | ------ | -------- | ------- | ------------------------ |
-| `unitTestRunner` | string |          | `jest`  | Set `none` to skip tests |
+| Option             | Type   | Required | Default | Description              |
+| ------------------ | ------ | -------- | ------- | ------------------------ |
+| `--unitTestRunner` | string |          | `jest`  | Set `none` to skip tests |
 
 ### `application` <!-- omit in toc -->
 
@@ -97,16 +97,16 @@ Alias: `app`
 
 Generate a Payload admin application served by Express.
 
-| Option           | Type    | Required | Default  | Description                                       |
-| ---------------- | ------- | :------: | -------- | ------------------------------------------------- |
-| `name`           | string  |    ✅    |          | Name of the application                           |
-| `directory`      | string  |    ✅    |          | Path to the application files                     |
-| `tags`           | string  |          | `''`     | Add tags to the application (comma separated)     |
-| `unitTestRunner` | string  |          | `jest`   | Set `none` to skip tests                          |
-| `linter`         | string  |          | `eslint` | The tool to use for running lint checks           |
-| `skipE2e`        | boolean |          | `false`  | Whether to skip generating e2e application or not |
+| Option             | Type    | Required | Default  | Description                                       |
+| ------------------ | ------- | :------: | -------- | ------------------------------------------------- |
+| `--name`           | string  |    ✅    |          | Name of the application                           |
+| `--directory`      | string  |    ✅    |          | Path to the application files                     |
+| `--tags`           | string  |          | `''`     | Add tags to the application (comma separated)     |
+| `--unitTestRunner` | string  |          | `jest`   | Set `none` to skip tests                          |
+| `--linter`         | string  |          | `eslint` | The tool to use for running lint checks           |
+| `--skipE2e`        | boolean |          | `false`  | Whether to skip generating e2e application or not |
 
-> 💡 `name` can be provided via option `--name` or as the first argument (used in the examples in this readme)
+> 💡 `--name` can also be provided as the first argument (used in the examples in this readme)
 
 ## Plugin Migrations
 
