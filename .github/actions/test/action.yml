@@ -15,29 +15,26 @@ runs:
     - name: Derive SHA's for Nx affected `base` and `head` arguments
       id: sha
       uses: nrwl/nx-set-shas@v4
-      env:
-        # Pull request target branch or the branch pushed to
-        branch: ${{ github.head_ref || github.ref_name }}
       with:
-        main-branch-name: ${{ env.branch }}
+        main-branch-name: master
 
-    - name: Check for un-formatted files
+    - name: Check all projects for un-formatted files
       shell: bash
       run: yarn nx format:check --all
 
-    - name: Lint affected code
+    - name: Lint affected projects
       shell: bash
       run: yarn nx affected -t lint --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
 
-    - name: Build affected code
+    - name: Build affected projects
       shell: bash
       run: yarn nx affected -t build --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
 
-    - name: Test all code
+    - name: Unit test all projects
       shell: bash
       run: yarn nx run-many -t test --codeCoverage --verbose
 
-    - name: E2e affected code
+    - name: E2e affected projects
       shell: bash
       run: yarn nx affected -t e2e --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
 
@@ -46,4 +43,3 @@ runs:
       uses: codecov/codecov-action@v3
       with:
         token: ${{ inputs.codecov-token }}
-        verbose: true
