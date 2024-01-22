@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json.schemastore.org/renovate",
+  "extends": ["config:base", ":semanticCommitScopeDisabled"],
+  "automerge": true,
+  "automergeType": "branch",
+  "baseBranches": ["master"],
+  "updateInternalDeps": true,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "automergeType": "branch",
+    "commitMessageAction": "lock file maintenance",
+    "semanticCommitType": "build"
+  },
+  "rangeStrategy": "update-lockfile",
+  "commitMessageAction": "bump",
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["nx"],
+      "groupName": "Nx related (skip)",
+      "enabled": false
+    },
+    {
+      "matchPackagePatterns": ["payload"],
+      "groupName": "Payload related (skip)",
+      "enabled": false
+    },
+    { "matchPackagePatterns": ["*"], "semanticCommitType": "chore" },
+    {
+      "matchDepTypes": ["dependencies", "require"],
+      "semanticCommitType": "fix"
+    }
+  ]
+}
