@@ -6,6 +6,7 @@ on:
       - opened
       - reopened
       - synchronize
+  merge_group:
   push:
     branches:
       - master
