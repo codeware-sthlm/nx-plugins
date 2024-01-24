@@ -36,6 +36,9 @@
           "releaseAs": "premajor",
           "preid": "rc"
         },
+        "minor": {
+          "releaseAs": "minor"
+        },
         "major": {
           "releaseAs": "major"
         }

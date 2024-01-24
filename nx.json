@@ -3,6 +3,15 @@
   "affected": {
     "defaultBase": "master"
   },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "test", "lint", "e2e"],
+        "parallel": 3
+      }
+    }
+  },
   "targetDefaults": {
     "build": {
       "cache": false,

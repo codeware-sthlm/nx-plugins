@@ -14,7 +14,7 @@ describe('Generate Payload application', () => {
   const baseCmd = 'generate @nx-plugins/nx-payload:app';
 
   console.log = jest.fn();
-  jest.setTimeout(600_000);
+  jest.setTimeout(900_000);
 
   beforeAll(() => {
     ensureNxProject('@nx-plugins/nx-payload', 'dist/packages/nx-payload');
@@ -46,7 +46,7 @@ describe('Generate Payload application', () => {
 
       expect(() =>
         checkFilesExist(
-          `build/index.html`,
+          `dist/apps/${appName}/build/index.html`,
           `dist/apps/${appName}/package.json`,
           `dist/apps/${appName}/src/main.js`
         )

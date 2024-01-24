@@ -1,28 +1,22 @@
 <p align="center">
-  <br/>
-  <picture>
-    <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" height="140" />
-  </picture>
-  <span style="margin:2rem;"></span>
-  <picture>
-    <img src="https://avatars.githubusercontent.com/u/62968818?s=200&v=4" height="150" />
-  </picture>
-  <br/><br/>
+  <br />
+  <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" height="140" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://avatars.githubusercontent.com/u/62968818?s=200&v=4" height="150" />
+  <br />
+  <br />
 </p>
 
 <h1 align='center'>@cdwr/nx-payload</h1>
 
-<div align='center'>
+<p align='center'>
   Adding support for <a href='https://payloadcms.com'>Payload</a> in your <a href='https://nx.dev'>Nx</a> workspace.
-  <br/><br/>
-  <a href='https://www.npmjs.com/package/@cdwr/nx-payload'>
-    <img src='https://img.shields.io/npm/v/@cdwr/nx-payload?label=npm%20version' alt='@cdwr/nx-payload npm'>
-  </a>
-  <a href='https://opensource.org/licenses/MIT'>
-    <img src='https://img.shields.io/badge/License-MIT-green.svg' alt='MIT'>
-  </a>
-  <br/><br/>
-</div>
+  <br />
+  <br />
+  <a href='https://www.npmjs.com/package/@cdwr/nx-payload'><img src='https://img.shields.io/npm/v/@cdwr/nx-payload?label=npm%20version' alt='@cdwr/nx-payload npm'></a>
+  &nbsp;
+  <a href='https://opensource.org/licenses/MIT'><img src='https://img.shields.io/badge/License-MIT-green.svg' alt='MIT'></a>
+  <br />
+  <br />
+</p>
 
 ## Contents <!-- omit in toc -->
 
@@ -116,4 +110,5 @@ None.
 
 | Plugin version | Nx version | Payload version |
 | -------------- | ---------- | --------------- |
+| `^0.2.0`       | `^17.0.0`  | `^2.8.2`        |
 | `^0.1.0`       | `^17.0.0`  | `^2.5.0`        |
