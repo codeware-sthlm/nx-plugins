@@ -1978,10 +1978,10 @@
     source-map-support "^0.5.21"
     tslib "^2.5.0"
 
-"@swc/cli@0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@swc/cli/-/cli-0.2.2.tgz#023c6632f698fb963d9b0bc021972a31bde49e89"
-  integrity sha512-yILBfiDq8OJMdU6w8sJmi1nokYQjFAuGDXo5WI9cupF28kyc9Ws5cgUb78Cj86OHb2YdSW/T6DE2wKKwj3CAcA==
+"@swc/cli@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@swc/cli/-/cli-0.3.0.tgz#377ec490ab5b20111e20248a38a18af10b56f91f"
+  integrity sha512-5QdBitM+jW5KBkH4SEXqdZOC8vI3fWdQMU5crl0KXB9l5AHqJvz/VvBXHwcWV8KkteUztJMOLDYZ8TsLcquKAw==
   dependencies:
     "@mole-inc/bin-wrapper" "^8.0.1"
     commander "^7.1.0"
