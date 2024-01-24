@@ -93,6 +93,14 @@ describe('application generator', () => {
     ).toBeTruthy();
   });
 
+  it('should add folder for auto generated files', async () => {
+    await generator(tree, options);
+
+    expect(
+      tree.exists(`${options.directory}/src/generated/.gitkeep`)
+    ).toBeTruthy();
+  });
+
   // @see https://github.com/nrwl/nx/blob/master/packages/remix/src/generators/application/application.impl.spec.ts
   it.todo('should test all options');
 });

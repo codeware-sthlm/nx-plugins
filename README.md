@@ -1,33 +1,26 @@
 <p align="center">
-  <br/>
-  <picture>
-    <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" height="140" />
-  </picture>
-  <picture>
-    <img width="200" src="./assets/cdwr-cloud.png" alt="codeware sthlm logo">
-  </picture>
-  <br/><br/>
+  <br />
+  <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" height="140" />&nbsp;&nbsp;&nbsp;&nbsp;<img width="200" src="./assets/cdwr-cloud.png" alt="codeware sthlm logo">
+  <br />
+  <br />
 </p>
 
 <h1 align='center'>Nx Plugins</h1>
 
-<div align='center'>
+<p align='center'>
   A collection of Nx plugins powered by Codeware Sthlm.
-  <br/><br/>
-  <a href="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/release.yml?query=branch:master">
-    <img alt="Test state" src="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/release.yml/badge.svg?branch=master">
-  </a>
-  <a href="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/ci.yml?query=branch%3Amaster">
-    <img alt="Test state" src="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/ci.yml/badge.svg?branch=master">
-  </a>
-  <a href="https://codecov.io/gh/codeware-sthlm/nx-plugins" >
-    <img src="https://codecov.io/gh/codeware-sthlm/nx-plugins/graph/badge.svg?token=70BMKT2097"/>
-  </a>
-  <a href='https://opensource.org/licenses/MIT'>
-    <img src='https://img.shields.io/badge/License-MIT-green.svg' alt='MIT'>
-  </a>
-  <br/><br/>
-</div>
+  <br />
+  <br />
+  <a href="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/release.yml?query=branch:master"><img alt="Test state" src="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/release.yml/badge.svg?branch=master"></a>
+  &nbsp;
+  <a href="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/ci.yml?query=branch%3Amaster"><img alt="Test state" src="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/ci.yml/badge.svg?branch=master"></a>
+  &nbsp;
+  <a href="https://codecov.io/gh/codeware-sthlm/nx-plugins"><img src="https://codecov.io/gh/codeware-sthlm/nx-plugins/graph/badge.svg?token=70BMKT2097"/></a>
+  &nbsp;
+  <a href='https://opensource.org/licenses/MIT'><img src='https://img.shields.io/badge/License-MIT-green.svg' alt='MIT'></a>
+  <br />
+  <br />
+</p>
 
 ## Packages
 

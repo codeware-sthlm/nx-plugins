@@ -26,7 +26,7 @@ function updateDependencies(tree: Tree) {
       ...payloadPluginsVersions,
       tslib: tsLibVersion
     },
-    { mongodb: mongodbVersion }
+    { mongodb: mongodbVersion, rimraf: 'latest' }
   );
 }
 

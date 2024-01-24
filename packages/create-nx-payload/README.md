@@ -1,28 +1,22 @@
 <p align="center">
-  <br/>
-  <picture>
-    <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" height="140" />
-  </picture>
-  <span style="margin:2rem;"></span>
-  <picture>
-    <img src="https://avatars.githubusercontent.com/u/62968818?s=200&v=4" height="150" />
-  </picture>
-  <br/><br/>
+  <br />
+  <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" height="140" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://avatars.githubusercontent.com/u/62968818?s=200&v=4" height="150" />
+  <br />
+  <br />
 </p>
 
 <h1 align='center'>create-nx-payload</h1>
 
-<div align='center'>
+<p align='center'>
   Quickly create a new <a href='https://nx.dev'>Nx</a> workspace with a <a href='https://payloadcms.com'>Payload</a> application.
-  <br/><br/>
-  <a href='https://www.npmjs.com/package/create-nx-payload'>
-    <img src='https://img.shields.io/npm/v/create-nx-payload?label=npm%20version' alt='create-nx-payload npm'>
-  </a>
-  <a href='https://opensource.org/licenses/MIT'>
-    <img src='https://img.shields.io/badge/License-MIT-green.svg' alt='MIT'>
-  </a>
-  <br/><br/>
-</div>
+  <br />
+  <br />
+  <a href='https://www.npmjs.com/package/create-nx-payload'><img src='https://img.shields.io/npm/v/create-nx-payload?label=npm%20version' alt='create-nx-payload npm'></a>
+  &nbsp;
+  <a href='https://opensource.org/licenses/MIT'><img src='https://img.shields.io/badge/License-MIT-green.svg' alt='MIT'></a>
+  <br />
+  <br />
+</p>
 
 ## Prerequisites
 

@@ -28,7 +28,7 @@ describe('init', () => {
     expect(packageJson.devDependencies['payload']).toBeUndefined();
   });
 
-  it('should add payload webpack dependency', async () => {
+  it('should add payload webpack to dependencies', async () => {
     await initGenerator(tree, {});
 
     const packageJson = readJson<PackageJson>(tree, 'package.json');
@@ -40,7 +40,7 @@ describe('init', () => {
     ).toBeUndefined();
   });
 
-  it('should add payload mongodb dependency', async () => {
+  it('should add payload mongodb to dependencies', async () => {
     await initGenerator(tree, {});
     const packageJson = readJson<PackageJson>(tree, 'package.json');
 
@@ -52,7 +52,7 @@ describe('init', () => {
     ).toBeUndefined();
   });
 
-  it('should add payload ricktext-slate dependency', async () => {
+  it('should add payload ricktext-slate to dependencies', async () => {
     await initGenerator(tree, {});
     const packageJson = readJson<PackageJson>(tree, 'package.json');
 
@@ -64,7 +64,7 @@ describe('init', () => {
     ).toBeUndefined();
   });
 
-  it('should add express dependencies', async () => {
+  it('should add express to dependencies', async () => {
     await initGenerator(tree, {});
     const packageJson = readJson<PackageJson>(tree, 'package.json');
 
@@ -74,7 +74,15 @@ describe('init', () => {
     expect(packageJson.devDependencies['express']).toBeUndefined();
   });
 
-  it('should add mongo dependencies', async () => {
+  it('should add tslib to dependencies', async () => {
+    await initGenerator(tree, {});
+    const packageJson = readJson<PackageJson>(tree, 'package.json');
+
+    expect(packageJson.dependencies['tslib']).toBe(tsLibVersion);
+    expect(packageJson.devDependencies['tslib']).toBeUndefined();
+  });
+
+  it('should add mongodb to devDependencies', async () => {
     await initGenerator(tree, {});
     const packageJson = readJson<PackageJson>(tree, 'package.json');
 
@@ -82,12 +90,12 @@ describe('init', () => {
     expect(packageJson.devDependencies['mongodb']).toBeDefined();
   });
 
-  it('should add tslib dependency', async () => {
+  it('should add rimraf to devDependencies', async () => {
     await initGenerator(tree, {});
     const packageJson = readJson<PackageJson>(tree, 'package.json');
 
-    expect(packageJson.dependencies['tslib']).toBe(tsLibVersion);
-    expect(packageJson.devDependencies['tslib']).toBeUndefined();
+    expect(packageJson.dependencies['rimraf']).toBeUndefined();
+    expect(packageJson.devDependencies['rimraf']).toBeDefined();
   });
 
   it('should keep existing dependencies', async () => {

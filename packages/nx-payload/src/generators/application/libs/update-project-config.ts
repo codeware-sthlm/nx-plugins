@@ -33,7 +33,8 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
       tsConfig: joinPathFragments(options.directory, 'tsconfig.app.json'),
       assets: [joinPathFragments(options.directory, 'src', 'assets')],
       updateBuildableProjectDepsInPackageJson: true,
-      buildableProjectDepsInPackageJsonType: 'dependencies'
+      buildableProjectDepsInPackageJsonType: 'dependencies',
+      clean: false
     },
     dependsOn: ['build-payload', 'generate-graphql', 'generate-types']
   };
@@ -60,7 +61,13 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
     executor: 'nx:run-commands',
     defaultConfiguration: 'production',
     options: {
-      command: `${pmCommand.exec} payload build`
+      commands: [
+        `${pmCommand.exec} rimraf ${joinPathFragments(
+          'dist',
+          options.directory
+        )}`,
+        `${pmCommand.exec} payload build`
+      ]
     },
     configurations: {
       production: {

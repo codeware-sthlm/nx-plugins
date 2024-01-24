@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import { cwd } from 'process';
 
 import { webpackBundler } from '@payloadcms/bundler-webpack';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
@@ -8,16 +9,20 @@ import { buildConfig } from 'payload/config';
 import Users from './collections/Users';
 
 export default buildConfig({
-  admin: { bundler: webpackBundler(), user: Users.slug },
+  admin: {
+    bundler: webpackBundler(),
+    user: Users.slug,
+    buildPath: resolve(cwd(), 'dist/<%= directory %>/build')
+  },
   collections: [Users],
   db: mongooseAdapter({ url: process.env.MONGO_URL }),
   editor: slateEditor({}),
   typescript: {
-    outputFile: resolve(__dirname, 'payload-types.ts')
+    outputFile: resolve(__dirname, 'generated/payload-types.ts')
   },
   graphQL: {
     disable: false,
-    schemaOutputFile: resolve(__dirname, 'generated-schema.graphql')
+    schemaOutputFile: resolve(__dirname, 'generated/schema.graphql')
   },
   telemetry: false
 });
