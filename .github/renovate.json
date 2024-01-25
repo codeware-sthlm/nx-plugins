@@ -9,11 +9,11 @@
     "enabled": true,
     "automerge": true,
     "automergeType": "branch",
-    "commitMessageAction": "lock file maintenance",
+    "commitMessageAction": "📦 lock file maintenance",
     "semanticCommitType": "build"
   },
   "rangeStrategy": "update-lockfile",
-  "commitMessageAction": "bump",
+  "commitMessageAction": "📦 bump",
   "packageRules": [
     {
       "matchPackagePatterns": ["nx"],
@@ -21,11 +21,16 @@
       "enabled": false
     },
     {
+      "matchPackagePatterns": ["jscutlery", "ngx-deploy-npm"],
+      "groupName": "Semver related (skip)",
+      "enabled": false
+    },
+    {
       "matchPackagePatterns": ["payload"],
       "groupName": "Payload related (skip)",
       "enabled": false
     },
-    { "matchPackagePatterns": ["*"], "semanticCommitType": "chore" },
+    { "matchPackagePatterns": ["*"], "semanticCommitType": "build" },
     {
       "matchDepTypes": ["dependencies", "require"],
       "semanticCommitType": "fix"

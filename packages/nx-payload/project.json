@@ -60,7 +60,23 @@
     },
     "version": {
       "executor": "@jscutlery/semver:version",
-      "options": {}
+      "options": {},
+      "configurations": {
+        "prerelease": {
+          "releaseAs": "prerelease",
+          "preid": "beta"
+        },
+        "premajor": {
+          "releaseAs": "premajor",
+          "preid": "rc"
+        },
+        "minor": {
+          "releaseAs": "minor"
+        },
+        "major": {
+          "releaseAs": "major"
+        }
+      }
     },
     "version-publish": {
       "executor": "@jscutlery/semver:version",
