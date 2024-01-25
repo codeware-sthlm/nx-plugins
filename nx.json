@@ -65,6 +65,7 @@
     "npm-publish": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
+        "distFolderPath": "dist/packages/{projectName}",
         "access": "public"
       }
     },
