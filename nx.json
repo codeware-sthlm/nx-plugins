@@ -28,29 +28,54 @@
       ]
     },
     "version": {
-      "dependsOn": ["build", "^version"],
+      "dependsOn": ["build"],
       "cache": false,
       "options": {
-        "preset": "angular",
+        "preset": {
+          "name": "angular",
+          "types": [
+            { "type": "feat", "section": "✨ Features" },
+            { "type": "fix", "section": "🐞 Bug Fixes" },
+            { "type": "perf", "section": "⚡️ Performance Improvements" },
+            { "type": "revert", "section": "🔙 Revert Code Changes" },
+            { "type": "docs", "section": "📄 Documentation" },
+            { "type": "chore", "section": "⚙️ Miscellaneous Chores" },
+            { "type": "refactor", "section": "🧹 Code Refactoring" },
+            { "type": "test", "section": "✅ Tests" },
+            { "type": "ci", "section": "🤖 Continuous Integration" },
+            { "type": "build", "section": "🛠️ Build System" }
+          ]
+        },
         "baseBranch": "master",
-        "skipCommitTypes": ["build", "ci", "docs", "release"],
-        "trackDeps": true,
+        "skipCommitTypes": ["build", "ci", "release"],
         "skipCommit": true,
         "push": false
       }
     },
     "version-publish": {
-      "dependsOn": ["build", "^version"],
+      "dependsOn": ["build"],
       "cache": false,
       "options": {
-        "preset": "angular",
+        "preset": {
+          "name": "angular",
+          "types": [
+            { "type": "feat", "section": "✨ Features" },
+            { "type": "fix", "section": "🐞 Bug Fixes" },
+            { "type": "perf", "section": "⚡️ Performance Improvements" },
+            { "type": "revert", "section": "🔙 Revert Code Changes" },
+            { "type": "docs", "section": "📄 Documentation" },
+            { "type": "chore", "section": "⚙️ Miscellaneous Chores" },
+            { "type": "refactor", "section": "🧹 Code Refactoring" },
+            { "type": "test", "section": "✅ Tests" },
+            { "type": "ci", "section": "🤖 Continuous Integration" },
+            { "type": "build", "section": "🛠️ Build System" }
+          ]
+        },
         "baseBranch": "master",
         "tagPrefix": "{projectName}-",
         "commitMessageFormat": "release({projectName}): version {version} [skip ci]",
-        "skipCommitTypes": ["build", "ci", "docs", "release"],
-        "syncVersions": false,
-        "trackDeps": true,
-        "push": false,
+        "skipCommitTypes": ["build", "ci", "release"],
+        "push": true,
         "releaseAs": "release",
         "postTargets": ["npm-publish", "github-release"]
       }
