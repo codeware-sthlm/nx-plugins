@@ -42,3 +42,11 @@ Thumbs.db
 migrations.json
 
 .nx/cache
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
