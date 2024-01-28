@@ -35,7 +35,7 @@ on:
         default: false
 
 env:
-  node_version: 18
+  node_version: 20
 
 jobs:
   test:

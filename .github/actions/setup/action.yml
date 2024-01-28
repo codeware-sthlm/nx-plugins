@@ -7,9 +7,9 @@ inputs:
     description: Git token with permission to push to protected branches (github token cannot, though it's default)
     required: false
   node-version:
-    description: 'Node.js version (default: 18)'
+    description: 'Node.js version (default: 20)'
     required: false
-    default: '18'
+    default: '20'
   commit-user-name:
     description: User name on the release commit created by git (defaults to action user)
     required: false

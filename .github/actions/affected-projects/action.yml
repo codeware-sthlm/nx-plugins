@@ -4,9 +4,9 @@ description: Get affected Nx projects by code changes which have 'version' targe
 
 inputs:
   node-version:
-    description: 'Node.js version (default: 18)'
+    description: 'Node.js version (default: 20)'
     required: false
-    default: '18'
+    default: '20'
 
 outputs:
   projects:
