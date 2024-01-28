@@ -90,6 +90,7 @@
       "executor": "ngx-deploy-npm:deploy",
       "options": {
         "distFolderPath": "dist/packages/{projectName}",
+        "packageVersion": "{version}",
         "access": "public"
       }
     },
