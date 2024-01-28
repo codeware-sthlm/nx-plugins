@@ -76,7 +76,6 @@
         "commitMessageFormat": "release({projectName}): version {version} [skip ci]",
         "skipCommitTypes": ["build", "ci", "release"],
         "push": true,
-        "releaseAs": "release",
         "postTargets": ["npm-publish", "github-release"]
       }
     },
