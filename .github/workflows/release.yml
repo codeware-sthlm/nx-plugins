@@ -5,21 +5,9 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      release-type:
-        description: What kind of release should be created?
-        required: true
-        type: choice
-        options:
-          - prerelease
-          - premajor
-          - release
-          - minor
-          - major
-        default: release
-
       package:
         description: Release a specific package or all packages
-        required: true
+        required: false
         type: choice
         options:
           - all
@@ -27,6 +15,24 @@ on:
           - nx-payload
           - workspace
         default: all
+
+      release-type:
+        description: Specify what kind of release to create
+        required: false
+        type: choice
+        options:
+          - auto
+          - prerelease
+          - premajor
+          - minor
+          - major
+        default: auto
+
+      empty-release:
+        description: Force a patch increment even if library source didn't change?
+        required: false
+        type: boolean
+        default: false
 
 env:
   node_version: 18
@@ -75,5 +81,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          configuration="${{ inputs.release-type != 'auto' && inputs.release-type || '' }}"
           projects="${{ inputs.package != 'all' && inputs.package || '' }}"
-          npx nx run-many --target=version-publish --configuration=${{ inputs.release-type }} --projects=$projects --parallel=1 --nxBail=true --baseBranch=${{ github.ref_name }}
+          npx nx run-many --target=version-publish --configuration=$configuration --projects=$projects --parallel=1 --nxBail=true --baseBranch=${{ github.ref_name }} --allowEmptyRelease=${{ inputs.empty-release }}
