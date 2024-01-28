@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.1](https://github.com/codeware-sthlm/nx-plugins/compare/nx-payload-0.2.0...nx-payload-0.2.1) (2024-01-28)
+
+
+### ⚙️ Miscellaneous Chores
+
+* **workspace:** update to node 20 ([2251317](https://github.com/codeware-sthlm/nx-plugins/commit/22513170791fce69fbd142bd5cb98f87ddb172de))
+
+
+### 🤖 Continuous Integration
+
+* **workspace:** renovate should have build type ([12f82a9](https://github.com/codeware-sthlm/nx-plugins/commit/12f82a9b726a81de4793f82b72b7453d8de94ae7))
+
 # [0.2.0](https://github.com/codeware-sthlm/nx-plugins/compare/nx-payload-0.1.4...nx-payload-0.2.0) (2024-01-24)
 
 
