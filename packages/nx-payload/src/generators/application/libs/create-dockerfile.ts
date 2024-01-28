@@ -13,7 +13,7 @@ export function createDockerfile(host: Tree, options: NormalizedSchema): void {
   const pmCommand = getPackageManagerCommand();
 
   const content = `
-FROM node:18.8-alpine as base
+FROM node:20-alpine as base
 
 FROM base as builder
 
