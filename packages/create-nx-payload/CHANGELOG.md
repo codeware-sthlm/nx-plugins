@@ -2,6 +2,23 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.5](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.1.4...create-nx-payload-0.1.5) (2024-01-28)
+
+
+### 📄 Documentation
+
+* improve readme content to be relevant and accurate ([8245656](https://github.com/codeware-sthlm/nx-plugins/commit/82456567ea91963ea1f0a3a9c4aa557498621cec))
+
+
+### 🧹 Code Refactoring
+
+* **nx-payload:** use custom admin build path ([cf6a6db](https://github.com/codeware-sthlm/nx-plugins/commit/cf6a6db14be164d30855346731c00d4893bf4925))
+
+
+### 🤖 Continuous Integration
+
+* add more choices to release workflow ([d02ab20](https://github.com/codeware-sthlm/nx-plugins/commit/d02ab208fd38ce47a825ec017739650e7894bbd0))
+
 ## [0.1.4](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.1.3...create-nx-payload-0.1.4) (2024-01-15)
 
 
