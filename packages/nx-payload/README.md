@@ -31,7 +31,7 @@
 
 - You have already created an Nx workspace
 - Node 18 or later
-- Docker compose (to use `dx:launch`)
+- Docker
 
 ## Usage
 
@@ -47,12 +47,12 @@ npm add -D @cdwr/nx-payload
 npx nx generate @cdwr/nx-payload:app
 ```
 
-### Launch Payload admin and database in Docker <!-- omit in toc -->
+### Start Payload admin and database in Docker <!-- omit in toc -->
 
-Payload admin app and a Mongo database will run in each Docker container
+Payload admin app built for production and a Mongo database will run in each Docker container.
 
 ```sh
-npx nx dx:launch [app-name]
+npx nx start [app-name]
 ```
 
 > App name doesn't have to be provided for the default app in `nx.json`. Provide the name when you have more apps and some other should be launched.
@@ -61,13 +61,23 @@ Open your browser and navigate to <http://localhost:3000> to setup your first us
 
 Mongo db connection string: `mongodb://mongo/{app-name}`.
 
-#### Shutdown <!-- omit in toc -->
+#### Stop <!-- omit in toc -->
 
 ```sh
-npx nx dx:down [app-name]
+npx nx stop [app-name]
 ```
 
 Database volumes are persistent, hence all data is available on next launch.
+
+### Serve Payload admin in development mode <!-- omit in toc -->
+
+Payload admin app is served in watch mode. A Mongo database instance is also started in Docker.
+
+```sh
+npx nx serve [app-name]
+```
+
+Open your browser and navigate to <http://localhost:3000>.
 
 ## You don't have an Nx workspace?
 

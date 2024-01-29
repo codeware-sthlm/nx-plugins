@@ -13,10 +13,7 @@ import { createDockerfile } from './libs/create-dockerfile';
 import { createExpressApplication } from './libs/create-express-application';
 import { normalizeOptions } from './libs/normalize-options';
 import { setWorkspaceDefaults } from './libs/set-workspace-defaults';
-import { updateEslintignore } from './libs/update-eslintignore';
-import { updateGitignore } from './libs/update-gitignore';
 import { updateProjectConfig } from './libs/update-project-config';
-import { updateTsConfig } from './libs/update-tsconfig';
 import { type AppGeneratorSchema } from './schema';
 
 export async function applicationGenerator(
@@ -39,12 +36,9 @@ export async function applicationGenerator(
 
   // Application config files
   updateProjectConfig(host, options);
-  updateTsConfig(host, options);
 
   // Workspace root config files
   setWorkspaceDefaults(host, options);
-  updateEslintignore(host);
-  updateGitignore(host);
 
   // Format files
   if (!options.skipFormat) {
