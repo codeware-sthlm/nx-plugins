@@ -13,7 +13,6 @@ tools
 *.log
 
 # Temporary files
-build
 coverage
 dist
 node_modules

@@ -41,7 +41,7 @@ describe('application generator', () => {
     expect(packageJson.devDependencies['@types/express']).toBeDefined();
   });
 
-  it('should add dependencies for mongo', async () => {
+  it('should add dependencies for mongodb', async () => {
     await generator(tree, options);
     const packageJson = readJson<PackageJson>(tree, 'package.json');
 
@@ -58,7 +58,6 @@ describe('application generator', () => {
     expect(tree.exists(`${options.directory}/.eslintrc.json`)).toBeTruthy();
 
     expect(tree.exists(`${options.directory}/tsconfig.app.json`)).toBeTruthy();
-    expect(tree.exists(`${options.directory}/tsconfig.dev.json`)).toBeTruthy();
     expect(tree.exists(`${options.directory}/tsconfig.json`)).toBeTruthy();
     expect(tree.exists(`${options.directory}/tsconfig.spec.json`)).toBeTruthy();
 
@@ -91,6 +90,13 @@ describe('application generator', () => {
     expect(
       tree.exists(`${options.directory}/Dockerfile.dockerignore`)
     ).toBeTruthy();
+  });
+
+  it('should add dotenv files', async () => {
+    await generator(tree, options);
+
+    expect(tree.exists(`${options.directory}/.env`)).toBeTruthy();
+    expect(tree.exists(`${options.directory}/.env.serve`)).toBeTruthy();
   });
 
   it('should add folder for auto generated files', async () => {

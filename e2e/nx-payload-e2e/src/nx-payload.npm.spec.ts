@@ -2,6 +2,8 @@ import { execSync } from 'child_process';
 import { mkdirSync, rmSync } from 'fs';
 import { dirname, join } from 'path';
 
+import { readJsonFile } from '@nx/devkit';
+
 describe('npm install payload plugin', () => {
   let projectDirectory: string;
 
@@ -21,10 +23,12 @@ describe('npm install payload plugin', () => {
 
   afterAll(() => {
     // Cleanup the test project
-    rmSync(projectDirectory, {
-      recursive: true,
-      force: true
-    });
+    if (projectDirectory) {
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true
+      });
+    }
   });
 
   it('should be installed', () => {
@@ -44,6 +48,15 @@ function createTestProject(name: string) {
   const projectName = name;
   const projectDirectory = join(process.cwd(), 'tmp', projectName);
 
+  // Get local version of `create-nx-workspace`
+  let version = 'latest';
+  const { dependencies } = readJsonFile<{
+    dependencies: Record<string, string>;
+  }>(join(process.cwd(), 'package.json'));
+  if ('create-nx-workspace' in dependencies) {
+    version = dependencies['create-nx-workspace'];
+  }
+
   // Ensure projectDirectory is empty
   rmSync(projectDirectory, {
     recursive: true,
@@ -54,7 +67,7 @@ function createTestProject(name: string) {
   });
 
   execSync(
-    `npx --yes create-nx-workspace@latest ${projectName} --preset apps --no-nxCloud --no-interactive`,
+    `npx --yes create-nx-workspace@${version} ${projectName} --preset apps --nxCloud false --no-interactive`,
     {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',

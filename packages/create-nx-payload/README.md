@@ -21,7 +21,7 @@
 ## Prerequisites
 
 - Node 18 or later
-- Docker compose (to use `dx:launch`)
+- Docker
 
 ## Usage
 
@@ -37,15 +37,23 @@ or
 npx create-nx-workspace --preset @cdwr/nx-payload
 ```
 
-### Launch Payload admin application
+### Start Payload admin application
 
-Go to the newly created workspace and launch the application and database in Docker
+Go to the newly created workspace and start the application and database in Docker.
 
 ```sh
-npx nx dx:launch
+npx nx start
 ```
 
 Open your browser and navigate to <http://localhost:3000> to setup your first user.
+
+### Serve Payload admin application
+
+Serve the application in development mode.
+
+```sh
+npx nx serve
+```
 
 ### Generate another Payload application
 

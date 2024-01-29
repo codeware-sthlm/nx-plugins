@@ -66,7 +66,7 @@ describe('create-nx-payload', () => {
       );
       addWorkspaceDirectory(workspaceDirectory);
 
-      await runCommandAsync(`nx dx:launch test-app`, {
+      await runCommandAsync(`nx start test-app`, {
         cwd: workspaceDirectory,
         env: process.env
       });
@@ -76,7 +76,7 @@ describe('create-nx-payload', () => {
       );
 
       expect(
-        await runCommandAsync(`nx dx:down test-app`, {
+        await runCommandAsync(`nx stop test-app`, {
           cwd: workspaceDirectory,
           env: process.env
         })
