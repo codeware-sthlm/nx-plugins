@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.0](https://github.com/codeware-sthlm/nx-plugins/compare/workspace-0.1.4...workspace-0.2.0) (2024-01-31)
+
+
+### ✨ Features
+
+* **nx-payload:** run application in development mode ([9e8d709](https://github.com/codeware-sthlm/nx-plugins/commit/9e8d709a3908ef2c9360708a256b78ffe36390a6))
+
+
+### 🛠️ Build System
+
+* 📦 bump dependency husky to v9.0.7 ([4dd7eea](https://github.com/codeware-sthlm/nx-plugins/commit/4dd7eeae5f8192fe2e50e95de590e9447fc52bc9))
+* 📦 lock file maintenance ([f135b6a](https://github.com/codeware-sthlm/nx-plugins/commit/f135b6a72d141195ffea717a6e094a7e731ec887))
+
 ## [0.1.4](https://github.com/codeware-sthlm/nx-plugins/compare/workspace-0.1.3...workspace-0.1.4) (2024-01-28)
 
 
