@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.0](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.1.5...create-nx-payload-0.2.0) (2024-01-31)
+
+
+### ✨ Features
+
+* **nx-payload:** run application in development mode ([9e8d709](https://github.com/codeware-sthlm/nx-plugins/commit/9e8d709a3908ef2c9360708a256b78ffe36390a6))
+
 ## [0.1.5](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.1.4...create-nx-payload-0.1.5) (2024-01-28)
 
 
