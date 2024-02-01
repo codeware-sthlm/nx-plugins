@@ -2682,9 +2682,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/cli@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@swc/cli@npm:0.3.2"
+"@swc/cli@npm:0.3.6":
+  version: 0.3.6
+  resolution: "@swc/cli@npm:0.3.6"
   dependencies:
     "@mole-inc/bin-wrapper": "npm:^8.0.1"
     commander: "npm:^7.1.0"
@@ -2704,7 +2704,7 @@ __metadata:
     spack: bin/spack.js
     swc: bin/swc.js
     swcx: bin/swcx.js
-  checksum: 10/f17cf1467985eaddebd3988e7fb58784bd37cfa2c612ef9275566aa71ba3436d4eda368bc6440f11f84f1203b6056e38e3ffc98733401c110fe321dd700e8f2f
+  checksum: 10/9f42d1aad6880b99fe8f34371eef7b50d2e9ca348a940eb80189720723daa6457627c6d7d03872ee00c23c29f1d771ca9f52b5c1fff010bff4157545bbbf726e
   languageName: node
   linkType: hard
 
@@ -10928,7 +10928,7 @@ __metadata:
     "@nx/webpack": "npm:17.2.7"
     "@nx/workspace": "npm:17.2.7"
     "@swc-node/register": "npm:1.6.8"
-    "@swc/cli": "npm:0.3.2"
+    "@swc/cli": "npm:0.3.6"
     "@swc/core": "npm:1.3.106"
     "@swc/helpers": "npm:0.5.3"
     "@types/dockerode": "npm:^3.3.23"
