@@ -1,4 +1,4 @@
-name: CI Tests
+name: CI
 
 on:
   pull_request:
@@ -14,32 +14,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-affected:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        node_version: [18, 20]
-        os: [ubuntu-latest, windows-latest]
-        exclude:
-          - os: windows-latest
-            node_version: 18
-
+  main:
+    runs-on: ubuntu-latest
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        if: github.event_name == 'pull_request'
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-
       - uses: actions/checkout@v4
-
-      - name: Setup
-        uses: ./.github/actions/setup
         with:
-          node-version: ${{ matrix.node_version }}
+          fetch-depth: 0
 
-      - name: Test
-        uses: ./.github/actions/test
+      - uses: actions/setup-node@v4
         with:
-          codecov-token: ${{ secrets.CODECOV_TOKEN }}
+          node-version: 20
+          cache: 'yarn'
+
+      - run: yarn install --immutable
+
+      - uses: nrwl/nx-set-shas@v3
+
+      # needed for nx affected to work when CI is running on a PR
+      - run: git branch --track master origin/master
+
+      - run: npx nx-cloud record -- nx format:check
+      - run: npx nx affected -t lint,test,build --parallel=3 --code-coverage
+
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

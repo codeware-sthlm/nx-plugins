@@ -3,9 +3,9 @@
   "affected": {
     "defaultBase": "master"
   },
+  "nxCloudAccessToken": "YzY5OGI1YTctYWJlMi00NTkxLWIwY2ItZjYyZDcwYWMzOWJhfHJlYWQtd3JpdGU=",
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
       "options": {
         "cacheableOperations": ["build", "test", "lint", "e2e"],
         "parallel": 3
@@ -14,12 +14,10 @@
   },
   "targetDefaults": {
     "build": {
-      "cache": false,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
     "lint": {
-      "cache": true,
       "inputs": [
         "default",
         "{workspaceRoot}/.eslintrc.json",
@@ -29,7 +27,6 @@
     },
     "version": {
       "dependsOn": ["build"],
-      "cache": false,
       "options": {
         "preset": {
           "name": "angular",
@@ -54,7 +51,6 @@
     },
     "version-publish": {
       "dependsOn": ["build"],
-      "cache": false,
       "options": {
         "preset": {
           "name": "angular",
@@ -95,7 +91,6 @@
       }
     },
     "@nx/jest:jest": {
-      "cache": false,
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "options": {
         "passWithNoTests": true
