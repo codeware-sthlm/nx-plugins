@@ -1,0 +1,147 @@
+name: E2E matrix
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  merge_group:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      debug-enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preinstall:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+        node_version:
+          - 20
+          - 18
+        exclude:
+          - os: windows-latest
+            node_version: 18
+
+    name: Cache install (${{ matrix.os }}, node v${{ matrix.node_version }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: 'yarn'
+
+      - name: Cache node_modules
+        id: cache-modules
+        uses: actions/cache@v4
+        with:
+          lookup-only: true
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ matrix.node_version }}-${{ github.run_id }}
+
+      - name: Install packages
+        if: steps.cache-modules.outputs.cache-hit != 'true'
+        run: yarn install --immutable
+
+  e2e:
+    needs: preinstall
+    permissions:
+      contents: read
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+        node_version:
+          - 20
+          - 18
+        package_manager:
+          - npm
+          # - yarn
+          # - pnpm
+        project:
+          - nx-payload-e2e
+        include:
+          # os short names
+          - os: ubuntu-latest
+            os_name: 'Linux'
+          - os: windows-latest
+            os_name: 'Windows'
+          # test timeouts
+          - os: ubuntu-latest
+            os_timeout: 60
+          - os: windows-latest
+            os_timeout: 60
+        exclude:
+          # windows: only npm 20
+          - os: windows-latest
+            package_manager: yarn
+          - os: windows-latest
+            package_manager: pnpm
+          - os: windows-latest
+            node_version: 18
+      fail-fast: false
+
+    name: ${{ matrix.os_name }}/${{ matrix.package_manager }}/${{ matrix.node_version }} ${{ join(matrix.project) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: 'yarn'
+
+      - name: Cache node_modules
+        id: cache-modules
+        uses: actions/cache@v4
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ matrix.node_version }}-${{ github.run_id }}
+
+      - name: Install packages
+        run: yarn install --immutable
+
+      - name: Set starting timestamp
+        id: before-e2e
+        run: |
+          echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
+
+      - name: Run e2e tests
+        id: e2e-run
+        run: yarn nx run ${{ matrix.project }}:e2e
+        timeout-minutes: ${{ matrix.os_timeout }}
+        env:
+          NX_CACHE_DIRECTORY: 'tmp'
+          NX_PERF_LOGGING: 'false'
+          NX_DAEMON: 'true'
+
+      - name: Setup tmate session
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug-enabled && failure() }}
+        uses: mxschmitt/action-tmate@v3.8
+        timeout-minutes: 15
+        env:
+          # disable sudo for windows debugging
+          sudo: ${{ matrix.os != 'windows-latest' }}
+        with:
+          sudo: ${{ env.sudo }}
