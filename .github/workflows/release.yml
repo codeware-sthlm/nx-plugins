@@ -34,9 +34,6 @@ on:
         type: boolean
         default: false
 
-env:
-  node_version: 20
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -45,14 +42,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup
-        uses: ./.github/actions/setup
+      - uses: ./.github/actions/test
         with:
-          node-version: ${{ env.node_version }}
-
-      - name: Test
-        uses: ./.github/actions/test
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
 
   release:
     runs-on: ubuntu-latest
@@ -64,14 +56,27 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup
-        uses: ./.github/actions/setup
         with:
-          git-token: ${{ secrets.GH_SEMVER_TOKEN }}
-          node-version: ${{ env.node_version }}
-          commit-user-name: ${{ vars.SEMVER_COMMIT_NAME }}
-          commit-user-email: ${{ vars.SEMVER_COMMIT_EMAIL }}
+          token: ${{ secrets.GH_SEMVER_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set git metadata
+        run: |
+          git config user.name "${{ vars.SEMVER_COMMIT_NAME }}"
+          git config user.email "${{ vars.SEMVER_COMMIT_EMAIL }}"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          check-latest: true
+          cache: yarn
+          # This also sets the right configuration in .npmrc
+          # that reads NPM token from NPM_AUTH_TOKEN environment variable.
+          # It creates a .npmrc in a temporary folder
+          # and sets the NPM_CONFIG_USERCONFIG environment variable.
+          registry-url: https://registry.npmjs.org
+
+      - run: yarn install --immutable
 
       # Use `npx` instead of `yarn` because `yarn` sets NPM_* environment variables (like NPM_CONFIG_REGISTRY).
       # This affects `npm publish` ignoring the .npmrc file, which is set up by `setup-node` action.
