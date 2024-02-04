@@ -2,10 +2,12 @@
  * This script starts a local registry for e2e testing purposes.
  * It is meant to be called in jest's globalSetup.
  */
-import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
-import { Config } from '@jest/types';
+
 import { exec } from 'child_process';
 import { join } from 'path';
+
+import { Config } from '@jest/types';
+import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { tmpdir } from 'tmp';
 
 const LARGE_BUFFER = 1024 * 1000000;
@@ -13,6 +15,8 @@ const LARGE_BUFFER = 1024 * 1000000;
 export default async (globalConfig: Config.ConfigGlobals) => {
   const isVerbose: boolean =
     process.env.NX_VERBOSE_LOGGING === 'true' || !!globalConfig.verbose;
+
+  const pathNumber = process.env.NX_E2E_PATCH_NUMBER || new Date().getTime();
 
   // local registry target to run
   const localRegistryTarget = 'workspace:local-registry';
@@ -34,7 +38,7 @@ export default async (globalConfig: Config.ConfigGlobals) => {
 
   await new Promise<void>((resolve, reject) => {
     const publishProcess = exec(
-      `yarn nx run-many -t publish --ver 0.0.${new Date().getTime()}-e2e --tag e2e`,
+      `yarn nx run-many -t publish --ver 0.0.${pathNumber}-e2e --tag e2e`,
       {
         env: process.env,
         maxBuffer: LARGE_BUFFER

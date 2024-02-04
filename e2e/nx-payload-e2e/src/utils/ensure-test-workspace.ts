@@ -8,7 +8,7 @@ import { join } from 'path';
  * - `create-nx-workspace` with preset `@cdwr/nx-payload`
  * - `create-nx-payload` with registry tag `e2e`.
  *
- * Require `tools/scripts/start-local-registry.ts` to have been executed in Jest `globalSetup`.
+ * Require `{path}/start-local-registry.ts` to have been executed in Jest `globalSetup`.
  *
  * @param createWith Whether to create test workspace with Nx or Plugin
  * @param e2eKey Preserve workspace for tests using the same preset options

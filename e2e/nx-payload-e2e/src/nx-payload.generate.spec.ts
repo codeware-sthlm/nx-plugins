@@ -5,7 +5,9 @@ import {
   tmpProjPath,
   uniq
 } from '@nx/plugin/testing';
-import { buildImage, runNxCommandAsync } from '@nx-plugins/e2e/utils';
+
+import { buildImage } from './utils/build-image';
+import { runNxCommandAsync } from './utils/run-nx-command-async';
 
 describe('Generate Payload application', () => {
   let appName: string;

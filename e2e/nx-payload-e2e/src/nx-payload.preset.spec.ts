@@ -2,8 +2,9 @@ import { execSync } from 'child_process';
 import { readFileSync, rmSync } from 'fs';
 
 import { type Arguments } from '@nx-plugins/create-nx-payload';
-import { ensureTestWorkspace } from '@nx-plugins/e2e/utils';
 import { agent } from 'supertest';
+
+import { ensureTestWorkspace } from './utils/ensure-test-workspace';
 
 describe('create workspace with preset', () => {
   const workspaceDirectories: Array<string> = [];
