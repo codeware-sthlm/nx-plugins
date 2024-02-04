@@ -3,31 +3,59 @@
  * It is meant to be called in jest's globalSetup.
  */
 import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
-import { execFileSync } from 'child_process';
+import { Config } from '@jest/types';
+import { exec } from 'child_process';
+import { join } from 'path';
+import { tmpdir } from 'tmp';
 
-export default async () => {
+const LARGE_BUFFER = 1024 * 1000000;
+
+export default async (globalConfig: Config.ConfigGlobals) => {
+  const isVerbose: boolean =
+    process.env.NX_VERBOSE_LOGGING === 'true' || !!globalConfig.verbose;
+
   // local registry target to run
   const localRegistryTarget = 'workspace:local-registry';
+
   // storage folder for the local registry
-  const storage = './tmp/local-registry/storage';
+  const storageLocation = join(
+    tmpdir,
+    'local-registry/storage',
+    process.env.NX_TASK_TARGET_PROJECT ?? ''
+  );
 
   global.stopLocalRegistry = await startLocalRegistry({
     localRegistryTarget,
-    storage,
-    verbose: false
+    storage: storageLocation,
+    verbose: isVerbose
   });
-  const nx = require.resolve('nx');
-  execFileSync(
-    nx,
-    [
-      'run-many',
-      '--targets',
-      'publish',
-      '--ver',
-      `0.0.${new Date().getTime()}-e2e`,
-      '--tag',
-      'e2e'
-    ],
-    { env: process.env, stdio: 'inherit' }
-  );
+
+  console.log('Publishing packages to local registry');
+
+  await new Promise<void>((resolve, reject) => {
+    const publishProcess = exec(
+      `yarn nx run-many -t publish --ver 0.0.${new Date().getTime()}-e2e --tag e2e`,
+      {
+        env: process.env,
+        maxBuffer: LARGE_BUFFER
+      }
+    );
+    let logs = Buffer.from('');
+    if (isVerbose) {
+      publishProcess?.stdout?.pipe(process.stdout);
+      publishProcess?.stderr?.pipe(process.stderr);
+    } else {
+      publishProcess?.stdout?.on('data', (data) => (logs += data));
+      publishProcess?.stderr?.on('data', (data) => (logs += data));
+    }
+    publishProcess.on('exit', (code) => {
+      if (code && code > 0) {
+        if (!isVerbose) {
+          console.log(logs.toString());
+        }
+        reject(code);
+      }
+      resolve();
+    });
+  });
 };
