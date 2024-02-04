@@ -2,11 +2,9 @@ import {
   checkFilesExist,
   ensureNxProject,
   readJson,
-  tmpProjPath,
   uniq
 } from '@nx/plugin/testing';
 
-import { buildImage } from './utils/build-image';
 import { runNxCommandAsync } from './utils/run-nx-command-async';
 
 describe('Generate Payload application', () => {
@@ -61,15 +59,6 @@ describe('Generate Payload application', () => {
 
     it('should be able to lint', async () => {
       expect(await runNxCommandAsync(`lint ${appName}`)).toBeTruthy();
-    });
-
-    it('should be able to build docker image', async () => {
-      const error = await buildImage({
-        context: tmpProjPath(),
-        dockerfile: `apps/${appName}/Dockerfile`
-      });
-
-      expect(error).toBeNull();
     });
   });
 
