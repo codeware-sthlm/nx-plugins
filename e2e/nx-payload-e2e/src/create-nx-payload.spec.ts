@@ -2,8 +2,10 @@ import { execSync } from 'child_process';
 import { rmSync } from 'fs';
 
 import { type Arguments } from '@nx-plugins/create-nx-payload';
-import { ensureTestWorkspace, runCommandAsync } from '@nx-plugins/e2e/utils';
 import { agent } from 'supertest';
+
+import { ensureTestWorkspace } from './utils/ensure-test-workspace';
+import { runCommandAsync } from './utils/run-command-async';
 
 describe('create-nx-payload', () => {
   const workspaceDirectories: Array<string> = [];

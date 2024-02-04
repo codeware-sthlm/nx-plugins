@@ -44,10 +44,10 @@ export const buildImage = async (options: Options) => {
     t
   });
 
-  return new Promise<Error | ErrorDetail | null>((resolve, reject) => {
+  return new Promise<Error | ErrorDetail | null>((resolve) => {
     docker.modem.followProgress(
       stream,
-      (err, res) => {
+      (err) => {
         if (err) {
           console.log('Build failed (error)');
           return resolve(err);
@@ -55,9 +55,9 @@ export const buildImage = async (options: Options) => {
         resolve(null);
       },
       (event: BuildStream) => {
-        if ('stream' in event && event.stream.includes('ERR!')) {
+        if ('stream' in event && event.stream?.includes('ERR!')) {
           console.log(event.stream);
-        } else if ('errorDetail' in event) {
+        } else if (event?.errorDetail) {
           console.error('Build failed (event): ', event.error);
           resolve(event.errorDetail);
         }
