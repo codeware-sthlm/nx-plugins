@@ -10,6 +10,9 @@
         "jestConfig": "e2e/nx-payload-e2e/jest.config.ts",
         "runInBand": true
       },
+      "configurations": {
+        "windows": { "testPathIgnorePatterns": ["docker"] }
+      },
       "dependsOn": ["nx-payload:build"]
     }
   },

@@ -91,6 +91,12 @@ jobs:
             os_timeout: 60
           - os: windows-latest
             os_timeout: 60
+          # configurations
+          - os: ubuntu-latest
+            configuration: ''
+          - os: windows-latest
+            # will skip docker build test since node image doesn't exist running inside a windows container
+            configuration: 'windows'
         exclude:
           # windows: only npm 20
           - os: windows-latest
@@ -129,7 +135,7 @@ jobs:
 
       - name: Run e2e tests
         id: e2e-run
-        run: yarn nx run ${{ matrix.project }}:e2e
+        run: yarn nx e2e ${{ matrix.project }} -c ${{ matrix.configuration }}
         timeout-minutes: ${{ matrix.os_timeout }}
         env:
           NX_CACHE_DIRECTORY: 'tmp'
