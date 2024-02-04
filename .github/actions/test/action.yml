@@ -5,41 +5,37 @@ description: Build, lint, test and format code
 inputs:
   codecov-token:
     description: Provide codecov token to upload test coverage
-    required: false
-    default: ''
+    required: true
 
 runs:
   using: composite
 
   steps:
-    - name: Derive SHA's for Nx affected `base` and `head` arguments
-      id: sha
-      uses: nrwl/nx-set-shas@v4
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'yarn'
+
+    - run: yarn install --immutable
+      shell: bash
+
+    - uses: nrwl/nx-set-shas@v4
       with:
         main-branch-name: master
 
-    - name: Check all projects for un-formatted files
+    # needed for nx affected to work when CI is running on a PR
+    - run: git branch --track master origin/master
       shell: bash
-      run: yarn nx format:check --all
 
-    - name: Lint affected projects
+    - run: npx nx-cloud record -- nx format:check
       shell: bash
-      run: yarn nx affected -t lint --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
-
-    - name: Build affected projects
+    - run: npx nx affected -t lint,test,build --parallel=3 --code-coverage
       shell: bash
-      run: yarn nx affected -t build --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
 
-    - name: Unit test all projects
-      shell: bash
-      run: yarn nx run-many -t test --codeCoverage --verbose
-
-    - name: E2e affected projects
-      shell: bash
-      run: yarn nx affected -t e2e --base ${{ steps.sha.outputs.base }} --head ${{ steps.sha.outputs.head }}
-
-    - name: Code coverage upload
-      if: ${{ inputs.codecov-token }}
-      uses: codecov/codecov-action@v3
+    - uses: codecov/codecov-action@v4
       with:
         token: ${{ inputs.codecov-token }}

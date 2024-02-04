@@ -15,28 +15,10 @@ on:
 
 jobs:
   main:
-    name: Test Affected
+    name: Test affected
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: ./.github/actions/test
         with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'yarn'
-
-      - run: yarn install --immutable
-
-      - uses: nrwl/nx-set-shas@v3
-
-      # needed for nx affected to work when CI is running on a PR
-      - run: git branch --track master origin/master
-
-      - run: npx nx-cloud record -- nx format:check
-      - run: npx nx affected -t lint,test,build --parallel=3 --code-coverage
-
-      - uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
