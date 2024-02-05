@@ -2,6 +2,8 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.3.0](https://github.com/codeware-sthlm/nx-plugins/compare/workspace-0.2.1...workspace-0.3.0) (2024-02-05)
+
 ## [0.2.1](https://github.com/codeware-sthlm/nx-plugins/compare/workspace-0.2.0...workspace-0.2.1) (2024-02-05)
 
 
