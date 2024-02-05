@@ -2,6 +2,47 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.1](https://github.com/codeware-sthlm/nx-plugins/compare/workspace-0.2.0...workspace-0.2.1) (2024-02-05)
+
+
+### 🐞 Bug Fixes
+
+* **nx-payload:** skip docker test on windows ([5fe9de9](https://github.com/codeware-sthlm/nx-plugins/commit/5fe9de9cf179214b33d1d8e355fd8f5e8fca0b1e))
+* **workspace:** no need to manually track master ([16d559c](https://github.com/codeware-sthlm/nx-plugins/commit/16d559cc193d383a93a5265b6f547adff884388e))
+
+
+### ⚙️ Miscellaneous Chores
+
+* **workspace:** always use unix line endings ([61bc16f](https://github.com/codeware-sthlm/nx-plugins/commit/61bc16f33b9184af0b4da66ab4b493bbb27ee635))
+* **workspace:** fix codeql linting ([0a81450](https://github.com/codeware-sthlm/nx-plugins/commit/0a81450ad9575c3672b74c90285848527b1cd62a))
+* **workspace:** ignore yarn cache ([c33211b](https://github.com/codeware-sthlm/nx-plugins/commit/c33211b9d32f7f87c74cadc0a60b15642c425420))
+
+
+### 🧹 Code Refactoring
+
+* **workspace:** move e2e related code to e2e package ([5cdd14a](https://github.com/codeware-sthlm/nx-plugins/commit/5cdd14a1bdbacf3232bce3a6635f2be8d5bbf8ad))
+* **workspace:** simplify workflows ([7a7f40e](https://github.com/codeware-sthlm/nx-plugins/commit/7a7f40eab182e54d85c105f775f154af01b5c4e2))
+
+
+### 🤖 Continuous Integration
+
+* **workspace:** also test on node 20 windows latest ([4a483dc](https://github.com/codeware-sthlm/nx-plugins/commit/4a483dc7e190c160a1d3de7d40707a617599ccd4))
+* **workspace:** create codeql workflow ([096b9a9](https://github.com/codeware-sthlm/nx-plugins/commit/096b9a9b8cc89739e0ea241bcfa2f4a7da1ba3a6))
+* **workspace:** improved local registry setup ([2265c0a](https://github.com/codeware-sthlm/nx-plugins/commit/2265c0a3292bdbb3215bf4e1363735f1c036ca1d))
+* **workspace:** setup nx cloud and e2e matrix ([4255e68](https://github.com/codeware-sthlm/nx-plugins/commit/4255e685e3fc70859cdc7bd8f61bbbc0aedec3a2))
+
+
+### 🛠️ Build System
+
+* 📦 bump dependency @swc/cli to v0.3.6 ([0c216a6](https://github.com/codeware-sthlm/nx-plugins/commit/0c216a6fb5b4fb89679138a2fdf586a7bee0b940))
+* 📦 bump dependency @swc/cli to v0.3.9 ([2c26bde](https://github.com/codeware-sthlm/nx-plugins/commit/2c26bde2b526103c8c5f33de2b2b0fb755f9b500))
+* 📦 bump dependency @types/jest to v29.5.12 ([2c95c97](https://github.com/codeware-sthlm/nx-plugins/commit/2c95c9706cf64d74bb41e18f324e6e4b514fa2cb))
+* 📦 bump dependency husky to v9.0.10 ([9a1eeb5](https://github.com/codeware-sthlm/nx-plugins/commit/9a1eeb57952d9d60490658a7f4a35eb5c52f8b8e))
+* 📦 bump dependency husky to v9.0.9 ([5af2f56](https://github.com/codeware-sthlm/nx-plugins/commit/5af2f5617449af07adc0f4407e56654a993be64d))
+* 📦 bump dependency prettier to v3.2.5 ([95e7022](https://github.com/codeware-sthlm/nx-plugins/commit/95e70228755b9f77ad3006be6e7d2d3070ecb18f))
+* 📦 bump mxschmitt/action-tmate action to v3.17 ([4dc79b5](https://github.com/codeware-sthlm/nx-plugins/commit/4dc79b5638a422e33030153b7b8511bab3d69be9))
+* 📦 bump yarn to v4.1.0 ([c44428b](https://github.com/codeware-sthlm/nx-plugins/commit/c44428bb60239bb590f65df7503a7c8f8bd91f15))
+
 ## [0.2.0](https://github.com/codeware-sthlm/nx-plugins/compare/workspace-0.1.4...workspace-0.2.0) (2024-01-31)
 
 
