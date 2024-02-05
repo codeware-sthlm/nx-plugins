@@ -144,7 +144,7 @@ jobs:
 
       - name: Setup tmate session
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug-enabled && failure() }}
-        uses: mxschmitt/action-tmate@v3.8
+        uses: mxschmitt/action-tmate@v3.17
         timeout-minutes: 15
         env:
           # disable sudo for windows debugging
