@@ -6,6 +6,10 @@ inputs:
   codecov-token:
     description: Provide codecov token to upload test coverage
     required: true
+  nx-cloud:
+    description: Use Nx Cloud for better performance
+    required: false
+    default: 'true'
 
 runs:
   using: composite
@@ -28,9 +32,13 @@ runs:
         main-branch-name: master
 
     - run: npx nx-cloud record -- nx format:check
+      if: ${{ inputs.nx-cloud == 'true' }}
       shell: bash
+
     - run: npx nx affected -t lint,test,build --parallel=3 --code-coverage
       shell: bash
+      env:
+        NX_NO_CLOUD: ${{ inputs.nx-cloud == 'false' }}
 
     - uses: codecov/codecov-action@v4
       with:
