@@ -22,3 +22,4 @@ jobs:
       - uses: ./.github/actions/test
         with:
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
+          nx-cloud: ${{ contains(github.ref_name, 'renovate') == false }}
