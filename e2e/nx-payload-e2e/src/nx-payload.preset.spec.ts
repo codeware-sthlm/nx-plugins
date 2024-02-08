@@ -1,10 +1,10 @@
-import { execSync } from 'child_process';
 import { readFileSync, rmSync } from 'fs';
 
 import { type Arguments } from '@nx-plugins/create-nx-payload';
 import { agent } from 'supertest';
 
 import { ensureTestWorkspace } from './utils/ensure-test-workspace';
+import { runCommandAsync } from './utils/run-command-async';
 
 describe('create workspace with preset', () => {
   const workspaceDirectories: Array<string> = [];
@@ -33,8 +33,8 @@ describe('create workspace with preset', () => {
   });
 
   describe('create', () => {
-    it('should be created and installed', () => {
-      const workspaceDirectory = ensureTestWorkspace<
+    it('should be created and installed', async () => {
+      const workspaceDirectory = await ensureTestWorkspace<
         Pick<
           Arguments,
           'name' | 'payloadAppName' | 'payloadAppDirectory' | 'nxCloud'
@@ -43,14 +43,14 @@ describe('create workspace with preset', () => {
         name: 'test-nx-payload-preset',
         payloadAppName: 'my-app',
         payloadAppDirectory: 'apps/app',
-        nxCloud: false
+        nxCloud: 'skip'
       });
+
       addWorkspaceDirectory(workspaceDirectory);
 
       // npm ls will fail if the package is not installed properly
-      execSync('npm ls @cdwr/nx-payload', {
-        cwd: workspaceDirectory,
-        stdio: 'inherit'
+      await runCommandAsync('npm ls @cdwr/nx-payload', {
+        cwd: workspaceDirectory
       });
 
       // Verify `appName` and `appDirectory` were used over `name`

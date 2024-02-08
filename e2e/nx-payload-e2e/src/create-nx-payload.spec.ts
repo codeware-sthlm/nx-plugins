@@ -1,4 +1,3 @@
-import { execSync } from 'child_process';
 import { rmSync } from 'fs';
 
 import { type Arguments } from '@nx-plugins/create-nx-payload';
@@ -40,12 +39,12 @@ describe('create-nx-payload', () => {
       name: 'test-nx-payload',
       payloadAppName: 'test-app',
       payloadAppDirectory: 'apps/test-app',
-      nxCloud: false,
+      nxCloud: 'skip',
       packageManager: 'npm'
     };
 
-    it('should be created and installed', () => {
-      const workspaceDirectory = ensureTestWorkspace(
+    it('should be created and installed', async () => {
+      const workspaceDirectory = await ensureTestWorkspace(
         'create-nx-payload',
         key,
         options
@@ -53,15 +52,14 @@ describe('create-nx-payload', () => {
       addWorkspaceDirectory(workspaceDirectory);
 
       // npm ls will fail if the package is not installed properly
-      execSync('npm ls @cdwr/nx-payload', {
-        cwd: workspaceDirectory,
-        stdio: 'inherit'
+      await runCommandAsync('npm ls @cdwr/nx-payload', {
+        cwd: workspaceDirectory
       });
     });
 
     // TODO: Getting "ECONNREFUSED" during `npm install` in Dockerfile, using local Verdaccio registry
     it.skip('should be able to dx-launch app', async () => {
-      const workspaceDirectory = ensureTestWorkspace(
+      const workspaceDirectory = await ensureTestWorkspace(
         'create-nx-payload',
         key,
         options

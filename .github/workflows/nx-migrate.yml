@@ -40,6 +40,10 @@ jobs:
         if: steps.workspace.outputs.outdated == 'true'
         run: yarn nx migrate latest
 
+      - name: Update @jscutlery/semver
+        if: steps.workspace.outputs.outdated == 'true'
+        run: yarn add -D @jscutlery/semver@latest
+
       - name: Install dependencies
         if: steps.workspace.outputs.outdated == 'true'
         run: yarn install --no-immutable
@@ -59,18 +63,17 @@ jobs:
       - name: Run tests
         id: test
         if: steps.workspace.outputs.outdated == 'true'
-        run: npx nx run-many -t lint,test,build -c ci
+        run: |
+          yarn nx run-many -t lint,test,build -c ci --no-cloud
+          yarn semver:local
         continue-on-error: true
 
       - name: Run E2E
         id: e2e
         if: steps.workspace.outputs.outdated == 'true' && steps.test.outcome == 'success'
-        run: yarn nx e2e nx-payload-e2e
+        run: yarn nx e2e nx-payload-e2e --no-cloud
         timeout-minutes: 30
         continue-on-error: true
-        env:
-          NX_DAEMON: true
-          NX_NO_CLOUD: true
 
       - name: Commit changes
         if: steps.workspace.outputs.outdated == 'true'
@@ -95,6 +98,6 @@ jobs:
           BRANCH="update-nx-workspace-${LAST_VERSION}"
           git checkout -b ${BRANCH}
           git push -f --set-upstream origin ${BRANCH}
-          gh pr view ${BRANCH} || gh pr create -t "Update @nx/workspace to ${LAST_VERSION}" -b "Test status: ${{ steps.test.outcome }}\n\E2E status: ${{ steps.e2e.outcome }}"
+          gh pr view ${BRANCH} || gh pr create -t "Update @nx/workspace to ${LAST_VERSION}" -b "Test status: ${{ steps.test.outcome }} | E2E status: ${{ steps.e2e.outcome }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_SEMVER_TOKEN }}

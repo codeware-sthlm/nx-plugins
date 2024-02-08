@@ -38,7 +38,8 @@ describe('application generator', () => {
     const packageJson = readJson<PackageJson>(tree, 'package.json');
 
     expect(packageJson.dependencies['express']).toBeDefined();
-    expect(packageJson.devDependencies['@types/express']).toBeDefined();
+    expect(packageJson.dependencies['@nx/express']).toBeUndefined();
+    expect(packageJson.devDependencies['@nx/express']).toBeDefined();
   });
 
   it('should add dependencies for mongodb', async () => {

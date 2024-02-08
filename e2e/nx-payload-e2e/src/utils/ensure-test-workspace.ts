@@ -1,6 +1,9 @@
-import { execSync } from 'child_process';
 import { existsSync, mkdirSync, readdirSync, rmSync } from 'fs';
 import { join } from 'path';
+
+import { directoryExists } from '@nx/plugin/testing';
+
+import { runCommandAsync } from './run-command-async';
 
 /**
  * Ensure a test workspace gets created using either:
@@ -16,7 +19,7 @@ import { join } from 'path';
  *
  * @returns The directory where the test workspace was created or reused
  */
-export function ensureTestWorkspace<TOptions extends { name: string }>(
+export async function ensureTestWorkspace<TOptions extends { name: string }>(
   createWith: 'create-nx-payload' | 'create-nx-workspace',
   e2eKey: string,
   options?: TOptions
@@ -70,11 +73,14 @@ export function ensureTestWorkspace<TOptions extends { name: string }>(
 
   console.log(`Test command: "${command}"`);
 
-  execSync(command, {
+  await runCommandAsync(command, {
     cwd: tempDir,
-    stdio: 'inherit',
     env: process.env
   });
+
+  if (!directoryExists(workspaceDir)) {
+    throw new Error(`Failed to create test workspace "${workspaceDir}"`);
+  }
 
   console.log(`Created test workspace in "${workspaceDir}"`);
 
