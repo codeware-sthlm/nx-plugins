@@ -24,10 +24,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@nx/devkit": "17.2.7",
-    "@nx/jest": "17.2.7",
-    "@nx/express": "17.2.7",
-    "@nx/eslint": "17.2.7",
+    "@nx/devkit": "18.0.3",
+    "@nx/express": "18.0.3",
+    "@nx/eslint": "18.0.3",
     "tslib": "^2.4.1"
   },
   "type": "commonjs",

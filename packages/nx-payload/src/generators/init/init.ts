@@ -7,7 +7,6 @@ import {
   runTasksInSerial
 } from '@nx/devkit';
 import { initGenerator as expressInitGenerator } from '@nx/express/src/generators/init/init';
-import { jestInitGenerator } from '@nx/jest';
 
 import {
   mongodbVersion,
@@ -38,11 +37,6 @@ export async function initGenerator(
   schema: Schema
 ): Promise<GeneratorCallback> {
   const tasks: GeneratorCallback[] = [];
-
-  if (!schema.unitTestRunner || schema.unitTestRunner === 'jest') {
-    const jestTask = await jestInitGenerator(tree, {});
-    tasks.push(jestTask);
-  }
 
   const expressTask = await expressInitGenerator(tree, schema);
   tasks.push(expressTask);

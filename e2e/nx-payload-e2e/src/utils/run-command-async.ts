@@ -24,8 +24,8 @@ export async function runCommandAsync(
   });
 
   console.log(stdout);
-  if (stderr) {
-    console.log(stderr);
+  if (stderr.match(/ERR/)) {
+    console.warn(stderr);
     return false;
   }
 

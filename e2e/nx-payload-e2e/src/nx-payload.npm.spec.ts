@@ -1,22 +1,23 @@
-import { execSync } from 'child_process';
 import { mkdirSync, rmSync } from 'fs';
 import { dirname, join } from 'path';
 
 import { readJsonFile } from '@nx/devkit';
 
+import { runCommandAsync } from './utils/run-command-async';
+
 describe('npm install payload plugin', () => {
   let projectDirectory: string;
 
   console.log = jest.fn();
+  jest.setTimeout(600_000);
 
-  beforeAll(() => {
-    projectDirectory = createTestProject('nx-payload-npm');
+  beforeAll(async () => {
+    projectDirectory = await createTestProject('nx-payload-npm');
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`npm install @cdwr/nx-payload@e2e`, {
+    await runCommandAsync(`npm install @cdwr/nx-payload@e2e`, {
       cwd: projectDirectory,
-      stdio: 'inherit',
       env: process.env
     });
   });
@@ -31,11 +32,10 @@ describe('npm install payload plugin', () => {
     }
   });
 
-  it('should be installed', () => {
+  it('should be installed', async () => {
     // npm ls will fail if the package is not installed properly
-    execSync('npm ls @cdwr/nx-payload', {
-      cwd: projectDirectory,
-      stdio: 'inherit'
+    await runCommandAsync('npm ls @cdwr/nx-payload', {
+      cwd: projectDirectory
     });
   });
 });
@@ -44,7 +44,7 @@ describe('npm install payload plugin', () => {
  * Creates a test project with create-nx-workspace and installs the plugin
  * @returns The directory where the test project was created
  */
-function createTestProject(name: string) {
+async function createTestProject(name: string) {
   const projectName = name;
   const projectDirectory = join(process.cwd(), 'tmp', projectName);
 
@@ -66,11 +66,10 @@ function createTestProject(name: string) {
     recursive: true
   });
 
-  execSync(
-    `npx --yes create-nx-workspace@${version} ${projectName} --preset apps --nxCloud false --no-interactive`,
+  await runCommandAsync(
+    `npx --yes create-nx-workspace@${version} ${projectName} --preset apps --nxCloud skip --no-interactive`,
     {
       cwd: dirname(projectDirectory),
-      stdio: 'inherit',
       env: process.env
     }
   );

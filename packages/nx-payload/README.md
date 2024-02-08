@@ -91,9 +91,7 @@ See [`create-nx-payload`](https://github.com/codeware-sthlm/nx-plugins/tree/mast
 
 Initialize the `@cdwr/nx-payload` plugin.
 
-| Option             | Type   | Required | Default | Description              |
-| ------------------ | ------ | -------- | ------- | ------------------------ |
-| `--unitTestRunner` | string |          | `jest`  | Set `none` to skip tests |
+_No options_.
 
 ### `application` <!-- omit in toc -->
 
@@ -120,5 +118,5 @@ None.
 
 | Plugin version | Nx version | Payload version |
 | -------------- | ---------- | --------------- |
-| `^0.2.0`       | `^17.0.0`  | `^2.8.2`        |
+| `^0.5.0`       | `~18.0.3`  | `^2.8.2`        |
 | `^0.1.0`       | `^17.0.0`  | `^2.5.0`        |

@@ -52,7 +52,7 @@ describe('init', () => {
     ).toBeUndefined();
   });
 
-  it('should add payload ricktext-slate to dependencies', async () => {
+  it('should add payload richtext-slate to dependencies', async () => {
     await initGenerator(tree, {});
     const packageJson = readJson<PackageJson>(tree, 'package.json');
 
@@ -114,11 +114,5 @@ describe('init', () => {
 
     expect(packageJson.dependencies[existing]).toBeDefined();
     expect(packageJson.devDependencies[existing]).toBeDefined();
-  });
-
-  it('should not add jest config if unitTestRunner is none', async () => {
-    await initGenerator(tree, { unitTestRunner: 'none' });
-
-    expect(tree.exists('jest.config.js')).toEqual(false);
   });
 });

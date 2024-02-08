@@ -6,14 +6,12 @@ import {
   createWorkspace
 } from 'create-nx-workspace';
 import {
-  determineCI,
   determineDefaultBase,
   determineNxCloud,
   determinePackageManager
 } from 'create-nx-workspace/src/internal-utils/prompts';
 import {
   withAllPrompts,
-  withCI,
   withGitOptions,
   withNxCloud,
   withOptions,
@@ -83,7 +81,6 @@ export const commandsObject: yargs.Argv<Arguments> = yargs
             false
           ),
         withNxCloud,
-        withCI,
         withAllPrompts,
         withPackageManager,
         withGitOptions
@@ -164,7 +161,6 @@ const normalizeArgsMiddleware: yargs.MiddlewareFunction<Arguments> = async (
     const packageManager = await determinePackageManager(argv);
     const defaultBase = await determineDefaultBase(argv);
     const nxCloud = await determineNxCloud(argv);
-    const ci = await determineCI(argv, nxCloud);
 
     Object.assign(argv, {
       name,
@@ -173,8 +169,7 @@ const normalizeArgsMiddleware: yargs.MiddlewareFunction<Arguments> = async (
       preset,
       nxCloud,
       packageManager,
-      defaultBase,
-      ci
+      defaultBase
     });
   } catch (e) {
     process.exit(1);

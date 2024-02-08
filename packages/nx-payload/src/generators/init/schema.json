@@ -3,13 +3,6 @@
   "$id": "NxPayloadInit",
   "title": "Init Nx Payload Plugin",
   "type": "object",
-  "properties": {
-    "unitTestRunner": {
-      "description": "Adds the specified unit test runner.",
-      "type": "string",
-      "enum": ["jest", "none"],
-      "default": "jest"
-    }
-  },
+  "properties": {},
   "required": []
 }

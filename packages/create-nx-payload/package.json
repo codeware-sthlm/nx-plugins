@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "create-nx-workspace": "17.2.7",
+    "create-nx-workspace": "18.0.3",
     "enquirer": "^2.4.1",
     "tslib": "^2.4.1",
     "yargs": "^17.7.2"
