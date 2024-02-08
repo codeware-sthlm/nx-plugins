@@ -30,54 +30,57 @@ jobs:
         shell: bash
 
       - name: Check if @nx/workspace is outdated
-        id: nx-workspace-outdated
+        id: workspace
         run: |
           IS_OUTDATED=$(test ! -z "$(npm outdated @nx/workspace)" && echo true || echo false)
           echo $IS_OUTDATED
           echo "outdated=$IS_OUTDATED" >> $GITHUB_OUTPUT
 
       - name: Update @nx/workspace
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true'
+        if: steps.workspace.outputs.outdated == 'true'
         run: yarn nx migrate latest
 
       - name: Install dependencies
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true'
+        if: steps.workspace.outputs.outdated == 'true'
         run: yarn install --no-immutable
 
-      - name: Check if has migrations
-        id: nx-workspace-has-migrations
+      - name: Check for migrations
+        id: migrations
+        if: steps.workspace.outputs.outdated == 'true'
         run: |
-          HAS_MIGRATIONS=$(test -f migrations.json && echo true || echo false)
-          echo $HAS_MIGRATIONS
-          echo "has_migrations=$HAS_MIGRATIONS" >> $GITHUB_OUTPUT
+          MIGRATIONS_EXIST=$(test -f migrations.json && echo true || echo false)
+          echo $MIGRATIONS_EXIST
+          echo "exist=$MIGRATIONS_EXIST" >> $GITHUB_OUTPUT
 
       - name: Run @nx/workspace migrations
-        if: steps.nx-workspace-has-migrations.outputs.has_migrations == 'true'
+        if: steps.migrations.outputs.exist == 'true'
         run: yarn nx migrate --run-migrations
 
-      - name: Test
+      - name: Run tests
         id: test
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true'
+        if: steps.workspace.outputs.outdated == 'true'
+        run: npx nx run-many -t lint,test,build -c ci
         continue-on-error: true
-        uses: ./.github/actions/test
-        with:
-          codecov-token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Run E2E
+        id: e2e
+        if: steps.workspace.outputs.outdated == 'true' && steps.test.outcome == 'success'
+        run: yarn nx e2e nx-payload-e2e
+        timeout-minutes: 30
+        continue-on-error: true
+        env:
+          NX_DAEMON: true
+          NX_NO_CLOUD: true
 
       - name: Commit changes
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true'
+        if: steps.workspace.outputs.outdated == 'true'
         run: |
           LAST_VERSION=$(npm view @nx/workspace version)
           git add .
           [[ $(git status --porcelain) ]] && git commit -m "build: 📦 update nx workspace to ${LAST_VERSION}" || echo "nothing to commit"
 
-      - name: Remove migrations.json & commit
-        if: steps.nx-workspace-has-migrations.outputs.has_migrations == 'true'
-        run: |
-          git rm -f migrations.json
-          git commit -m "build: 📦 remove migrations.json"
-
-      - name: Push changes
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.test.outcome == 'success'
+      - name: Publish ${LAST_VERSION}
+        if: vars.NX_AUTO_MIGRATE == 'true' && steps.e2e.outcome == 'success'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -86,12 +89,12 @@ jobs:
           tags: true
 
       - name: Create PR
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.test.outcome != 'success'
+        if: (vars.NX_AUTO_MIGRATE == 'false' && steps.workspace.outputs.outdated == 'true') || steps.test.outcome == 'failure' || steps.e2e.outcome == 'failure'
         run: |
           LAST_VERSION=$(npm view @nx/workspace version)
           BRANCH="update-nx-workspace-${LAST_VERSION}"
           git checkout -b ${BRANCH}
           git push -f --set-upstream origin ${BRANCH}
-          gh pr view ${BRANCH} || gh pr create -t "Update @nx/workspace to ${BRANCH}" -b "Update @nx/workspace dependencies to ${LAST_VERSION}."
+          gh pr view ${BRANCH} || gh pr create -t "Update @nx/workspace to ${LAST_VERSION}" -b "Test status: ${{ steps.test.outcome }}\n\E2E status: ${{ steps.e2e.outcome }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_SEMVER_TOKEN }}

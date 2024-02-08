@@ -35,7 +35,7 @@ runs:
       if: ${{ inputs.nx-cloud == 'true' }}
       shell: bash
 
-    - run: npx nx affected -t lint,test,build --parallel=3 --code-coverage
+    - run: npx nx affected -t lint,test,build --parallel=3 -c ci
       shell: bash
       env:
         NX_NO_CLOUD: ${{ inputs.nx-cloud == 'false' }}
