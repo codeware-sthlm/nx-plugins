@@ -13,7 +13,6 @@ on:
           - all
           - create-nx-payload
           - nx-payload
-          - workspace
         default: all
 
       release-type:

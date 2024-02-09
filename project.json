@@ -13,36 +13,6 @@
     },
     "local-registry:stop": {
       "command": "kill 4873 || true"
-    },
-    "github-release": {
-      "executor": "@jscutlery/semver:github"
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": { "trackDeps": false }
-    },
-    "version-publish": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "trackDeps": false,
-        "postTargets": ["github-release"]
-      },
-      "configurations": {
-        "prerelease": {
-          "releaseAs": "prerelease",
-          "preid": "beta"
-        },
-        "premajor": {
-          "releaseAs": "premajor",
-          "preid": "rc"
-        },
-        "minor": {
-          "releaseAs": "minor"
-        },
-        "major": {
-          "releaseAs": "major"
-        }
-      }
     }
   }
 }
