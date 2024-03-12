@@ -1,11 +1,15 @@
 /**
- * This script stops the local registry for e2e testing purposes.
- * It is meant to be called in jest's globalTeardown.
+ * This script stops the local registry for testing purposes.
+ *
+ * For e2e it is meant to be called in jest's `globalTeardown`.
  */
 
 export default () => {
-  if (global.stopLocalRegistry) {
-    global.stopLocalRegistry();
-    console.log('Killed local registry process');
+  if (!global.stopLocalRegistry) {
+    console.log('Local registry is not started');
+    return;
   }
+
+  global.stopLocalRegistry();
+  console.log('Killed local registry process');
 };

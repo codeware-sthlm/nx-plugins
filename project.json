@@ -7,12 +7,12 @@
       "options": {
         "port": 4873,
         "config": ".verdaccio/config.yml",
-        "storage": "tmp/local-registry/storage",
-        "clear": true
+        "storage": "tmp/local-registry/storage"
       }
     },
-    "local-registry:stop": {
-      "command": "kill 4873 || true"
+    "local-registry:publish": {
+      "command": "yarn nx run-many -t publish --ver 0.0.$(date +%s) --tag local",
+      "cache": false
     }
   }
 }

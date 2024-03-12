@@ -12,6 +12,7 @@ export function normalizeOptions(
   return {
     name: names(options.name).fileName,
     directory: options.directory,
+    database: options?.database || 'mongodb',
     linter: options?.linter || Linter.EsLint,
     projectNameAndRootFormat: 'as-provided',
     skipFormat: options?.skipFormat || false,

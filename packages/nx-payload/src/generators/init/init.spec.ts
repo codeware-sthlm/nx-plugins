@@ -52,6 +52,18 @@ describe('init', () => {
     ).toBeUndefined();
   });
 
+  it('should add payload postgres to dependencies', async () => {
+    await initGenerator(tree, {});
+    const packageJson = readJson<PackageJson>(tree, 'package.json');
+
+    expect(packageJson.dependencies['@payloadcms/db-postgres']).toBe(
+      payloadPluginsVersions['@payloadcms/db-postgres']
+    );
+    expect(
+      packageJson.devDependencies['@payloadcms/db-postgres']
+    ).toBeUndefined();
+  });
+
   it('should add payload richtext-slate to dependencies', async () => {
     await initGenerator(tree, {});
     const packageJson = readJson<PackageJson>(tree, 'package.json');
@@ -80,14 +92,6 @@ describe('init', () => {
 
     expect(packageJson.dependencies['tslib']).toBe(tsLibVersion);
     expect(packageJson.devDependencies['tslib']).toBeUndefined();
-  });
-
-  it('should add mongodb to devDependencies', async () => {
-    await initGenerator(tree, {});
-    const packageJson = readJson<PackageJson>(tree, 'package.json');
-
-    expect(packageJson.dependencies['mongodb']).toBeUndefined();
-    expect(packageJson.devDependencies['mongodb']).toBeDefined();
   });
 
   it('should add rimraf to devDependencies', async () => {

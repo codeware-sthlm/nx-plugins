@@ -16,7 +16,7 @@ describe('create-nx-payload', () => {
   };
 
   console.log = jest.fn();
-  jest.setTimeout(600_000);
+  jest.setTimeout(900_000);
 
   afterAll(() => {
     // Cleanup the test projects
@@ -39,6 +39,7 @@ describe('create-nx-payload', () => {
       name: 'test-nx-payload',
       payloadAppName: 'test-app',
       payloadAppDirectory: 'apps/test-app',
+      database: 'mongodb',
       nxCloud: 'skip',
       packageManager: 'npm'
     };

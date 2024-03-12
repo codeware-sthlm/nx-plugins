@@ -15,6 +15,7 @@ export type AppGeneratorSchema =
         | 'unitTestRunner'
       >
     > & {
+      database?: 'mongodb' | 'postgres';
       // Custom property to set `e2eTestRunner`
       skipE2e?: boolean;
     };

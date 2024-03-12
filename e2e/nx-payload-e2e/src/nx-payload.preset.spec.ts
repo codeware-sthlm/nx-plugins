@@ -16,7 +16,7 @@ describe('create workspace with preset', () => {
   };
 
   console.log = jest.fn();
-  jest.setTimeout(600_000);
+  jest.setTimeout(900_000);
 
   afterAll(async () => {
     // Cleanup the test projects

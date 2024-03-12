@@ -24,7 +24,7 @@ payload.init({
   express: app,
   onInit: () => {
     payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`);
-    payload.logger.info(`Using DB Host: ${payload.db.connection.host}`);
+    payload.logger.info(`Using DB adapter: ${payload.db.name}`);
   }
 });
 

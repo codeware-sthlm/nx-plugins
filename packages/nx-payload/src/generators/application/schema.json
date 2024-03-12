@@ -19,6 +19,11 @@
       "type": "string",
       "x-prompt": "Where would you like to create the application files?"
     },
+    "database": {
+      "description": "Database adapter to setup initially.",
+      "type": "string",
+      "enum": ["mongodb", "postgres"]
+    },
     "unitTestRunner": {
       "type": "string",
       "enum": ["jest", "none"],

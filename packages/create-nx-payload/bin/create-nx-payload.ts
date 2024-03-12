@@ -29,7 +29,10 @@ export interface Arguments extends CreateWorkspaceOptions {
   /** Payload app path required by `nx-payload:preset` */
   payloadAppDirectory: string;
 
-  /** Plugin version to install */
+  /** Payload optional database */
+  database: 'mongodb' | 'postgres';
+
+  /** @todo Plugin version to install */
   pluginVersion?: string;
 }
 
@@ -53,33 +56,10 @@ export const commandsObject: yargs.Argv<Arguments> = yargs
     // Builder
     (yargs) =>
       withOptions(
-        yargs
-          .option('name', {
-            describe: chalk.dim`Workspace name (e.g. org name)`,
-            type: 'string'
-          })
-          .option('payloadAppName', {
-            describe: chalk.dim`The name of the Payload admin application`,
-            type: 'string'
-          })
-          .option('payloadAppDirectory', {
-            describe: chalk.dim`The path to where the application is installed (Default: 'apps/<appName>')`,
-            type: 'string'
-          })
-          .option('interactive', {
-            describe: chalk.dim`Enable interactive mode with presets`,
-            type: 'boolean',
-            default: true
-          })
-          .option('pluginVersion', {
-            describe: chalk.dim`Version of the ${pluginName} package to be used. Latest by default.`,
-            type: 'string'
-          })
-          .middleware(
-            (args) =>
-              normalizeArgsMiddleware(args as yargs.Arguments<Arguments>),
-            false
-          ),
+        yargs.middleware(
+          (args) => normalizeArgsMiddleware(args as yargs.Arguments<Arguments>),
+          false
+        ),
         withNxCloud,
         withAllPrompts,
         withPackageManager,
@@ -157,6 +137,7 @@ const normalizeArgsMiddleware: yargs.MiddlewareFunction<Arguments> = async (
     const name = await resolveWorkspaceName(argv);
     const payloadAppName = await resolveAppName(argv);
     const payloadAppDirectory = await resolveDirectory(argv, payloadAppName);
+    const database = await resolveDatabase(argv);
 
     const packageManager = await determinePackageManager(argv);
     const defaultBase = await determineDefaultBase(argv);
@@ -166,6 +147,7 @@ const normalizeArgsMiddleware: yargs.MiddlewareFunction<Arguments> = async (
       name,
       payloadAppName,
       payloadAppDirectory,
+      database,
       preset,
       nxCloud,
       packageManager,
@@ -204,7 +186,7 @@ async function resolveWorkspaceName(
   const a = await enquirer.prompt<{ Name: string }>([
     {
       name: 'Name',
-      message: `Workspace name                      `,
+      message: 'Workspace name'.padEnd(35),
       type: 'input',
       initial
     }
@@ -238,7 +220,7 @@ async function resolveAppName(
     .prompt<{ PayloadAppName: string }>([
       {
         name: 'PayloadAppName',
-        message: `Application name                    `,
+        message: 'Application name'.padEnd(35),
         type: 'input',
         initial: 'payload-admin'
       }
@@ -276,7 +258,7 @@ async function resolveDirectory(
     .prompt<{ PayloadAppDirectory: string }>([
       {
         name: 'PayloadAppDirectory',
-        message: `Application path                     `,
+        message: 'Application path'.padEnd(35),
         type: 'input',
         initial: `apps/${appName}`
       }
@@ -290,5 +272,39 @@ async function resolveDirectory(
         process.exit(1);
       }
       return a.PayloadAppDirectory;
+    });
+}
+
+/**
+ * Resolve application database
+ *
+ * @param parsedArgs Parsed command arguments
+ * @returns Application database
+ */
+async function resolveDatabase(
+  parsedArgs: yargs.Arguments<Arguments>
+): Promise<string> {
+  if (parsedArgs.database) {
+    return Promise.resolve(parsedArgs.database);
+  }
+
+  return enquirer
+    .prompt<{ Database: string }>([
+      {
+        name: 'Database',
+        message: 'Preferred database'.padEnd(35),
+        type: 'select',
+        choices: ['mongodb', 'postgres']
+      }
+    ])
+    .then((a) => {
+      if (!a.Database) {
+        output.error({
+          title: 'Invalid database',
+          bodyLines: [`Database cannot be empty`]
+        });
+        process.exit(1);
+      }
+      return a.Database;
     });
 }

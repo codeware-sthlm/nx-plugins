@@ -22,16 +22,19 @@
   <br />
 </p>
 
-## Packages
+## Plugins
 
-| Package                                           | Description                                                                                              |
-| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| [`@cdwr/nx-payload`](packages/nx-payload)         | Support for [Payload](https://payloadcms.com) in your [Nx](https://nx.dev) workspace                     |
-| [`create-nx-payload`](packages/create-nx-payload) | Quickly create a new [Nx](https://nx.dev) workspace with a [Payload](https://payloadcms.com) application |
+### [`@cdwr/nx-payload`](packages/nx-payload)
+
+Add support for [Payload](https://payloadcms.com) in your existing [Nx](https://nx.dev) workspace.
+
+#### [`create-nx-payload`](packages/create-nx-payload)
+
+Quickly create a new [Nx](https://nx.dev) workspace with a [Payload](https://payloadcms.com) application, using the plugin as a preset.
 
 ## Quickstart Overview
 
-### Create a workspace with a Payload application
+### Create a new workspace with a Payload application
 
 ```sh
 npx create-nx-payload
@@ -57,7 +60,7 @@ npx nx generate @cdwr/nx-payload:app
 
 ## What about `yarn` and `pnpm`?
 
-Nx has great support for package managers. You can get started with the package manager you love the most.
+Nx has great support for package managers. You can get started with the package manager you love the most. For example
 
 ```sh
 yarn create nx-payload
@@ -65,4 +68,74 @@ yarn create nx-payload
 
 ```sh
 pnpm create nx-payload
+```
+
+or
+
+```sh
+npx create-nx-workspace --pm yarn
+```
+
+```sh
+npx create-nx-workspace --pm pnpm
+```
+
+> Read more about [Nx installation](https://nx.dev/getting-started/installation)
+
+## Development
+
+[Installing Nx globally](https://nx.dev/getting-started/installation#installing-nx-globally) has advantages and lets you focus on runing Nx commands, without worring about your current package manager.
+
+### Run targets for all packages
+
+```sh
+nx run-many -t build lint test e2e
+```
+
+or shorter
+
+```sh
+nx run-many
+```
+
+### Run a target for a specific package
+
+```sh
+nx run [package]:[target] [options]
+```
+
+or use the shorter infix notation
+
+```sh
+nx [target] [package] [options]
+```
+
+### Publish and test a local Npm package
+
+Packages can be published locally to a [Verdaccio](https://verdaccio.org) registry, to be able to run manual smoke tests complementing the automated tests.
+
+Start Verdaccio and configure package managers for a local setup.
+
+```sh
+nx local-registry
+```
+
+The process will keep running in the current terminal.
+
+> Quit the process to shutdown Verdaccio when needed, which will also restore the initial package manager setup
+
+In another terminal build an publish all plugins to local Verdaccio registry.
+
+```sh
+nx local-registry:publish
+```
+
+Open <http://localhost:4873/> to view the packages.
+
+It's now possible to test a plugin in a local scope.
+
+For example
+
+```sh
+npx create-nx-payload@local
 ```

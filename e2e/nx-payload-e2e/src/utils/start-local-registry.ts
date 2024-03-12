@@ -1,6 +1,7 @@
 /**
- * This script starts a local registry for e2e testing purposes.
- * It is meant to be called in jest's globalSetup.
+ * This script starts a local registry for testing purposes.
+ *
+ * For e2e it is meant to be called in jest's `globalSetup`.
  */
 
 import { exec } from 'child_process';

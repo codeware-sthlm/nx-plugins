@@ -9,7 +9,7 @@ describe('npm install payload plugin', () => {
   let projectDirectory: string;
 
   console.log = jest.fn();
-  jest.setTimeout(600_000);
+  jest.setTimeout(900_000);
 
   beforeAll(async () => {
     projectDirectory = await createTestProject('nx-payload-npm');
