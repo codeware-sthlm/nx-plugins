@@ -4,6 +4,9 @@ import { type Tree, generateFiles, names } from '@nx/devkit';
 
 import { type NormalizedSchema } from './normalize-options';
 
+/**
+ * Create application files from template `files` folder
+ */
 export function createApplicationFiles(host: Tree, options: NormalizedSchema) {
   const templateVariables = {
     ...names(options.name),

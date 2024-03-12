@@ -9,7 +9,6 @@ import {
 import { initGenerator as expressInitGenerator } from '@nx/express/src/generators/init/init';
 
 import {
-  mongodbVersion,
   payloadPluginsVersions,
   payloadVersion,
   tsLibVersion
@@ -25,7 +24,7 @@ function updateDependencies(tree: Tree) {
       ...payloadPluginsVersions,
       tslib: tsLibVersion
     },
-    { mongodb: mongodbVersion, rimraf: 'latest' }
+    { rimraf: 'latest' }
   );
 }
 

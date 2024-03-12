@@ -19,7 +19,8 @@
     "Nx",
     "Monorepo",
     "Express",
-    "Mongo",
+    "MongoDB",
+    "Postgres",
     "Web",
     "CLI"
   ],

@@ -2,8 +2,8 @@
 # Should be started from workspace root.
 
 services:
-  mongo:
-    container_name: mongo
+  mongodb:
+    container_name: mongodb
     image: mongo
     ports:
       - 27017:27017
@@ -11,8 +11,22 @@ services:
       - local
     volumes:
       - type: volume
-        source: db_mongo
+        source: db_mongodb
         target: /data/db
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - 5432:5432
+    env_file:
+      .env
+    networks:
+      - local
+    volumes:
+      - type: volume
+        source: db_postgres
+        target: /var/lib/postgresql/data
 
   <%= name %>:
     container_name: <%= name %>
@@ -26,11 +40,13 @@ services:
       - .env
     environment:
       # Override the values different from .env
-      - MONGO_URL=mongodb://mongo/<%= name %>
+      - MONGO_URL=mongodb://mongodb/$MONGO_DB
+      - POSTGRES_URL=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB
     networks:
       - local
     depends_on:
-      - mongo
+      - mongodb
+      - postgres
 
 networks:
   local:
@@ -38,5 +54,7 @@ networks:
     driver: bridge
 
 volumes:
-  db_mongo:
+  db_mongodb:
+    driver: local
+  db_postgres:
     driver: local

@@ -15,7 +15,8 @@
     "Payload",
     "Monorepo",
     "Express",
-    "Mongo",
+    "MongoDB",
+    "Postgres",
     "Docker",
     "Jest",
     "CLI"

@@ -13,10 +13,10 @@ import { type NormalizedSchema } from './normalize-options';
 type target =
   | 'build'
   | 'build-payload'
-  | 'generate-graphql'
-  | 'generate-types'
   | 'lint'
   | 'mongodb'
+  | 'payload'
+  | 'postgres'
   | 'serve'
   | 'start'
   | 'stop'
@@ -47,7 +47,7 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
         buildableProjectDepsInPackageJsonType: 'dependencies',
         clean: false
       },
-      dependsOn: ['build-payload', 'generate-graphql', 'generate-types']
+      dependsOn: ['build-payload']
     },
 
     serve: {
@@ -61,8 +61,7 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
         development: {
           buildTarget: `${options.name}:build:development`
         }
-      },
-      dependsOn: ['mongodb']
+      }
     },
 
     lint: {
@@ -73,6 +72,7 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
       ...projectTest
     },
 
+    // TODO: Should be managed by an executor
     'build-payload': {
       executor: 'nx:run-commands',
       defaultConfiguration: 'production',
@@ -82,8 +82,11 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
             'dist',
             options.directory
           )}`,
-          `${pmCommand.exec} payload build`
+          `${pmCommand.exec} payload build`,
+          `${pmCommand.exec} payload generate:types`,
+          `${pmCommand.exec} payload generate:graphQLSchema`
         ],
+        parallel: false,
         env: {
           PAYLOAD_CONFIG_PATH: `${options.directory}/src/payload.config.ts`
         }
@@ -95,30 +98,31 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
       }
     },
 
-    'generate-types': {
+    // TODO: Should be managed by an executor
+    payload: {
       executor: 'nx:run-commands',
       options: {
-        command: `${pmCommand.exec} payload generate:types`,
+        command: `${pmCommand.exec} payload`,
         env: {
           PAYLOAD_CONFIG_PATH: `${options.directory}/src/payload.config.ts`
         }
       }
     },
 
-    'generate-graphql': {
-      executor: 'nx:run-commands',
-      options: {
-        command: `${pmCommand.exec} payload generate:graphQLSchema`,
-        env: {
-          PAYLOAD_CONFIG_PATH: `${options.directory}/src/payload.config.ts`
-        }
-      }
-    },
-
+    // TODO: Should be managed by an executor
     mongodb: {
       executor: 'nx:run-commands',
       options: {
-        command: `docker run --name mongo-${options.name} --rm -d -p 27017:27017 mongo &1>2 | /dev/null || true`
+        command: `docker ps -q -f name=mongodb-${options.name} | grep . && echo '[Running] mongodb is already started' || docker run --name mongodb-${options.name} --rm -d -p 27017:27017 mongo`
+      }
+    },
+
+    // TODO: Should be managed by an executor
+    postgres: {
+      executor: 'nx:run-commands',
+      options: {
+        command: `docker ps -q -f name=postgres-${options.name} | grep . && echo '[Running] PostgreSQL init process complete' || docker run --name postgres-${options.name} --rm --env-file ${options.directory}/.env -p 5432:5432 postgres`,
+        readyWhen: 'PostgreSQL init process complete'
       }
     },
 

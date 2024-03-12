@@ -20,7 +20,7 @@
 
 ## Prerequisites
 
-- Node 18 or later
+- Node 18+
 - Docker
 
 ## Usage
@@ -37,30 +37,6 @@ or
 npx create-nx-workspace --preset @cdwr/nx-payload
 ```
 
-### Start Payload admin application
+> It's always the latest version of `@cdwr/nx-payload` that gets installed
 
-Go to the newly created workspace and start the application and database in Docker.
-
-```sh
-npx nx start
-```
-
-Open your browser and navigate to <http://localhost:3000> to setup your first user.
-
-### Serve Payload admin application
-
-Serve the application in development mode.
-
-```sh
-npx nx serve
-```
-
-### Generate another Payload application
-
-Since `@cdwr/nx-payload` is already installed, just call the generate command
-
-```sh
-npx nx generate @cdwr/nx-payload:app
-```
-
-See [`@cdwr/nx-payload`](https://github.com/codeware-sthlm/nx-plugins/tree/master/packages/nx-payload/README.md) for more details.
+Visit [`@cdwr/nx-payload`](https://github.com/codeware-sthlm/nx-plugins/tree/master/packages/nx-payload/README.md) for instructions how to use the plugin and the application it generates.

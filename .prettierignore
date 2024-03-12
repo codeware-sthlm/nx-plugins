@@ -6,3 +6,5 @@
 /.nx/cache
 
 CHANGELOG.md
+
+**/*__tmpl__
