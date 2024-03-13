@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.5.0](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.4.0...create-nx-payload-0.5.0) (2024-03-13)
+
+
+### ✨ Features
+
+* **nx-payload:** add support for postgres ([b678a63](https://github.com/codeware-sthlm/nx-plugins/commit/b678a6306b28cbbad7a2f334779fe3f8acf69f9e))
+
+
+### 🛠️ Build System
+
+* 📦 update nx workspace to 18.0.4 ([33e70b9](https://github.com/codeware-sthlm/nx-plugins/commit/33e70b986f0a3b0fadb81113a8b65929093fffcc))
+
 ## [0.4.0](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.3.0...create-nx-payload-0.4.0) (2024-02-10)
 
 
