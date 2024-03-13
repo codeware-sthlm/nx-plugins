@@ -130,3 +130,12 @@ jobs:
         run: gh pr merge --rebase --auto ${{ steps.cpr.outputs.pull-request-number }}
         env:
           token: ${{ secrets.GH_SEMVER_TOKEN }}
+
+      - name: Autoclose deprecated Pull Requests
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        run: gh pr list --label "${{env.label}}" --json number | jq -r '.[].number|select(. != ${{env.last-pr}})' | xargs -I % gh pr close % -d -c "${{ env.comment }}"
+        env:
+          last-pr: ${{ steps.cpr.outputs.pull-request-number }}
+          label: 'automated pr'
+          comment: 'Autoclosed - Replaced by a new PR'
+          token: ${{ secrets.GH_SEMVER_TOKEN }}
