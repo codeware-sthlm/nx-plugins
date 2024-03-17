@@ -81,15 +81,13 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
           `${pmCommand.exec} rimraf ${joinPathFragments(
             'dist',
             options.directory
-          )}`,
+          )} || true`,
           `${pmCommand.exec} payload build`,
           `${pmCommand.exec} payload generate:types`,
           `${pmCommand.exec} payload generate:graphQLSchema`
         ],
         parallel: false,
-        env: {
-          PAYLOAD_CONFIG_PATH: `${options.directory}/src/payload.config.ts`
-        }
+        envFile: `${options.directory}/.env.payload`
       },
       configurations: {
         production: {
@@ -102,10 +100,7 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
     payload: {
       executor: 'nx:run-commands',
       options: {
-        command: `${pmCommand.exec} payload`,
-        env: {
-          PAYLOAD_CONFIG_PATH: `${options.directory}/src/payload.config.ts`
-        }
+        command: `${pmCommand.exec} payload`
       }
     },
 
