@@ -1,8 +1,5 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "affected": {
-    "defaultBase": "master"
-  },
   "nxCloudAccessToken": "YzY5OGI1YTctYWJlMi00NTkxLWIwY2ItZjYyZDcwYWMzOWJhfHJlYWQtd3JpdGU=",
   "tasksRunnerOptions": {
     "default": {
@@ -190,5 +187,6 @@
         "targetName": "lint"
       }
     }
-  ]
+  ],
+  "defaultBase": "master"
 }
