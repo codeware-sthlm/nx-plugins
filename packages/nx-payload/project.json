@@ -37,19 +37,9 @@
       },
       "outputs": ["{options.outputPath}"]
     },
-    "github-release": {
-      "executor": "@jscutlery/semver:github"
-    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
-    },
-    "npm-publish": {
-      "executor": "ngx-deploy-npm:deploy"
-    },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs nx-payload {args.ver} {args.tag}",
-      "dependsOn": ["build"]
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -57,46 +47,6 @@
         "jestConfig": "packages/nx-payload/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/packages/nx-payload"]
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {},
-      "configurations": {
-        "prerelease": {
-          "releaseAs": "prerelease",
-          "preid": "beta"
-        },
-        "premajor": {
-          "releaseAs": "premajor",
-          "preid": "rc"
-        },
-        "minor": {
-          "releaseAs": "minor"
-        },
-        "major": {
-          "releaseAs": "major"
-        }
-      }
-    },
-    "version-publish": {
-      "executor": "@jscutlery/semver:version",
-      "options": {},
-      "configurations": {
-        "prerelease": {
-          "releaseAs": "prerelease",
-          "preid": "beta"
-        },
-        "premajor": {
-          "releaseAs": "premajor",
-          "preid": "rc"
-        },
-        "minor": {
-          "releaseAs": "minor"
-        },
-        "major": {
-          "releaseAs": "major"
-        }
-      }
     }
   }
 }

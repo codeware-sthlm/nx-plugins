@@ -15,7 +15,7 @@ export async function runCommandAsync(
   options: { cwd?: string; env?: object } = {}
 ): Promise<boolean> {
   const { stdout, stderr } = await _runCommandAsync(`${command} --verbose`, {
-    silenceError: true,
+    silenceError: false,
     cwd: options.cwd,
     env: {
       CI: 'true',

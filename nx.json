@@ -188,5 +188,16 @@
       }
     }
   ],
-  "defaultBase": "master"
+  "defaultBase": "master",
+  "release": {
+    "projects": ["packages/*"],
+    "projectsRelationship": "independent",
+    "releaseTagPattern": "{projectName}-{version}",
+    "git": { "commitMessage": "chore(release): {version} [skip ci]" },
+    "changelog": {
+      "projectChangelogs": { "createRelease": "github" },
+      "workspaceChangelog": false
+    },
+    "version": { "conventionalCommits": true }
+  }
 }
