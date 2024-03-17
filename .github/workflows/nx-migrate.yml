@@ -93,7 +93,7 @@ jobs:
         if: steps.workspace.outputs.outdated == 'true'
         run: |
           yarn nx run-many -t lint,test,build -c ci --no-cloud
-          yarn semver:local
+          yarn semver:local --dry-run
         continue-on-error: true
 
       - name: Run E2E
@@ -129,7 +129,7 @@ jobs:
         if: vars.NX_AUTO_MIGRATE == 'true' && steps.cpr.outputs.pull-request-operation == 'created'
         run: gh pr merge --rebase --auto ${{ steps.cpr.outputs.pull-request-number }}
         env:
-          token: ${{ secrets.GH_SEMVER_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
 
       - name: Autoclose deprecated Pull Requests
         if: steps.cpr.outputs.pull-request-operation == 'created'
@@ -138,4 +138,4 @@ jobs:
           last-pr: ${{ steps.cpr.outputs.pull-request-number }}
           label: 'automated pr'
           comment: 'Autoclosed - Replaced by a new PR'
-          token: ${{ secrets.GH_SEMVER_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
