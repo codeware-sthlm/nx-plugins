@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.6.1](https://github.com/codeware-sthlm/nx-plugins/compare/nx-payload-0.6.0...nx-payload-0.6.1) (2024-03-18)
+
+
+### 🧹 Code Refactoring
+
+* **nx-payload:** workaround for nx run-commands env bug ([a6a3529](https://github.com/codeware-sthlm/nx-plugins/commit/a6a35299f9a58a21f948d64fe42c49e780dae576))
+
+
+### 🛠️ Build System
+
+* 📦 update nx workspace to 18.0.8 ([75884af](https://github.com/codeware-sthlm/nx-plugins/commit/75884afd9ad4de6366a15f88cd48122225c2709a))
+* 📦 update nx workspace to 18.1.1 ([5e1ae8a](https://github.com/codeware-sthlm/nx-plugins/commit/5e1ae8a5ba91147e09f13d4b37a9e6f5bfa389d5))
+
 ## [0.6.0](https://github.com/codeware-sthlm/nx-plugins/compare/nx-payload-0.5.0...nx-payload-0.6.0) (2024-03-13)
 
 
