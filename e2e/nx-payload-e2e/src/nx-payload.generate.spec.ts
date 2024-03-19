@@ -2,10 +2,11 @@ import {
   checkFilesExist,
   ensureNxProject,
   readJson,
+  runNxCommandAsync,
   uniq
 } from '@nx/plugin/testing';
 
-import { runNxCommandAsync } from './utils/run-nx-command-async';
+//import { runNxCommandAsync } from './utils/run-nx-command-async';
 
 describe('Generate Payload application', () => {
   let appName: string;

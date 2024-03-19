@@ -1,10 +1,11 @@
 import { readFileSync, rmSync } from 'fs';
 
+import { runCommandAsync } from '@nx/plugin/testing';
 import { type Arguments } from '@nx-plugins/create-nx-payload';
 import { agent } from 'supertest';
 
 import { ensureTestWorkspace } from './utils/ensure-test-workspace';
-import { runCommandAsync } from './utils/run-command-async';
+//import { runCommandAsync } from './utils/run-command-async';
 
 describe('create workspace with preset', () => {
   const workspaceDirectories: Array<string> = [];
@@ -20,12 +21,12 @@ describe('create workspace with preset', () => {
 
   afterAll(async () => {
     // Cleanup the test projects
-    for (const dir of workspaceDirectories) {
-      rmSync(dir, {
-        recursive: true,
-        force: true
-      });
-    }
+    // for (const dir of workspaceDirectories) {
+    //   rmSync(dir, {
+    //     recursive: true,
+    //     force: true
+    //   });
+    // }
   });
 
   it('should be connected to local registry', () => {

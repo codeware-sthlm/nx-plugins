@@ -110,7 +110,7 @@ async function main(parsedArgs: yargs.Arguments<Arguments>): Promise<void> {
     parsedArgs
   );
 
-  if (parsedArgs.nxCloud && workspaceInfo.nxCloudInfo) {
+  if (parsedArgs.nxCloud !== 'skip' && workspaceInfo.nxCloudInfo) {
     printNxCloudSuccessMessage(workspaceInfo.nxCloudInfo);
   }
 

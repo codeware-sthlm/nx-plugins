@@ -1,12 +1,13 @@
 import {
   checkFilesExist,
   ensureNxProject,
+  runNxCommandAsync,
   tmpProjPath,
   uniq
 } from '@nx/plugin/testing';
 
 import { buildImage } from './utils/build-image';
-import { runNxCommandAsync } from './utils/run-nx-command-async';
+//import { runNxCommandAsync } from './utils/run-nx-command-async';
 
 describe('Build app Dockerfile', () => {
   let appName: string;

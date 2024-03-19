@@ -12,7 +12,8 @@
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "inputs": ["production", "^production"],
+      "cache": true
     },
     "version": {
       "dependsOn": ["build"],
@@ -154,7 +155,8 @@
           "ci": true,
           "codeCoverage": true
         }
-      }
+      },
+      "cache": true
     },
     "@nx/eslint:lint": {
       "inputs": [

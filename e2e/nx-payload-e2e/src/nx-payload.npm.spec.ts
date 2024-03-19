@@ -2,8 +2,9 @@ import { mkdirSync, rmSync } from 'fs';
 import { dirname, join } from 'path';
 
 import { readJsonFile } from '@nx/devkit';
+import { runCommandAsync } from '@nx/plugin/testing';
 
-import { runCommandAsync } from './utils/run-command-async';
+//import { runCommandAsync } from './utils/run-command-async';
 
 describe('npm install payload plugin', () => {
   let projectDirectory: string;

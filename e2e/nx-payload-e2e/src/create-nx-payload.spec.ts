@@ -1,10 +1,11 @@
 import { rmSync } from 'fs';
 
+import { runCommandAsync } from '@nx/plugin/testing';
 import { type Arguments } from '@nx-plugins/create-nx-payload';
 import { agent } from 'supertest';
 
 import { ensureTestWorkspace } from './utils/ensure-test-workspace';
-import { runCommandAsync } from './utils/run-command-async';
+//import { runCommandAsync } from './utils/run-command-async';
 
 describe('create-nx-payload', () => {
   const workspaceDirectories: Array<string> = [];
