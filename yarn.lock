@@ -3233,12 +3233,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.19.15":
-  version: 18.19.15
-  resolution: "@types/node@npm:18.19.15"
+"@types/node@npm:20.11.30":
+  version: 20.11.30
+  resolution: "@types/node@npm:20.11.30"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10/cbd4bf49f6aa0e5e9b9d3dafd0f83cc21475f6fe846c8b59a264e508608aaad8cd48dfce95ee48cdf81d3139c35c03a9d4fcd613bf98cae7b61c7dc36bb6b195
+  checksum: 10/78515bc768d2b878e2e06a1c20eb4f5840072b79b8d28ff3dd0a7feaaf48fd3a2ac03cfa5bc7564da82db5906b43e9ba0e5df9f43d870b7aae2942306e208815
   languageName: node
   linkType: hard
 
@@ -10994,7 +10994,7 @@ __metadata:
     "@types/dockerode": "npm:^3.3.23"
     "@types/express": "npm:4.17.21"
     "@types/jest": "npm:29.5.12"
-    "@types/node": "npm:18.19.15"
+    "@types/node": "npm:20.11.30"
     "@types/semantic-release": "npm:^20.0.6"
     "@types/supertest": "npm:^6.0.2"
     "@types/tar-fs": "npm:^2.0.4"
