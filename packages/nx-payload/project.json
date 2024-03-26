@@ -1,6 +1,6 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "nx-payload",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "packages/nx-payload/src",
   "tags": [],
@@ -21,28 +21,20 @@
             "output": "./src"
           },
           {
-            "glob": "generators.json",
+            "glob": "executors.json",
             "input": "./packages/nx-payload",
             "output": "."
           },
           {
-            "glob": "executors.json",
+            "glob": "generators.json",
             "input": "./packages/nx-payload",
             "output": "."
           }
-        ],
-        "main": "packages/nx-payload/src/index.ts",
-        "outputPath": "dist/packages/nx-payload",
-        "tsConfig": "packages/nx-payload/tsconfig.lib.json"
-      },
-      "outputs": ["{options.outputPath}"]
+        ]
+      }
     },
     "github-release": {
       "executor": "@jscutlery/semver:github"
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     },
     "npm-publish": {
       "executor": "ngx-deploy-npm:deploy"
@@ -52,11 +44,7 @@
       "dependsOn": ["build"]
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "options": {
-        "jestConfig": "packages/nx-payload/jest.config.ts"
-      },
-      "outputs": ["{workspaceRoot}/coverage/packages/nx-payload"]
+      "executor": "@nx/jest:jest"
     },
     "version": {
       "executor": "@jscutlery/semver:version",
