@@ -94,14 +94,6 @@ describe('init', () => {
     expect(packageJson.devDependencies['tslib']).toBeUndefined();
   });
 
-  it('should add rimraf to devDependencies', async () => {
-    await initGenerator(tree, {});
-    const packageJson = readJson<PackageJson>(tree, 'package.json');
-
-    expect(packageJson.dependencies['rimraf']).toBeUndefined();
-    expect(packageJson.devDependencies['rimraf']).toBeDefined();
-  });
-
   it('should keep existing dependencies', async () => {
     const existing = 'existing';
     const existingVersion = '1.0.0';

@@ -2,8 +2,8 @@ import {
   type ProjectConfiguration,
   type TargetConfiguration,
   type Tree,
-  getPackageManagerCommand,
-  joinPathFragments,
+  // getPackageManagerCommand,
+  // joinPathFragments,
   readProjectConfiguration,
   updateProjectConfiguration
 } from '@nx/devkit';
@@ -12,10 +12,9 @@ import { type NormalizedSchema } from './normalize-options';
 
 type target =
   | 'build'
-  | 'build-payload'
   | 'lint'
   | 'mongodb'
-  | 'payload'
+  //  | 'payload'
   | 'postgres'
   | 'serve'
   | 'start'
@@ -23,31 +22,19 @@ type target =
   | 'test';
 
 export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
-  const pmCommand = getPackageManagerCommand();
+  //  const pmCommand = getPackageManagerCommand();
   const projectConfig = readProjectConfiguration(host, options.name);
 
   if (!projectConfig) {
     throw new Error('Could not read project.json');
   }
-  const projectBuild = projectConfig.targets?.build;
   const projectLint = projectConfig.targets?.lint;
   const projectServe = projectConfig.targets?.serve;
   const projectTest = projectConfig.targets?.test;
 
   const targets: Record<target, TargetConfiguration> = {
     build: {
-      ...projectBuild,
-      executor: '@nx/js:tsc',
-      options: {
-        outputPath: joinPathFragments('dist', options.directory),
-        main: joinPathFragments(options.directory, 'src', 'main.ts'),
-        tsConfig: joinPathFragments(options.directory, 'tsconfig.app.json'),
-        assets: [joinPathFragments(options.directory, 'src', 'assets')],
-        updateBuildableProjectDepsInPackageJson: true,
-        buildableProjectDepsInPackageJsonType: 'dependencies',
-        clean: false
-      },
-      dependsOn: ['build-payload']
+      executor: '@cdwr/nx-payload:build'
     },
 
     serve: {
@@ -73,36 +60,12 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
     },
 
     // TODO: Should be managed by an executor
-    'build-payload': {
-      executor: 'nx:run-commands',
-      defaultConfiguration: 'production',
-      options: {
-        commands: [
-          `${pmCommand.exec} rimraf ${joinPathFragments(
-            'dist',
-            options.directory
-          )} || true`,
-          `${pmCommand.exec} payload build`,
-          `${pmCommand.exec} payload generate:types`,
-          `${pmCommand.exec} payload generate:graphQLSchema`
-        ],
-        parallel: false,
-        envFile: `${options.directory}/.env.payload`
-      },
-      configurations: {
-        production: {
-          outputPath: joinPathFragments('dist', options.directory)
-        }
-      }
-    },
-
-    // TODO: Should be managed by an executor
-    payload: {
-      executor: 'nx:run-commands',
-      options: {
-        command: `${pmCommand.exec} payload`
-      }
-    },
+    // payload: {
+    //   executor: 'nx:run-commands',
+    //   options: {
+    //     command: `${pmCommand.exec} payload`
+    //   }
+    // },
 
     // TODO: Should be managed by an executor
     mongodb: {
