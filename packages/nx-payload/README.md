@@ -28,12 +28,13 @@
 - [DX](#dx)
   - [Start Payload and database in Docker](#start-payload-and-database-in-docker)
   - [Start a local database instance of choice](#start-a-local-database-instance-of-choice)
-  - [Serve Payload admin in development mode](#serve-payload-admin-in-development-mode)
+  - [Serve Payload application in development mode](#serve-payload-application-in-development-mode)
   - [Run Payload commands](#run-payload-commands)
   - [Troubleshooting](#troubleshooting)
     - [I can't get Payload to start properly with Postgres in prod mode](#i-cant-get-payload-to-start-properly-with-postgres-in-prod-mode)
 - [You don't have an Nx workspace?](#you-dont-have-an-nx-workspace)
 - [Plugin Generators](#plugin-generators)
+- [Plugin Executors](#plugin-executors)
 - [Plugin Migrations](#plugin-migrations)
 - [Versions Compatibility](#versions-compatibility)
 
@@ -61,7 +62,7 @@ npx nx generate @cdwr/nx-payload:app
 
 Payload has offlicial support for database adapters [MongoDB](https://www.mongodb.com/) and [Postgres](https://www.postgresql.org/about/).
 
-This plugin support setting up of either one via option [`--database`](#plugin-generators).
+This plugin support setting up of either one via option [`database`](#plugin-generators).
 
 > [Supabase](https://supabase.com/docs) should be setup using the Postgres adapter
 
@@ -109,7 +110,7 @@ Generated applications comes with a set of Nx targets to help you get started.
 
 This is the quickest way to get Payload up and running in no time.
 
-Using docker compose, both MongoDB and Postgres are started in each container, as well as the Payload admin application.
+Using docker compose, both MongoDB and Postgres are started in each container, as well as the Payload application.
 
 ```sh
 npx nx start [app-name]
@@ -165,9 +166,9 @@ npx supabase start
 
 Edit `POSTGRES_URL` in `.env`.
 
-### Serve Payload admin in development mode
+### Serve Payload application in development mode
 
-Payload admin app is served in watch mode.
+Payload application is served in watch mode.
 
 > The configured database must have been started, see [local database](#start-a-local-database-instance)
 
@@ -235,19 +236,33 @@ _No options_.
 
 Alias: `app`
 
-Generate a Payload admin application served by Express.
+Generate a Payload application served by Express.
 
-| Option             | Type    | Required | Default   | Description                                         |
-| ------------------ | ------- | :------: | --------- | --------------------------------------------------- |
-| `--name`           | string  |    ✅    |           | Name of the application                             |
-| `--directory`      | string  |    ✅    |           | Path to the application files                       |
-| `--database`       | string  |          | `mongodb` | Preferred database to setup [`mongodb`, `postgres`] |
-| `--tags`           | string  |          | `''`      | Add tags to the application (comma separated)       |
-| `--unitTestRunner` | string  |          | `jest`    | Set `none` to skip tests                            |
-| `--linter`         | string  |          | `eslint`  | The tool to use for running lint checks             |
-| `--skipE2e`        | boolean |          | `false`   | Whether to skip generating e2e application or not   |
+| Option           | Type    | Required | Default   | Description                                         |
+| ---------------- | ------- | :------: | --------- | --------------------------------------------------- |
+| `name`           | string  |    ✅    |           | The name of the application                         |
+| `directory`      | string  |    ✅    |           | The path of the application files                   |
+| `database`       | string  |          | `mongodb` | Preferred database to setup [`mongodb`, `postgres`] |
+| `tags`           | string  |          | `''`      | Comma separated tags                                |
+| `unitTestRunner` | string  |          | `jest`    | The preferred unit test runner [ `jest`, `none` ]   |
+| `linter`         | string  |          | `eslint`  | The tool to use for running lint checks             |
+| `skipE2e`        | boolean |          | `false`   | Skip generating e2e application                     |
 
-> 💡 `--name` can also be provided as the first argument (used in the examples in this readme)
+> 💡 `name` can also be provided as the first argument (used in the examples in this readme)
+
+## Plugin Executors
+
+### `build` <!-- omit in toc -->
+
+Build a Payload application.
+
+| Option       | Type                      | Required | Default | Description                                   |
+| ------------ | ------------------------- | :------: | ------- | --------------------------------------------- |
+| `main`       | string                    |    ✅    |         | The name of the main entry-point file         |
+| `outputPath` | string                    |    ✅    |         | The output path of the generated files        |
+| `tsConfig`   | string                    |    ✅    |         | The path to the Typescript configuration file |
+| `assets`     | array of object or string |          | `[]`    | List of static assets                         |
+| `clean`      | boolean                   |          | `true`  | Remove previous output before build           |
 
 ## Plugin Migrations
 

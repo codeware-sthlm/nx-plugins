@@ -1,7 +1,4 @@
 {
-  "$schema": "http://json-schema.org/schema",
-  "name": "NxPayload",
-  "version": "0.0.0",
   "extends": ["@nx/express"],
   "generators": {
     "preset": {

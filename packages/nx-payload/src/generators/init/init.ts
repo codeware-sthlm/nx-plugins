@@ -24,7 +24,7 @@ function updateDependencies(tree: Tree) {
       ...payloadPluginsVersions,
       tslib: tsLibVersion
     },
-    { rimraf: 'latest' }
+    {}
   );
 }
 

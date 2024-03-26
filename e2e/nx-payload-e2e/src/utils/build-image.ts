@@ -36,7 +36,7 @@ type Options = {
  */
 export const buildImage = async (options: Options) => {
   const docker = new Docker();
-  const { context, dockerfile, buildargs, tag: t } = options;
+  const { context, dockerfile, buildargs = {}, tag: t = '' } = options;
 
   const stream = await docker.buildImage(pack(context), {
     dockerfile,

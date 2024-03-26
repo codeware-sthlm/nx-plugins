@@ -3,7 +3,6 @@ import {
   type TargetConfiguration,
   type Tree,
   getPackageManagerCommand,
-  joinPathFragments,
   readProjectConfiguration,
   updateProjectConfiguration
 } from '@nx/devkit';
@@ -12,7 +11,6 @@ import { type NormalizedSchema } from './normalize-options';
 
 type target =
   | 'build'
-  | 'build-payload'
   | 'lint'
   | 'mongodb'
   | 'payload'
@@ -36,18 +34,10 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
 
   const targets: Record<target, TargetConfiguration> = {
     build: {
-      ...projectBuild,
-      executor: '@nx/js:tsc',
+      executor: '@cdwr/nx-payload:build',
       options: {
-        outputPath: joinPathFragments('dist', options.directory),
-        main: joinPathFragments(options.directory, 'src', 'main.ts'),
-        tsConfig: joinPathFragments(options.directory, 'tsconfig.app.json'),
-        assets: [joinPathFragments(options.directory, 'src', 'assets')],
-        updateBuildableProjectDepsInPackageJson: true,
-        buildableProjectDepsInPackageJsonType: 'dependencies',
-        clean: false
-      },
-      dependsOn: ['build-payload']
+        ...projectBuild?.options
+      }
     },
 
     serve: {
@@ -70,30 +60,6 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
 
     test: {
       ...projectTest
-    },
-
-    // TODO: Should be managed by an executor
-    'build-payload': {
-      executor: 'nx:run-commands',
-      defaultConfiguration: 'production',
-      options: {
-        commands: [
-          `${pmCommand.exec} rimraf ${joinPathFragments(
-            'dist',
-            options.directory
-          )} || true`,
-          `${pmCommand.exec} payload build`,
-          `${pmCommand.exec} payload generate:types`,
-          `${pmCommand.exec} payload generate:graphQLSchema`
-        ],
-        parallel: false,
-        envFile: `${options.directory}/.env.payload`
-      },
-      configurations: {
-        production: {
-          outputPath: joinPathFragments('dist', options.directory)
-        }
-      }
     },
 
     // TODO: Should be managed by an executor
