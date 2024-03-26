@@ -9,19 +9,11 @@
     "build": {
       "executor": "@nx/js:tsc",
       "options": {
-        "assets": ["packages/create-nx-payload/*.md"],
-        "main": "packages/create-nx-payload/bin/create-nx-payload.ts",
-        "outputPath": "dist/packages/create-nx-payload",
-        "tsConfig": "packages/create-nx-payload/tsconfig.lib.json"
-      },
-      "outputs": ["{options.outputPath}"]
+        "assets": ["packages/create-nx-payload/*.md"]
+      }
     },
     "github-release": {
       "executor": "@jscutlery/semver:github"
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     },
     "npm-publish": {
       "executor": "ngx-deploy-npm:deploy"
@@ -31,11 +23,7 @@
       "dependsOn": ["build"]
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "options": {
-        "jestConfig": "packages/create-nx-payload/jest.config.ts"
-      },
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
+      "executor": "@nx/jest:jest"
     },
     "version": {
       "executor": "@jscutlery/semver:version",
