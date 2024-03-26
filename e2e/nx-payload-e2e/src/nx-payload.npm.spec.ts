@@ -1,79 +1,42 @@
-import { mkdirSync, rmSync } from 'fs';
-import { dirname, join } from 'path';
+import { runCommandAsync } from '@nx/plugin/testing';
+import { agent } from 'supertest';
 
-import { readJsonFile } from '@nx/devkit';
+import {
+  type CreateNxWorkspaceProject,
+  ensureCreateNxWorkspaceProject
+} from './utils/ensure-create-nx-workspace-project';
 
-import { runCommandAsync } from './utils/run-command-async';
-
-describe('npm install payload plugin', () => {
-  let projectDirectory: string;
+describe('Verify local npm and create empty workspace', () => {
+  let project: CreateNxWorkspaceProject;
 
   console.log = jest.fn();
   jest.setTimeout(900_000);
 
   beforeAll(async () => {
-    projectDirectory = await createTestProject('nx-payload-npm');
+    project = await ensureCreateNxWorkspaceProject('test-npm', 'apps');
+  });
 
-    // The plugin has been built and published to a local registry in the jest globalSetup
-    // Install the plugin built with the latest source code into the test repo
-    await runCommandAsync(`npm install @cdwr/nx-payload@e2e`, {
-      cwd: projectDirectory,
-      env: process.env
+  it('should be connected to local registry', () => {
+    return agent('http://localhost:4873').get('/').expect(200);
+  });
+
+  it('should have installed nx workspace', async () => {
+    await runCommandAsync('npm ls @nx/workspace', {
+      cwd: project.workspaceDirectory
     });
   });
 
-  afterAll(() => {
-    // Cleanup the test project
-    if (projectDirectory) {
-      rmSync(projectDirectory, {
-        recursive: true,
-        force: true
-      });
-    }
-  });
-
-  it('should be installed', async () => {
+  it('should not have installed nx-payload plugin', async () => {
     // npm ls will fail if the package is not installed properly
-    await runCommandAsync('npm ls @cdwr/nx-payload', {
-      cwd: projectDirectory
-    });
+    // `> spawn /bin/sh ENOENT`
+    const { stderr, stdout } = await runCommandAsync(
+      'npm ls @cdwr/nx-payload',
+      {
+        cwd: project.workspaceDirectory,
+        silenceError: true
+      }
+    );
+
+    expect(`${stderr}${stdout}`).toContain('(empty)');
   });
 });
-
-/**
- * Creates a test project with create-nx-workspace and installs the plugin
- * @returns The directory where the test project was created
- */
-async function createTestProject(name: string) {
-  const projectName = name;
-  const projectDirectory = join(process.cwd(), 'tmp', projectName);
-
-  // Get local version of `create-nx-workspace`
-  let version = 'latest';
-  const { dependencies } = readJsonFile<{
-    dependencies: Record<string, string>;
-  }>(join(process.cwd(), 'package.json'));
-  if ('create-nx-workspace' in dependencies) {
-    version = dependencies['create-nx-workspace'];
-  }
-
-  // Ensure projectDirectory is empty
-  rmSync(projectDirectory, {
-    recursive: true,
-    force: true
-  });
-  mkdirSync(dirname(projectDirectory), {
-    recursive: true
-  });
-
-  await runCommandAsync(
-    `npx --yes create-nx-workspace@${version} ${projectName} --preset apps --nxCloud skip --no-interactive`,
-    {
-      cwd: dirname(projectDirectory),
-      env: process.env
-    }
-  );
-  console.log(`Created test project in "${projectDirectory}"`);
-
-  return projectDirectory;
-}
