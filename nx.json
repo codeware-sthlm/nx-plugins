@@ -1,19 +1,14 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "nxCloudAccessToken": "YzY5OGI1YTctYWJlMi00NTkxLWIwY2ItZjYyZDcwYWMzOWJhfHJlYWQtd3JpdGU=",
-  "tasksRunnerOptions": {
-    "default": {
-      "options": {
-        "cacheableOperations": ["build", "test", "lint", "e2e"],
-        "parallel": 3
-      }
-    }
-  },
+  "parallel": 3,
+  "defaultBase": "master",
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
+    "e2e": { "cache": true },
     "version": {
       "dependsOn": ["build"],
       "options": {
@@ -147,22 +142,25 @@
         "{workspaceRoot}/**/*.spec.ts"
       ],
       "options": {
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "jestConfig": "{projectRoot}/jest.config.ts"
       },
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "configurations": {
         "ci": {
           "ci": true,
           "codeCoverage": true
         }
-      }
+      },
+      "cache": true
     },
-    "@nx/eslint:lint": {
-      "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore",
-        "{workspaceRoot}/eslint.config.js"
-      ],
+    "@nx/js:tsc": {
+      "options": {
+        "main": "{projectRoot}/src/index.ts",
+        "outputPath": "dist/{projectRoot}",
+        "tsConfig": "{projectRoot}/tsconfig.lib.json"
+      },
+      "outputs": ["{options.outputPath}"],
       "cache": true
     }
   },
@@ -187,6 +185,5 @@
         "targetName": "lint"
       }
     }
-  ],
-  "defaultBase": "master"
+  ]
 }

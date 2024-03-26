@@ -1,66 +1,44 @@
-import { readFileSync, rmSync } from 'fs';
+import { readFileSync } from 'fs';
 
-import { type Arguments } from '@nx-plugins/create-nx-payload';
-import { agent } from 'supertest';
+import { runCommandAsync } from '@nx/plugin/testing';
 
-import { ensureTestWorkspace } from './utils/ensure-test-workspace';
-import { runCommandAsync } from './utils/run-command-async';
+import {
+  type CreateNxWorkspaceProject,
+  ensureCreateNxWorkspaceProject
+} from './utils/ensure-create-nx-workspace-project';
 
-describe('create workspace with preset', () => {
-  const workspaceDirectories: Array<string> = [];
-
-  const addWorkspaceDirectory = (dir: string) => {
-    if (!workspaceDirectories.includes(dir)) {
-      workspaceDirectories.push(dir);
-    }
-  };
+describe('Create workspace with preset', () => {
+  let project: CreateNxWorkspaceProject;
 
   console.log = jest.fn();
   jest.setTimeout(900_000);
 
-  afterAll(async () => {
-    // Cleanup the test projects
-    for (const dir of workspaceDirectories) {
-      rmSync(dir, {
-        recursive: true,
-        force: true
-      });
-    }
+  beforeAll(async () => {
+    project = await ensureCreateNxWorkspaceProject(
+      'test-preset',
+      '@cdwr/nx-payload'
+    );
   });
 
-  it('should be connected to local registry', () => {
-    return agent('http://localhost:4873').get('/').expect(200);
-  });
-
-  describe('create', () => {
-    it('should be created and installed', async () => {
-      const workspaceDirectory = await ensureTestWorkspace<
-        Pick<
-          Arguments,
-          'name' | 'payloadAppName' | 'payloadAppDirectory' | 'nxCloud'
-        >
-      >('create-nx-workspace', 'create', {
-        name: 'test-nx-payload-preset',
-        payloadAppName: 'my-app',
-        payloadAppDirectory: 'apps/app',
-        nxCloud: 'skip'
-      });
-
-      addWorkspaceDirectory(workspaceDirectory);
-
-      // npm ls will fail if the package is not installed properly
-      await runCommandAsync('npm ls @cdwr/nx-payload', {
-        cwd: workspaceDirectory
-      });
-
-      // Verify `appName` and `appDirectory` were used over `name`
-      expect(
-        JSON.parse(
-          readFileSync(`${workspaceDirectory}/apps/app/project.json`, {
-            encoding: 'utf-8'
-          })
-        ).name
-      ).toBe('my-app');
+  it('should have installed nx-payload plugin', async () => {
+    await runCommandAsync('npm ls @cdwr/nx-payload', {
+      cwd: project.workspaceDirectory
     });
+  });
+
+  it('should have created app project', async () => {
+    expect(project.appName.length).toBeGreaterThan(0);
+
+    // Verify `appName` and `appDirectory` were used over `name`
+    expect(
+      JSON.parse(
+        readFileSync(
+          `${project.workspaceDirectory}/${project.appPath}/project.json`,
+          {
+            encoding: 'utf-8'
+          }
+        )
+      ).name
+    ).toBe(project.appName);
   });
 });

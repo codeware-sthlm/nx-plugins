@@ -2,33 +2,24 @@ import {
   checkFilesExist,
   ensureNxProject,
   readJson,
+  runNxCommandAsync,
   uniq
 } from '@nx/plugin/testing';
 
-import { runNxCommandAsync } from './utils/run-nx-command-async';
-
-describe('Generate Payload application', () => {
-  let appName: string;
-
-  /** Application generate command without arguments */
-  const baseCmd = 'generate @nx-plugins/nx-payload:app';
-
+describe('Generate payload application', () => {
   console.log = jest.fn();
   jest.setTimeout(900_000);
 
   beforeAll(() => {
-    ensureNxProject('@nx-plugins/nx-payload', 'dist/packages/nx-payload');
-  });
-
-  afterAll(async () => {
-    await runNxCommandAsync('reset');
+    ensureNxProject('@cdwr/nx-payload', 'dist/packages/nx-payload');
   });
 
   describe('required options', () => {
+    const appName = uniq('app');
+
     it('should generate default application', async () => {
-      appName = uniq('app');
       await runNxCommandAsync(
-        `${baseCmd} ${appName} --directory apps/${appName}`
+        `g @cdwr/nx-payload:app ${appName} --directory apps/${appName}`
       );
 
       expect(() =>
@@ -64,9 +55,9 @@ describe('Generate Payload application', () => {
 
   describe('optional options', () => {
     it('should apply tags (--tags)', async () => {
-      appName = uniq('app');
+      const appName = uniq('app');
       await runNxCommandAsync(
-        `${baseCmd} ${appName} --directory apps/${appName} --tags e2etag,e2ePackage`
+        `g @cdwr/nx-payload:app ${appName} --directory apps/${appName} --tags e2etag,e2ePackage`
       );
 
       expect(readJson(`apps/${appName}/project.json`).tags).toEqual([
@@ -76,9 +67,9 @@ describe('Generate Payload application', () => {
     });
 
     it('should apply tags (alias -t)', async () => {
-      appName = uniq('app');
+      const appName = uniq('app');
       await runNxCommandAsync(
-        `${baseCmd} ${appName} --directory apps/${appName} -t aliasTag`
+        `g @cdwr/nx-payload:app ${appName} --directory apps/${appName} -t aliasTag`
       );
 
       expect(readJson(`apps/${appName}/project.json`).tags).toEqual([
@@ -87,9 +78,9 @@ describe('Generate Payload application', () => {
     });
 
     it('should skip e2e project', async () => {
-      appName = uniq('app');
+      const appName = uniq('app');
       await runNxCommandAsync(
-        `${baseCmd} ${appName} --directory apps/${appName} --skip-e2e`
+        `g @cdwr/nx-payload:app ${appName} --directory apps/${appName} --skip-e2e`
       );
 
       expect(() =>
