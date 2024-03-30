@@ -33,6 +33,9 @@
         ]
       }
     },
+    "payload": {
+      "executor": "@cdwr/nx-payload:payload"
+    },
     "github-release": {
       "executor": "@jscutlery/semver:github"
     },

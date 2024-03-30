@@ -4,6 +4,11 @@
       "implementation": "./src/executors/build/build",
       "schema": "./src/executors/build/schema.json",
       "description": "Build Payload application"
+    },
+    "payload": {
+      "implementation": "./src/executors/payload/payload",
+      "schema": "./src/executors/payload/schema.json",
+      "description": "Run native Payload commands"
     }
   }
 }

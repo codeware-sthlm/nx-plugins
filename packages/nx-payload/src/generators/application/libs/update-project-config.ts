@@ -2,7 +2,6 @@ import {
   type ProjectConfiguration,
   type TargetConfiguration,
   type Tree,
-  getPackageManagerCommand,
   readProjectConfiguration,
   updateProjectConfiguration
 } from '@nx/devkit';
@@ -21,7 +20,6 @@ type target =
   | 'test';
 
 export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
-  const pmCommand = getPackageManagerCommand();
   const projectConfig = readProjectConfiguration(host, options.name);
 
   if (!projectConfig) {
@@ -36,7 +34,9 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
     build: {
       executor: '@cdwr/nx-payload:build',
       options: {
-        ...projectBuild?.options
+        main: projectBuild?.options.main,
+        tsConfig: projectBuild?.options.tsConfig,
+        outputPath: projectBuild?.options.outputPath
       }
     },
 
@@ -62,12 +62,8 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
       ...projectTest
     },
 
-    // TODO: Should be managed by an executor
     payload: {
-      executor: 'nx:run-commands',
-      options: {
-        command: `${pmCommand.exec} payload`
-      }
+      executor: '@cdwr/nx-payload:payload'
     },
 
     // TODO: Should be managed by an executor
