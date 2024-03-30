@@ -183,7 +183,7 @@ Open your browser and navigate to <http://localhost:3000>.
 All commands available from Payload can be used by the generated application via target `payload`.
 
 ```sh
-npx nx payload [app-name] -- [payload-command]
+npx nx payload [app-name] [payload-command]
 ```
 
 This is specially useful for managing [migrations](https://payloadcms.com/docs/database/migrations#commands).
@@ -209,13 +209,13 @@ npx nx serve [app-name]
 ```
 
 ```sh
-npx nx payload [app-name] -- migrate:create
+npx nx payload [app-name] migrate:create
 ```
 
 View migration files
 
 ```sh
-npx nx payload [app-name] -- migrate:status
+npx nx payload [app-name] migrate:status
 ```
 
 ## You don't have an Nx workspace?
@@ -263,6 +263,22 @@ Build a Payload application.
 | `tsConfig`   | string                    |    ✅    |         | The path to the Typescript configuration file |
 | `assets`     | array of object or string |          | `[]`    | List of static assets                         |
 | `clean`      | boolean                   |          | `true`  | Remove previous output before build           |
+
+### `payload` <!-- omit in toc -->
+
+Run Payload commands for an application.
+
+_No options_.
+
+```sh
+npx nx payload [app-name] [payload-command]
+```
+
+For example to check database migration status
+
+```sh
+npx nx payload my-app migrate:status
+```
 
 ## Plugin Migrations
 
