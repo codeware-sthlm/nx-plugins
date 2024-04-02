@@ -21,8 +21,11 @@
 ## Contents <!-- omit in toc -->
 
 - [Prerequisites](#prerequisites)
-- [Usage](#usage)
+- [Installation](#installation)
   - [Add Payload plugin to an existing workspace](#add-payload-plugin-to-an-existing-workspace)
+  - [Inferred tasks](#inferred-tasks)
+  - [Configuration](#configuration)
+- [Usage](#usage)
   - [Generate a Payload application](#generate-a-payload-application)
   - [MongoDB, Postgres or Supabase?](#mongodb-postgres-or-supabase)
 - [DX](#dx)
@@ -44,13 +47,52 @@
 - Node 18+
 - Docker
 
-## Usage
+## Installation
 
 ### Add Payload plugin to an existing workspace
 
 ```sh
-npm add -D @cdwr/nx-payload
+npx nx add @cdwr/nx-payload
 ```
+
+### Inferred tasks
+
+The plugin automatically creates tasks for projects with a `payload.config.ts` configuration file:
+
+- `build`
+- `payload`
+
+### Configuration
+
+```ts
+// nx.json
+{
+  "plugins": [
+    "@cdwr/nx-payload/plugin"
+  ]
+}
+```
+
+or use `options` to assign custom target names
+
+```ts
+// nx.json
+{
+  "plugins": [
+    {
+      "plugin": "@cdwr/nx-payload/plugin",
+      "options": {
+        "buildTargetName": "my-build",
+        "payloadTargetName": "my-payload"
+      }
+    }
+  ]
+}
+```
+
+> Plugin configuration is created automatically, but you can opt out by setting `useInferencePlugins = false` in `nx.json`
+
+## Usage
 
 ### Generate a Payload application
 
@@ -60,17 +102,17 @@ npx nx generate @cdwr/nx-payload:app
 
 ### MongoDB, Postgres or Supabase?
 
-Payload has offlicial support for database adapters [MongoDB](https://www.mongodb.com/) and [Postgres](https://www.postgresql.org/about/).
+Payload has official support for database adapters [MongoDB](https://www.mongodb.com/) and [Postgres](https://www.postgresql.org/about/).
 
-This plugin support setting up of either one via option [`database`](#plugin-generators).
+This plugin supports setting up either one via the [`database`](#plugin-generators) option.
 
-> [Supabase](https://supabase.com/docs) should be setup using the Postgres adapter
+> [Supabase](https://supabase.com/docs) should be set up using the Postgres adapter
 
 Changing the adapter for a generated application must be done manually in `payload.config.ts`.
 
 > We don't want to infer opinionated complexity into Payload configuration
 
-Luckily it's fairly easy to change database and the required parts to replace are few.
+Fortunately, changing the database is straightforward, and only a few parts need to be replaced.
 
 ```ts
 // MongoDB @ payload.config.ts
@@ -104,7 +146,7 @@ More information can be found on the official [Payload Database](https://payload
 
 ## DX
 
-Generated applications comes with a set of Nx targets to help you get started.
+Generated applications come with a set of Nx targets to help you get started.
 
 ### Start Payload and database in Docker
 
@@ -116,11 +158,11 @@ Using docker compose, both MongoDB and Postgres are started in each container, a
 npx nx start [app-name]
 ```
 
-App name doesn't have to be provided for the default app in `nx.json`. Provide the name when you have more apps and some other should be launched.
+The app name is optional for the default app specified in `nx.json`. Specify the app name when launching a non-default app.
 
 Open your browser and navigate to <http://localhost:3000> to setup your first user.
 
-> Supabase is not supported in this opinionated bundle, since it's actually better to start the preferred database manually and run Payload app in development mode
+> Supabase is not included in this Docker setup. Instead, start your preferred database manually and run the Payload app in development mode.
 
 #### Stop <!-- omit in toc -->
 
@@ -197,7 +239,7 @@ Using Postgres in dev mode (serve) enables automatic migration. But when startin
 The solution is to run a migration on the database before Payload is started.
 
 ```sh
-npx nx payload [app-name] -- migrate
+npx nx payload [app-name] migrate
 ```
 
 **How do I create a migration file?**
@@ -286,7 +328,10 @@ None.
 
 ## Versions Compatibility
 
+Later versions of Nx or Payload might work as well, but the versions below have been used during tests.
+
 | Plugin version | Nx version | Payload version |
 | -------------- | ---------- | --------------- |
+| `^0.6.0`       | `~18.1.1`  | `^2.8.2`        |
 | `^0.5.0`       | `~18.0.3`  | `^2.8.2`        |
 | `^0.1.0`       | `^17.0.0`  | `^2.5.0`        |
