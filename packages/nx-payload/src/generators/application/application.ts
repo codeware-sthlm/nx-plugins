@@ -13,10 +13,10 @@ import { createDockerfile } from './libs/create-dockerfile';
 import { createExpressApplication } from './libs/create-express-application';
 import { createPayloadConfig } from './libs/create-payload-config';
 import { normalizeOptions } from './libs/normalize-options';
-import { setWorkspaceDefaults } from './libs/set-workspace-defaults';
 import { updateProjectConfig } from './libs/update-project-config';
 import { updateTsConfigApp } from './libs/update-tsconfig-app';
-import { type AppGeneratorSchema } from './schema';
+import { updateWorkspaceConfig } from './libs/update-workspace-config';
+import type { AppGeneratorSchema } from './schema';
 
 export async function applicationGenerator(
   host: Tree,
@@ -42,7 +42,7 @@ export async function applicationGenerator(
   updateTsConfigApp(host, options);
 
   // Workspace root config files
-  setWorkspaceDefaults(host, options);
+  updateWorkspaceConfig(host, options);
 
   // Format files
   if (!options.skipFormat) {

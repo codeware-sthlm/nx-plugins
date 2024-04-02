@@ -140,8 +140,11 @@ jobs:
         env:
           NX_CACHE_DIRECTORY: 'tmp'
           NX_PERF_LOGGING: 'false'
-          NX_DAEMON: 'true'
           NX_NO_CLOUD: ${{ contains(github.head_ref || github.ref_name, 'renovate') }}
+          # NX_DAEMON defaults to 'true' unless explicitly set to 'false'
+          NX_DAEMON: ${{ env.NX_DAEMON == 'false' && 'false' || 'true' }}
+          # NX_VERBOSE_LOGGING defaults to 'false' unless explicitly set to 'true'
+          NX_VERBOSE_LOGGING: ${{ env.NX_VERBOSE_LOGGING == 'true' && 'true' || 'false' }}
 
       - name: Setup tmate session
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug-enabled && failure() }}

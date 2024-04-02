@@ -1,9 +1,16 @@
-import { type Tree, readJson } from '@nx/devkit';
+import {
+  type PluginConfiguration,
+  type Tree,
+  readJson,
+  readNxJson,
+  readProjectConfiguration,
+  updateNxJson
+} from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { type PackageJson } from 'nx/src/utils/package-json';
+import type { PackageJson } from 'nx/src/utils/package-json';
 
 import generator from './application';
-import { type AppGeneratorSchema } from './schema';
+import type { AppGeneratorSchema } from './schema';
 
 describe('application generator', () => {
   let tree: Tree;
@@ -14,6 +21,23 @@ describe('application generator', () => {
 
   console.log = jest.fn();
   console.warn = jest.fn();
+
+  const setInferenceFlag = (useInferencePlugins?: boolean) => {
+    const workspace = readNxJson(tree);
+    if (useInferencePlugins === undefined) {
+      delete workspace.useInferencePlugins;
+    } else {
+      workspace.useInferencePlugins = useInferencePlugins;
+    }
+    updateNxJson(tree, workspace);
+  };
+
+  const addInferencePlugin = (plugin: PluginConfiguration) => {
+    const workspace = readNxJson(tree);
+    workspace.plugins = workspace.plugins || [];
+    workspace.plugins.push(plugin);
+    updateNxJson(tree, workspace);
+  };
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
@@ -145,10 +169,11 @@ describe('application generator', () => {
     ).toBeTruthy();
   });
 
-  it('should add dotenv files', async () => {
+  it('should add three dotenv files', async () => {
     await generator(tree, options);
 
     expect(tree.exists(`${options.directory}/.env`)).toBeTruthy();
+    expect(tree.exists(`${options.directory}/.env.payload`)).toBeTruthy();
     expect(tree.exists(`${options.directory}/.env.serve`)).toBeTruthy();
   });
 
@@ -194,6 +219,98 @@ describe('application generator', () => {
     );
     expect(content.match(/mongooseAdapter|MONGO_URL/g)).toBeNull();
     expect(content.match(/postgresAdapter|POSTGRES_URL/g).length).toBe(3);
+  });
+
+  it("should setup plugin inference when 'useInferencePlugins' doesn't exist", async () => {
+    setInferenceFlag();
+    await generator(tree, options);
+
+    const nxJson = readNxJson(tree);
+    expect(nxJson.useInferencePlugins).toBeUndefined();
+    expect(nxJson.plugins).toEqual(['@cdwr/nx-payload/plugin']);
+
+    const projectJson = readProjectConfiguration(tree, options.name);
+    expect(projectJson.targets['build']).toBeUndefined();
+    expect(projectJson.targets['payload']).toBeUndefined();
+  });
+
+  it("should setup plugin inference when 'useInferencePlugins' is 'true'", async () => {
+    setInferenceFlag(true);
+    await generator(tree, options);
+
+    const nxJson = readNxJson(tree);
+    expect(nxJson.useInferencePlugins).toBe(true);
+    expect(nxJson.plugins).toEqual(['@cdwr/nx-payload/plugin']);
+
+    const projectJson = readProjectConfiguration(tree, options.name);
+    expect(projectJson.targets['build']).toBeUndefined();
+    expect(projectJson.targets['payload']).toBeUndefined();
+  });
+
+  it("should not setup plugin inference when 'useInferencePlugins' is 'false'", async () => {
+    setInferenceFlag(false);
+    await generator(tree, options);
+
+    const nxJson = readNxJson(tree);
+    expect(nxJson.useInferencePlugins).toBe(false);
+    expect(nxJson.plugins).toBeUndefined();
+
+    const projectJson = readProjectConfiguration(tree, options.name);
+    expect(projectJson.targets['build']).toBeDefined();
+    expect(projectJson.targets['payload']).toBeDefined();
+  });
+
+  it('should skip setup plugin inference when plugin exists as string', async () => {
+    addInferencePlugin('@cdwr/nx-payload/plugin');
+    await generator(tree, options);
+
+    const content = readNxJson(tree);
+    expect(content.plugins).toEqual(['@cdwr/nx-payload/plugin']);
+  });
+
+  it('should skip setup plugin inference when plugin exists as object without options', async () => {
+    addInferencePlugin({ plugin: '@cdwr/nx-payload/plugin' });
+    await generator(tree, options);
+
+    const content = readNxJson(tree);
+    expect(content.plugins).toEqual([{ plugin: '@cdwr/nx-payload/plugin' }]);
+  });
+
+  it('should skip setup plugin inference when plugin exists as object with full options', async () => {
+    addInferencePlugin({
+      plugin: '@cdwr/nx-payload/plugin',
+      options: { buildTargetName: 'my-build', payloadTargetName: 'my-payload' }
+    });
+    await generator(tree, options);
+
+    const content = readNxJson(tree);
+    expect(content.plugins).toEqual([
+      {
+        plugin: '@cdwr/nx-payload/plugin',
+        options: {
+          buildTargetName: 'my-build',
+          payloadTargetName: 'my-payload'
+        }
+      }
+    ]);
+  });
+
+  it('should skip setup plugin inference when plugin exists as object with partial options', async () => {
+    addInferencePlugin({
+      plugin: '@cdwr/nx-payload/plugin',
+      options: { buildTargetName: 'my-build' }
+    });
+    await generator(tree, options);
+
+    const content = readNxJson(tree);
+    expect(content.plugins).toEqual([
+      {
+        plugin: '@cdwr/nx-payload/plugin',
+        options: {
+          buildTargetName: 'my-build'
+        }
+      }
+    ]);
   });
 
   // @see https://github.com/nrwl/nx/blob/master/packages/remix/src/generators/application/application.impl.spec.ts

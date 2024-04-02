@@ -2,13 +2,15 @@ import {
   type ProjectConfiguration,
   type TargetConfiguration,
   type Tree,
+  readNxJson,
   readProjectConfiguration,
   updateProjectConfiguration
 } from '@nx/devkit';
 
-import { type NormalizedSchema } from './normalize-options';
+import type { NormalizedSchema } from './normalize-options';
 
-type target =
+/** Available targets */
+type Target =
   | 'build'
   | 'lint'
   | 'mongodb'
@@ -20,6 +22,7 @@ type target =
   | 'test';
 
 export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
+  const nxJson = readNxJson(host);
   const projectConfig = readProjectConfiguration(host, options.name);
 
   if (!projectConfig) {
@@ -30,7 +33,8 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
   const projectServe = projectConfig.targets?.serve;
   const projectTest = projectConfig.targets?.test;
 
-  const targets: Record<target, TargetConfiguration> = {
+  /** Define all targets configurations */
+  const allTargetsConfigurations: Record<Target, TargetConfiguration> = {
     build: {
       executor: '@cdwr/nx-payload:build',
       options: {
@@ -39,7 +43,6 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
         outputPath: projectBuild?.options.outputPath
       }
     },
-
     serve: {
       ...projectServe,
       options: {
@@ -53,19 +56,15 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
         }
       }
     },
-
     lint: {
       ...projectLint
     },
-
     test: {
       ...projectTest
     },
-
     payload: {
       executor: '@cdwr/nx-payload:payload'
     },
-
     // TODO: Should be managed by an executor
     mongodb: {
       executor: 'nx:run-commands',
@@ -73,7 +72,6 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
         command: `docker ps -q -f name=mongodb-${options.name} | grep . && echo '[Running] mongodb is already started' || docker run --name mongodb-${options.name} --rm -d -p 27017:27017 mongo`
       }
     },
-
     // TODO: Should be managed by an executor
     postgres: {
       executor: 'nx:run-commands',
@@ -82,22 +80,42 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
         readyWhen: 'PostgreSQL init process complete'
       }
     },
-
     start: {
       command: `docker compose -f ${options.directory}/docker-compose.yml up -d`
     },
-
     stop: {
       command: `docker compose -f ${options.directory}/docker-compose.yml down`
     }
   };
+
+  // Targets which can be inferred
+  const inferredTargets: Array<Target> = ['build', 'payload'];
+
+  // Targets which should be added to the project configuration
+  // (if inference is enabled, the inferred targets will not be added to the project configuration)
+  const projectTargets = Object.keys(allTargetsConfigurations)
+    .filter((target) =>
+      nxJson?.useInferencePlugins === false
+        ? true
+        : inferredTargets.map(String).includes(target) === false
+    )
+    .map((target) => target as Target);
+
+  // Final target configurations
+  const targetsConfigurations = projectTargets.reduce(
+    (acc, key) => {
+      acc[key] = allTargetsConfigurations[key];
+      return acc;
+    },
+    {} as typeof allTargetsConfigurations
+  );
 
   const project: ProjectConfiguration = {
     name: projectConfig.name,
     root: projectConfig.root,
     sourceRoot: projectConfig.sourceRoot,
     projectType: projectConfig.projectType,
-    targets,
+    targets: targetsConfigurations,
     tags: projectConfig.tags
   };
 
