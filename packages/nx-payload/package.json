@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@nx/devkit": "18.1.1",
-    "@nx/eslint": "18.1.1 ",
+    "@nx/eslint": "18.1.1",
     "@nx/express": "18.1.1",
     "@nx/js": "18.1.1",
     "nx": "18.1.1",

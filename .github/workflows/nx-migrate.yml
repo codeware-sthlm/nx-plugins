@@ -78,14 +78,14 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           include: packages/**/package.json
-          # Match lines with "create-nx-workspace" or "@nx/*".
+          # Match lines with "create-nx-workspace", "nx" or "@nx/*".
           # Package, version and separator are divided into match groups:
           # Eg. "@nx/express": "18.0.0"
           # =>  "<group 1><group 2><group 3>"
           #     "<@nx/express><": "><18.0.0>"
           # Match group 3 is replaced with the latest version,
           # hence the value for current version is not considered.
-          find: (create\-nx\-workspace|@nx\/[^\"]*)(\":\s\")(\d+\.\d+\.\d+)
+          find: (\"(?:create\-nx\-workspace|nx|@nx\/[^\"]*))(\":\s\")(\d+\.\d+\.\d+)
           replace: ${1}${2}${{ steps.workspace.outputs.latest }}
 
       - name: Run tests
