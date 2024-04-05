@@ -1,19 +1,17 @@
-import { runCommandAsync } from '@nx/plugin/testing';
+import { runCommandAsync, runNxCommand } from '@nx/plugin/testing';
 import { agent } from 'supertest';
 
-import {
-  type CreateNxWorkspaceProject,
-  ensureCreateNxWorkspaceProject
-} from './utils/ensure-create-nx-workspace-project';
+import { ensureCreateNxWorkspaceProject } from './utils/ensure-create-nx-workspace-project';
 
 describe('Verify local npm and create empty workspace', () => {
-  let project: CreateNxWorkspaceProject;
-
-  console.log = jest.fn();
   jest.setTimeout(900_000);
 
-  beforeAll(async () => {
-    project = await ensureCreateNxWorkspaceProject('test-npm', 'apps');
+  beforeAll(() => {
+    ensureCreateNxWorkspaceProject('apps');
+  });
+
+  afterAll(() => {
+    runNxCommand('reset');
   });
 
   it('should be connected to local registry', () => {
@@ -21,9 +19,7 @@ describe('Verify local npm and create empty workspace', () => {
   });
 
   it('should have installed nx workspace', async () => {
-    await runCommandAsync('npm ls @nx/workspace', {
-      cwd: project.workspaceDirectory
-    });
+    await runCommandAsync('npm ls @nx/workspace');
   });
 
   it('should not have installed nx-payload plugin', async () => {
@@ -32,7 +28,6 @@ describe('Verify local npm and create empty workspace', () => {
     const { stderr, stdout } = await runCommandAsync(
       'npm ls @cdwr/nx-payload',
       {
-        cwd: project.workspaceDirectory,
         silenceError: true
       }
     );

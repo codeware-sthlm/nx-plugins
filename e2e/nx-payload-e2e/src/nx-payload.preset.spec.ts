@@ -1,6 +1,4 @@
-import { readFileSync } from 'fs';
-
-import { runCommandAsync } from '@nx/plugin/testing';
+import { readJson, runCommandAsync, runNxCommand } from '@nx/plugin/testing';
 
 import {
   type CreateNxWorkspaceProject,
@@ -10,35 +8,26 @@ import {
 describe('Create workspace with preset', () => {
   let project: CreateNxWorkspaceProject;
 
-  console.log = jest.fn();
   jest.setTimeout(900_000);
 
-  beforeAll(async () => {
-    project = await ensureCreateNxWorkspaceProject(
-      'test-preset',
-      '@cdwr/nx-payload'
-    );
+  beforeAll(() => {
+    project = ensureCreateNxWorkspaceProject('@cdwr/nx-payload');
+  });
+
+  afterAll(() => {
+    runNxCommand('reset');
   });
 
   it('should have installed nx-payload plugin', async () => {
-    await runCommandAsync('npm ls @cdwr/nx-payload', {
-      cwd: project.workspaceDirectory
-    });
+    await runCommandAsync('npm ls @cdwr/nx-payload');
   });
 
-  it('should have created app project', async () => {
+  it('should have created app project', () => {
     expect(project.appName.length).toBeGreaterThan(0);
 
     // Verify `appName` and `appDirectory` were used over `name`
-    expect(
-      JSON.parse(
-        readFileSync(
-          `${project.workspaceDirectory}/${project.appPath}/project.json`,
-          {
-            encoding: 'utf-8'
-          }
-        )
-      ).name
-    ).toBe(project.appName);
+    expect(readJson(`${project.appDirectory}/project.json`).name).toBe(
+      project.appName
+    );
   });
 });

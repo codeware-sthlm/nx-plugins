@@ -1,7 +1,6 @@
 import type { NxJsonConfiguration, ProjectConfiguration } from '@nx/devkit';
 import {
-  cleanup,
-  newNxProject,
+  ensureNxProject,
   readJson,
   runNxCommand,
   uniq
@@ -13,17 +12,20 @@ const myAppPath = `apps/${myApp}`;
 describe('@cdwr/nx-payload/plugin', () => {
   let originalEnv: string;
 
+  jest.setTimeout(300_000);
+
   beforeAll(() => {
+    // Make sure plugin inference is enabled
     originalEnv = process.env.NX_ADD_PLUGINS;
     process.env.NX_ADD_PLUGINS = 'true';
-    newNxProject('@cdwr/nx-payload', 'dist/packages/nx-payload');
+
+    ensureNxProject('@cdwr/nx-payload', 'dist/packages/nx-payload');
     runNxCommand(`g @cdwr/nx-payload:app ${myApp} --directory ${myAppPath}`);
   });
 
   afterAll(() => {
     process.env.NX_ADD_PLUGINS = originalEnv;
     runNxCommand('reset');
-    cleanup();
   });
 
   it('should configure plugin without targets', () => {
@@ -43,10 +45,10 @@ describe('@cdwr/nx-payload/plugin', () => {
   it('should build application', () => {
     const result = runNxCommand(`build ${myApp}`);
     expect(result).toContain('Successfully ran target build');
-  }, 300_000);
+  });
 
   it('should invoke payload cli', () => {
     const result = runNxCommand(`payload ${myApp}`);
     expect(result).toContain('Successfully ran target payload');
-  }, 300_000);
+  });
 });
