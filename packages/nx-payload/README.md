@@ -332,6 +332,7 @@ Later versions of Nx or Payload might work as well, but the versions below have 
 
 | Plugin version | Nx version | Payload version |
 | -------------- | ---------- | --------------- |
+| `^0.7.0`       | `~18.2.2`  | `^2.8.2`        |
 | `^0.6.0`       | `~18.1.1`  | `^2.8.2`        |
 | `^0.5.0`       | `~18.0.3`  | `^2.8.2`        |
 | `^0.1.0`       | `^17.0.0`  | `^2.5.0`        |
