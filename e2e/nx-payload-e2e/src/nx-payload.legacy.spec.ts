@@ -2,26 +2,38 @@ import {
   checkFilesExist,
   ensureNxProject,
   readJson,
-  runNxCommandAsync,
+  runNxCommand,
   uniq
 } from '@nx/plugin/testing';
 
-describe('Generate payload application', () => {
-  console.log = jest.fn();
+describe('@cdwr/nx-payload:app', () => {
+  let originalEnv: string;
+
   jest.setTimeout(900_000);
 
   beforeAll(() => {
+    // Disable plugin inference
+    originalEnv = process.env.NX_ADD_PLUGINS;
+    process.env.NX_ADD_PLUGINS = 'false';
+
     ensureNxProject('@cdwr/nx-payload', 'dist/packages/nx-payload');
+  });
+
+  afterAll(() => {
+    process.env.NX_ADD_PLUGINS = originalEnv;
+    runNxCommand('reset');
   });
 
   describe('required options', () => {
     const appName = uniq('app');
 
-    it('should generate default application', async () => {
-      await runNxCommandAsync(
+    beforeAll(() => {
+      runNxCommand(
         `g @cdwr/nx-payload:app ${appName} --directory apps/${appName}`
       );
+    });
 
+    it('should generate application', () => {
       expect(() =>
         checkFilesExist(
           `apps/${appName}/project.json`,
@@ -32,8 +44,9 @@ describe('Generate payload application', () => {
       ).not.toThrow();
     });
 
-    it('should be able to build', async () => {
-      await runNxCommandAsync(`build ${appName}`);
+    it('should build application', () => {
+      const result = runNxCommand(`build ${appName}`);
+      expect(result).toContain('Successfully ran target build');
 
       expect(() =>
         checkFilesExist(
@@ -44,19 +57,21 @@ describe('Generate payload application', () => {
       ).not.toThrow();
     });
 
-    it('should be able to test', async () => {
-      expect(await runNxCommandAsync(`test ${appName}`)).toBeTruthy();
+    it('should test application', () => {
+      const result = runNxCommand(`test ${appName}`);
+      expect(result).toContain('Successfully ran target test');
     });
 
-    it('should be able to lint', async () => {
-      expect(await runNxCommandAsync(`lint ${appName}`)).toBeTruthy();
+    it('should lint application', () => {
+      const result = runNxCommand(`lint ${appName}`);
+      expect(result).toContain('Successfully ran target lint');
     });
   });
 
   describe('optional options', () => {
-    it('should apply tags (--tags)', async () => {
+    it('should apply tags (--tags)', () => {
       const appName = uniq('app');
-      await runNxCommandAsync(
+      runNxCommand(
         `g @cdwr/nx-payload:app ${appName} --directory apps/${appName} --tags e2etag,e2ePackage`
       );
 
@@ -66,9 +81,9 @@ describe('Generate payload application', () => {
       ]);
     });
 
-    it('should apply tags (alias -t)', async () => {
+    it('should apply tags (alias -t)', () => {
       const appName = uniq('app');
-      await runNxCommandAsync(
+      runNxCommand(
         `g @cdwr/nx-payload:app ${appName} --directory apps/${appName} -t aliasTag`
       );
 
@@ -77,9 +92,9 @@ describe('Generate payload application', () => {
       ]);
     });
 
-    it('should skip e2e project', async () => {
+    it('should skip e2e project', () => {
       const appName = uniq('app');
-      await runNxCommandAsync(
+      runNxCommand(
         `g @cdwr/nx-payload:app ${appName} --directory apps/${appName} --skip-e2e`
       );
 
