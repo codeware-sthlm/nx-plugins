@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.5.1](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.5.0...create-nx-payload-0.5.1) (2024-04-05)
+
+
+### 🧹 Code Refactoring
+
+* improve e2e ([c010ee7](https://github.com/codeware-sthlm/nx-plugins/commit/c010ee70df58343bdd18b1994f39c25c4bcf9d22))
+
+
+### 🛠️ Build System
+
+* 📦 update nx workspace to 18.2.2 ([ffff2ae](https://github.com/codeware-sthlm/nx-plugins/commit/ffff2ae47bd31f4d80169237809f6c3df16f82e2))
+
 ## [0.5.0](https://github.com/codeware-sthlm/nx-plugins/compare/create-nx-payload-0.4.0...create-nx-payload-0.5.0) (2024-03-18)
 
 
