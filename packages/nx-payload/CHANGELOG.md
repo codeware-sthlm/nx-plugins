@@ -2,6 +2,30 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.7.0](https://github.com/codeware-sthlm/nx-plugins/compare/nx-payload-0.6.1...nx-payload-0.7.0) (2024-04-05)
+
+
+### ✨ Features
+
+* **nx-payload:** implement build executor ([5632758](https://github.com/codeware-sthlm/nx-plugins/commit/56327588c86166ffee1e442f0faed6854d007261))
+* **nx-payload:** implement payload executor ([d9d1653](https://github.com/codeware-sthlm/nx-plugins/commit/d9d1653eeb448d1c112830ab52d1f3f7ab4676e2))
+* **nx-payload:** support project crystal to infer tasks ([6337c12](https://github.com/codeware-sthlm/nx-plugins/commit/6337c12d8672fb75a5ac9a6cf66318809e3f9acb))
+
+
+### 📄 Documentation
+
+* **nx-payload:** bump version compatibility ([e819c16](https://github.com/codeware-sthlm/nx-plugins/commit/e819c164b143f38eac0fb4a5fbfecf610515a3e7))
+
+
+### 🤖 Continuous Integration
+
+* fix nx migrate package lookup ([2a6e8b4](https://github.com/codeware-sthlm/nx-plugins/commit/2a6e8b41ff9307b6b84ee580a069585c6f5b1152))
+
+
+### 🛠️ Build System
+
+* 📦 update nx workspace to 18.2.2 ([ffff2ae](https://github.com/codeware-sthlm/nx-plugins/commit/ffff2ae47bd31f4d80169237809f6c3df16f82e2))
+
 ## [0.6.1](https://github.com/codeware-sthlm/nx-plugins/compare/nx-payload-0.6.0...nx-payload-0.6.1) (2024-03-18)
 
 
