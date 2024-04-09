@@ -92,7 +92,7 @@
           "changelog": { "title": "📄 Documentation" }
         },
         "chore": {
-          "semverBump": "none",
+          "semverBump": "patch",
           "changelog": { "title": "⚙️ Miscellaneous Chores" }
         },
         "refactor": {
