@@ -3,137 +3,21 @@
   "nxCloudAccessToken": "YzY5OGI1YTctYWJlMi00NTkxLWIwY2ItZjYyZDcwYWMzOWJhfHJlYWQtd3JpdGU=",
   "parallel": 3,
   "defaultBase": "master",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "production": [
+      "default",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.js",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/test-setup.[jt]s"
+    ],
+    "sharedGlobals": []
+  },
   "targetDefaults": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
-    },
-    "e2e": { "cache": true },
-    "version": {
-      "dependsOn": ["build"],
-      "options": {
-        "preset": {
-          "name": "angular",
-          "types": [
-            {
-              "type": "feat",
-              "section": "✨ Features"
-            },
-            {
-              "type": "fix",
-              "section": "🐞 Bug Fixes"
-            },
-            {
-              "type": "perf",
-              "section": "⚡️ Performance Improvements"
-            },
-            {
-              "type": "revert",
-              "section": "🔙 Revert Code Changes"
-            },
-            {
-              "type": "docs",
-              "section": "📄 Documentation"
-            },
-            {
-              "type": "chore",
-              "section": "⚙️ Miscellaneous Chores"
-            },
-            {
-              "type": "refactor",
-              "section": "🧹 Code Refactoring"
-            },
-            {
-              "type": "test",
-              "section": "✅ Tests"
-            },
-            {
-              "type": "ci",
-              "section": "🤖 Continuous Integration"
-            },
-            {
-              "type": "build",
-              "section": "🛠️ Build System"
-            }
-          ]
-        },
-        "baseBranch": "master",
-        "skipCommitTypes": ["build", "ci", "release"],
-        "skipCommit": true,
-        "push": false
-      }
-    },
-    "version-publish": {
-      "dependsOn": ["build"],
-      "options": {
-        "preset": {
-          "name": "angular",
-          "types": [
-            {
-              "type": "feat",
-              "section": "✨ Features"
-            },
-            {
-              "type": "fix",
-              "section": "🐞 Bug Fixes"
-            },
-            {
-              "type": "perf",
-              "section": "⚡️ Performance Improvements"
-            },
-            {
-              "type": "revert",
-              "section": "🔙 Revert Code Changes"
-            },
-            {
-              "type": "docs",
-              "section": "📄 Documentation"
-            },
-            {
-              "type": "chore",
-              "section": "⚙️ Miscellaneous Chores"
-            },
-            {
-              "type": "refactor",
-              "section": "🧹 Code Refactoring"
-            },
-            {
-              "type": "test",
-              "section": "✅ Tests"
-            },
-            {
-              "type": "ci",
-              "section": "🤖 Continuous Integration"
-            },
-            {
-              "type": "build",
-              "section": "🛠️ Build System"
-            }
-          ]
-        },
-        "baseBranch": "master",
-        "tagPrefix": "{projectName}-",
-        "commitMessageFormat": "release({projectName}): version {version} [skip ci]",
-        "skipCommitTypes": ["build", "ci", "release"],
-        "push": true,
-        "postTargets": ["npm-publish", "github-release"]
-      }
-    },
-    "github-release": {
-      "executor": "@jscutlery/semver:github",
-      "options": {
-        "tag": "{tag}",
-        "notes": "{notes}"
-      }
-    },
-    "npm-publish": {
-      "executor": "ngx-deploy-npm:deploy",
-      "options": {
-        "distFolderPath": "dist/packages/{projectName}",
-        "packageVersion": "{version}",
-        "access": "public"
-      }
-    },
     "@nx/jest:jest": {
       "inputs": [
         "default",
@@ -162,21 +46,73 @@
       },
       "outputs": ["{options.outputPath}"],
       "cache": true
+    },
+    "nx-release-publish": {
+      "dependsOn": ["build"],
+      "options": {
+        "packageRoot": "{workspaceRoot}/dist/packages/{projectName}"
+      }
+    },
+    "build": {
+      "dependsOn": ["build-base", "build-native"],
+      "inputs": ["production", "^production"],
+      "cache": true
     }
   },
-  "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": [
-      "default",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.js",
-      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/src/test-setup.[jt]s",
-      "!{projectRoot}/test-setup.[jt]s"
-    ],
-    "sharedGlobals": []
+  "release": {
+    "projects": ["packages/*"],
+    "projectsRelationship": "independent",
+    "releaseTagPattern": "{projectName}-{version}",
+    "git": { "commitMessage": "chore(release): {version}" },
+    "changelog": {
+      "projectChangelogs": { "createRelease": "github" },
+      "workspaceChangelog": false
+    },
+    "version": { "conventionalCommits": true },
+    "conventionalCommits": {
+      "types": {
+        "feat": {
+          "semverBump": "minor",
+          "changelog": { "title": "✨ Features" }
+        },
+        "fix": {
+          "semverBump": "patch",
+          "changelog": { "title": "🐞 Bug Fixes" }
+        },
+        "perf": {
+          "semverBump": "patch",
+          "changelog": { "title": "⚡️ Performance Improvements" }
+        },
+        "revert": {
+          "semverBump": "patch",
+          "changelog": { "title": "🔙 Revert Code Changes" }
+        },
+        "docs": {
+          "semverBump": "patch",
+          "changelog": { "title": "📄 Documentation" }
+        },
+        "chore": {
+          "semverBump": "none",
+          "changelog": { "title": "⚙️ Miscellaneous Chores" }
+        },
+        "refactor": {
+          "semverBump": "patch",
+          "changelog": { "title": "🧹 Code Refactoring" }
+        },
+        "test": {
+          "semverBump": "none",
+          "changelog": { "title": "✅ Tests" }
+        },
+        "ci": {
+          "semverBump": "none",
+          "changelog": { "title": "🤖 Continuous Integration" }
+        },
+        "build": {
+          "semverBump": "none",
+          "changelog": { "title": "🛠️ Build System" }
+        }
+      }
+    }
   },
   "plugins": [
     {
