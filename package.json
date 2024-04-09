@@ -10,9 +10,7 @@
     "c": "czg",
     "cai": "czg ai",
     "commit": "czg",
-    "prepare": "is-ci || husky install",
-    "publish:local": "nx run-many -t publish --ver 0.0.3-local --tag local",
-    "semver:local": "nx run-many -t version --parallel=1 --no-cloud --verbose"
+    "prepare": "is-ci || husky install"
   },
   "dependencies": {
     "@swc/helpers": "0.5.7",
@@ -23,7 +21,6 @@
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-angular": "^18.0.0",
     "@commitlint/config-conventional": "^18.4.3",
-    "@jscutlery/semver": "^5.2.2",
     "@nx/devkit": "18.2.2",
     "@nx/eslint": "18.2.2",
     "@nx/eslint-plugin": "18.2.2",
@@ -62,7 +59,6 @@
     "jest-environment-jsdom": "^29.4.1",
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "^15.2.0",
-    "ngx-deploy-npm": "^8.0.0",
     "nx": "18.2.2",
     "prettier": "^3.1.1",
     "supertest": "^6.3.3",

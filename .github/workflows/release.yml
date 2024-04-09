@@ -5,30 +5,8 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      package:
-        description: Release a specific package or all packages
-        required: false
-        type: choice
-        options:
-          - all
-          - create-nx-payload
-          - nx-payload
-        default: all
-
-      release-type:
-        description: Specify what kind of release to create
-        required: false
-        type: choice
-        options:
-          - auto
-          - prerelease
-          - premajor
-          - minor
-          - major
-        default: auto
-
-      empty-release:
-        description: Force a patch increment even if library source didn't change?
+      dry-run:
+        description: No changes will be made
         required: false
         type: boolean
         default: false
@@ -47,6 +25,9 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # needed for provenance data generation
 
     needs: [test]
 
@@ -77,14 +58,14 @@ jobs:
 
       - run: yarn install --immutable
 
+      - run: npx nx report
+
       # Use `npx` instead of `yarn` because `yarn` sets NPM_* environment variables (like NPM_CONFIG_REGISTRY).
       # This affects `npm publish` ignoring the .npmrc file, which is set up by `setup-node` action.
       # Run for all version projects and let semver decide whether to create a new release for each project.
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
         run: |
-          configuration="${{ inputs.release-type != 'auto' && inputs.release-type || '' }}"
-          projects="${{ inputs.package != 'all' && inputs.package || '' }}"
-          npx nx run-many --target=version-publish --configuration=$configuration --projects=$projects --parallel=1 --nxBail=true --baseBranch=${{ github.ref_name }} --allowEmptyRelease=${{ inputs.empty-release }}
+          npx nx release --dry-run ${{ inputs.dry-run }}

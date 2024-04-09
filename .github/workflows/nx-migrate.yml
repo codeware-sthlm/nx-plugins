@@ -53,10 +53,6 @@ jobs:
         if: steps.workspace.outputs.outdated == 'true'
         run: yarn add create-nx-workspace@${{ steps.workspace.outputs.latest }}
 
-      - name: Update @jscutlery/semver
-        if: steps.workspace.outputs.outdated == 'true'
-        run: yarn add -D @jscutlery/semver@latest
-
       - name: Install dependencies
         if: steps.workspace.outputs.outdated == 'true'
         run: yarn install --no-immutable
@@ -93,7 +89,7 @@ jobs:
         if: steps.workspace.outputs.outdated == 'true'
         run: |
           yarn nx run-many -t lint,test,build -c ci --no-cloud
-          yarn semver:local --dry-run
+          yarn nx release -d
         continue-on-error: true
 
       - name: Run E2E

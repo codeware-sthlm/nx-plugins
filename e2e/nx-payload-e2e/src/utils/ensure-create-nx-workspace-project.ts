@@ -1,8 +1,10 @@
+import { mkdirSync } from 'fs';
 import { basename, join } from 'path';
 
 import { detectPackageManager, readJsonFile } from '@nx/devkit';
 import {
   cleanup,
+  directoryExists,
   exists,
   runCommand,
   tmpProjPath,
@@ -82,6 +84,11 @@ export function ensureCreateNxWorkspaceProject(
   const projectPath = tmpProjPath();
   const name = basename(projectPath);
   const runPath = join(projectPath, '..');
+
+  // Ensure run path exists
+  if (!directoryExists(runPath)) {
+    mkdirSync(runPath, { recursive: true });
+  }
 
   const result = runCommand(
     `npx create-nx-workspace@${version} ${name} --preset ${preset} ${cliOptions}`,

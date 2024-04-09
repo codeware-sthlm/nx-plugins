@@ -12,42 +12,8 @@
         "assets": ["packages/create-nx-payload/*.md"]
       }
     },
-    "github-release": {
-      "executor": "@jscutlery/semver:github"
-    },
-    "npm-publish": {
-      "executor": "ngx-deploy-npm:deploy"
-    },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs create-nx-payload {args.ver} {args.tag}",
-      "dependsOn": ["build"]
-    },
     "test": {
       "executor": "@nx/jest:jest"
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {}
-    },
-    "version-publish": {
-      "executor": "@jscutlery/semver:version",
-      "options": {},
-      "configurations": {
-        "prerelease": {
-          "releaseAs": "prerelease",
-          "preid": "beta"
-        },
-        "premajor": {
-          "releaseAs": "premajor",
-          "preid": "rc"
-        },
-        "minor": {
-          "releaseAs": "minor"
-        },
-        "major": {
-          "releaseAs": "major"
-        }
-      }
     }
   }
 }
