@@ -63,7 +63,7 @@
     "projects": ["packages/*"],
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}-{version}",
-    "git": { "commitMessage": "chore(release): {version}" },
+    "git": { "commitMessage": "chore(release): packages" },
     "changelog": {
       "projectChangelogs": { "createRelease": "github" },
       "workspaceChangelog": false
