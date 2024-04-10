@@ -11,8 +11,6 @@
   A collection of Nx plugins powered by Codeware Sthlm.
   <br />
   <br />
-  <a href="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/release.yml?query=branch:master"><img alt="Test state" src="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/release.yml/badge.svg?branch=master"></a>
-  &nbsp;
   <a href="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/ci.yml?query=branch%3Amaster"><img alt="Test state" src="https://github.com/codeware-sthlm/nx-plugins/actions/workflows/ci.yml/badge.svg?branch=master"></a>
   &nbsp;
   <a href="https://codecov.io/gh/codeware-sthlm/nx-plugins"><img src="https://codecov.io/gh/codeware-sthlm/nx-plugins/graph/badge.svg?token=70BMKT2097"/></a>
