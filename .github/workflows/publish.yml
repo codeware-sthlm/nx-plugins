@@ -1,18 +1,23 @@
+# Semi-automated Nx releases where pre-created tags gets published to NPM.
+# The tags has been created locally using `npx nx release --skip-publish`.
+
 name: Publish
 
 on:
   push:
     tags:
-      - v*.*.*
+      - create-nx-payload-*.*.*
+      - nx-payload-*.*.*
 
 jobs:
   publish:
-    name: Publish
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     permissions:
       contents: read
       id-token: write # needed for provenance data generation
-    timeout-minutes: 10
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

@@ -1,71 +1,50 @@
+# Automated Nx releases published to NPM.
+
 name: Release
 
-# There's no value in releasing on every commit,
-# so this process is better handled manually when needed.
 on:
   workflow_dispatch:
     inputs:
       dry-run:
-        description: No changes will be made
+        description: dry-run mode, hence no changes will be made
         required: false
         type: boolean
         default: false
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    if: github.ref_name == 'master'
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/test
-        with:
-          codecov-token: ${{ secrets.CODECOV_TOKEN }}
-
   release:
+    if: github.ref_name == 'master'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     permissions:
       contents: read
       id-token: write # needed for provenance data generation
 
-    needs: [test]
-
-    concurrency:
-      group: ${{ github.ref }}
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_SEMVER_TOKEN }}
           fetch-depth: 0
 
-      - name: Set git metadata
-        run: |
-          git config user.name "${{ vars.SEMVER_COMMIT_NAME }}"
-          git config user.email "${{ vars.SEMVER_COMMIT_EMAIL }}"
-
-      - uses: actions/setup-node@v4
+      - name: Install Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          check-latest: true
-          cache: yarn
-          # This also sets the right configuration in .npmrc
-          # that reads NPM token from NPM_AUTH_TOKEN environment variable.
-          # It creates a .npmrc in a temporary folder
-          # and sets the NPM_CONFIG_USERCONFIG environment variable.
-          registry-url: https://registry.npmjs.org
+          registry-url: https://registry.npmjs.org/
 
-      - run: yarn install --immutable
+      - name: Install dependencies
+        run: yarn install
+        shell: bash
 
-      - run: npx nx report
+      - name: Print Environment Info
+        run: npx nx report
+        shell: bash
 
-      # Use `npx` instead of `yarn` because `yarn` sets NPM_* environment variables (like NPM_CONFIG_REGISTRY).
-      # This affects `npm publish` ignoring the .npmrc file, which is set up by `setup-node` action.
-      # Run for all version projects and let semver decide whether to create a new release for each project.
-      - name: Release
+      - name: Release & Publish packages
+        run: npx nx release --dry-run ${{ inputs.dry-run }}
+        shell: bash
         env:
+          GH_TOKEN: ${{ github.token }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
-        run: |
-          npx nx release --dry-run ${{ inputs.dry-run }}
