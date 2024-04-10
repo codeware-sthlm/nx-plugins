@@ -1,3 +1,15 @@
+## 0.5.2 (2024-04-10)
+
+
+### ⚙️ Miscellaneous Chores
+
+- convert release management to use nx release ([1ab99fd](https://github.com/codeware-sthlm/nx-plugins/commit/1ab99fd))
+
+
+### ❤️  Thank You
+
+- Håkan Ströberg
+
 # Changelog
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
