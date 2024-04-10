@@ -1,19 +1,16 @@
-# Automated Nx releases published to NPM.
+# Semi-automated Nx releases where pre-created tags gets published to NPM.
+# The tags has been created locally using `npx nx release --skip-publish`.
 
-name: Release
+name: Publish
 
 on:
-  workflow_dispatch:
-    inputs:
-      dry-run:
-        description: dry-run mode, hence no changes will be made
-        required: false
-        type: boolean
-        default: false
+  push:
+    tags:
+      - create-nx-payload-*.*.*
+      - nx-payload-*.*.*
 
 jobs:
-  release:
-    if: github.ref_name == 'master'
+  publish:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -41,8 +38,8 @@ jobs:
         run: npx nx report
         shell: bash
 
-      - name: Release & Publish packages
-        run: npx nx release --dry-run ${{ inputs.dry-run }}
+      - name: Publish packages
+        run: npx nx release publish
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}

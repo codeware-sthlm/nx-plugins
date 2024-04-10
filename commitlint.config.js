@@ -1,7 +1,7 @@
 const { execSync } = require('child_process');
 
 const projects = JSON.parse(
-  execSync('nx show projects --with-target version | jq -R | jq -cs', {
+  execSync('nx show projects --type lib --projects "*nx*" | jq -R | jq -cs', {
     encoding: 'utf-8'
   })
 );
