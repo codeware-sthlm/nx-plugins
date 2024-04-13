@@ -7,6 +7,7 @@ import {
   updateProjectConfiguration
 } from '@nx/devkit';
 
+import { isPluginInferenceEnabled } from './is-plugin-inference-enabled';
 import type { NormalizedSchema } from './normalize-options';
 
 /** Available targets */
@@ -95,9 +96,9 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
   // (if inference is enabled, the inferred targets will not be added to the project configuration)
   const projectTargets = Object.keys(allTargetsConfigurations)
     .filter((target) =>
-      nxJson?.useInferencePlugins === false
-        ? true
-        : inferredTargets.map(String).includes(target) === false
+      isPluginInferenceEnabled(nxJson)
+        ? inferredTargets.map(String).includes(target) === false
+        : true
     )
     .map((target) => target as Target);
 
