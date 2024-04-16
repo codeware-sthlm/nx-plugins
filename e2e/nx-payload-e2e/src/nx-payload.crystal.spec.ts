@@ -1,15 +1,19 @@
-import type { NxJsonConfiguration, ProjectConfiguration } from '@nx/devkit';
+import {
+  type NxJsonConfiguration,
+  type ProjectConfiguration
+} from '@nx/devkit';
 import {
   ensureNxProject,
   readJson,
   runNxCommand,
-  uniq
+  uniq,
+  updateFile
 } from '@nx/plugin/testing';
 
-const myApp = uniq('my-app');
-const myAppPath = `apps/${myApp}`;
-
 describe('@cdwr/nx-payload/plugin', () => {
+  let myApp = uniq('my-app');
+  let myAppPath = `apps/${myApp}`;
+
   let originalEnv: string;
 
   jest.setTimeout(300_000);
@@ -28,18 +32,34 @@ describe('@cdwr/nx-payload/plugin', () => {
     runNxCommand('reset');
   });
 
-  it('should configure plugin without targets', () => {
+  it('should configure plugin without custom target names', () => {
     const nxJson = readJson<NxJsonConfiguration>('nx.json');
     const plugin = nxJson.plugins.find((p) => p === '@cdwr/nx-payload/plugin');
     expect(plugin).toEqual('@cdwr/nx-payload/plugin');
   });
 
-  it('project.json should not contain build,payload targets', () => {
+  it('should not have any inferred targets in project.json', () => {
     const projectJson = readJson<ProjectConfiguration>(
       `${myAppPath}/project.json`
     );
-    expect(projectJson.targets.build).toBeUndefined();
-    expect(projectJson.targets.payload).toBeUndefined();
+
+    ['build', 'mongodb', 'payload', 'postgres', 'start', 'stop'].forEach(
+      (target) => {
+        expect(projectJson.targets[target]).toBeUndefined();
+      }
+    );
+  });
+
+  it('should resolve inferred projects', () => {
+    const projectConfig: ProjectConfiguration = JSON.parse(
+      runNxCommand(`show project ${myApp} --json`)
+    );
+
+    ['build', 'mongodb', 'payload', 'postgres', 'start', 'stop'].forEach(
+      (target) => {
+        expect(projectConfig.targets[target]).toBeDefined();
+      }
+    );
   });
 
   it('should build application', () => {
@@ -50,5 +70,33 @@ describe('@cdwr/nx-payload/plugin', () => {
   it('should invoke payload cli', () => {
     const result = runNxCommand(`payload ${myApp}`);
     expect(result).toContain('Successfully ran target payload');
+  });
+
+  it('opt out with usePluginInference set to false', () => {
+    myApp = uniq('my-app');
+    myAppPath = `apps/${myApp}`;
+
+    updateFile('nx.json', (content) => {
+      const nxJson = JSON.parse(content);
+      nxJson.useInferencePlugins = false;
+      return JSON.stringify(nxJson);
+    });
+
+    const nxJson = readJson<NxJsonConfiguration>('nx.json');
+    expect(nxJson.useInferencePlugins).toBe(false);
+    expect(process.env.NX_ADD_PLUGINS).toBe('true');
+
+    runNxCommand(`g @cdwr/nx-payload:app ${myApp} --directory ${myAppPath}`);
+
+    const projectJson = readJson<ProjectConfiguration>(
+      `apps/${myApp}/project.json`
+    );
+
+    ['build', 'payload'].forEach((target) => {
+      expect(projectJson.targets[target]).toBeDefined();
+    });
+    ['mongodb', 'postgres', 'start', 'stop'].forEach((target) => {
+      expect(projectJson.targets[target]).toBeUndefined();
+    });
   });
 });

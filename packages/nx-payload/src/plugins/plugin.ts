@@ -5,8 +5,10 @@ import { posix } from 'path/posix';
 import {
   type CreateDependencies,
   type CreateNodes,
+  ProjectConfiguration,
   type TargetConfiguration,
-  detectPackageManager
+  detectPackageManager,
+  readJsonFile
 } from '@nx/devkit';
 import { calculateHashForCreateNodes } from '@nx/devkit/src/utils/calculate-hash-for-create-nodes';
 import { getLockFileName } from '@nx/js';
@@ -81,6 +83,10 @@ export const createNodes: CreateNodes<PayloadPluginOptions> = [
       return {};
     }
 
+    const projectConfig = readJsonFile<ProjectConfiguration>(
+      join(context.workspaceRoot, projectRoot, 'project.json')
+    );
+
     const normalizedOptions = normalizeOptions(options);
 
     const hash = calculateHashForCreateNodes(
@@ -92,7 +98,12 @@ export const createNodes: CreateNodes<PayloadPluginOptions> = [
 
     const targets = targetsCache[hash]
       ? targetsCache[hash]
-      : await createPayloadTargets(projectRoot, normalizedOptions, context);
+      : await createPayloadTargets(
+          projectRoot,
+          projectConfig,
+          normalizedOptions,
+          context
+        );
 
     calculatedTargets[hash] = targets;
 

@@ -1,3 +1,4 @@
+import type { ProjectConfiguration } from '@nx/devkit';
 import {
   checkFilesExist,
   ensureNxProject,
@@ -42,6 +43,19 @@ describe('@cdwr/nx-payload:app', () => {
           `apps/${appName}-e2e/src/${appName}/${appName}.spec.ts`
         )
       ).not.toThrow();
+    });
+
+    it('should only have build and payload from inferred targets in project.json', () => {
+      const projectJson = readJson<ProjectConfiguration>(
+        `apps/${appName}/project.json`
+      );
+
+      ['build', 'payload'].forEach((target) => {
+        expect(projectJson.targets[target]).toBeDefined();
+      });
+      ['mongodb', 'postgres', 'start', 'stop'].forEach((target) => {
+        expect(projectJson.targets[target]).toBeUndefined();
+      });
     });
 
     it('should build application', () => {
