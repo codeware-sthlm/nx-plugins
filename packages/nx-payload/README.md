@@ -60,7 +60,11 @@ npx nx add @cdwr/nx-payload
 The plugin automatically creates tasks for projects with a `payload.config.ts` configuration file:
 
 - `build`
+- `mongodb`
 - `payload`
+- `postgres`
+- `start`
+- `stop`
 
 ### Configuration
 
@@ -83,14 +87,25 @@ or use `options` to assign custom target names
       "plugin": "@cdwr/nx-payload/plugin",
       "options": {
         "buildTargetName": "my-build",
-        "payloadTargetName": "my-payload"
+        "mongodbTargetname": "my-mongodb",
+        "payloadTargetName": "my-payload",
+        "postgresTargetName": "my-postgres",
+        "startTargetName": "my-start",
+        "stopTargetName": "my-stop"
       }
     }
   ]
 }
 ```
 
-> Plugin configuration is created automatically, but you can opt out by setting `useInferencePlugins = false` in `nx.json`
+#### Opt out from automatic inferrence <!-- omit in toc -->
+
+Plugin configuration is created automatically, but you can opt out using one of these two options:
+
+- Set `useInferencePlugins` in `nx.json` to `false`
+- Set environment variable `NX_ADD_PLUGINS` to `false`
+
+**Note!** Created targets will be limited to `build` and `payload`.
 
 ## Usage
 
