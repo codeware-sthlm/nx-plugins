@@ -1,6 +1,6 @@
 {
   "name": "@cdwr/nx-payload",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "private": false,
   "description": "The Nx Payload plugin adds support for Payload applications within an Nx workspace.",
   "repository": {
@@ -25,11 +25,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@nx/devkit": "18.2.4",
-    "@nx/eslint": "18.2.4",
-    "@nx/express": "18.2.4",
-    "@nx/js": "18.2.4",
-    "nx": "18.2.4",
+    "@nx/devkit": "18.3.3",
+    "@nx/eslint": "18.3.3",
+    "@nx/express": "18.3.3",
+    "@nx/js": "18.3.3",
+    "nx": "18.3.3",
     "tiny-invariant": "^1.3.3",
     "tslib": "^2.4.1"
   },
