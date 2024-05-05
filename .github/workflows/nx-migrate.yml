@@ -84,6 +84,12 @@ jobs:
           find: (\"(?:create\-nx\-workspace|nx|@nx\/[^\"]*))(\":\s\")(\d+\.\d+\.\d+)
           replace: ${1}${2}${{ steps.workspace.outputs.latest }}
 
+      - name: Save file changes state before the tests
+        if: steps.workspace.outputs.outdated == 'true'
+        run: |
+          git add .
+          git commit -m "temporary save state" --no-verify
+
       - name: Run tests
         id: test
         if: steps.workspace.outputs.outdated == 'true'
@@ -98,6 +104,12 @@ jobs:
         run: yarn nx e2e nx-payload-e2e --no-cloud
         timeout-minutes: 30
         continue-on-error: true
+
+      - name: Restore file changes state to before the tests
+        if: steps.workspace.outputs.outdated == 'true'
+        run: |
+          git checkout -- .
+          git reset HEAD^
 
       - name: Create Pull Request
         id: cpr
