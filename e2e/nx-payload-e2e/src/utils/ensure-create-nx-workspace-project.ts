@@ -1,4 +1,4 @@
-import { mkdirSync } from 'fs';
+import { mkdirSync, writeFileSync } from 'fs';
 import { basename, join } from 'path';
 
 import { detectPackageManager, readJsonFile } from '@nx/devkit';
@@ -102,6 +102,16 @@ export function ensureCreateNxWorkspaceProject(
     console.log(result);
     throw new Error(`Failed to create test project in "${projectPath}"`);
   }
+
+  // Create `.npmrc` file for local registry
+  //   writeFileSync(
+  //     join(projectPath, '.npmrc'),
+  //     `
+  // registry=http://host.docker.internal:4873
+  // //host.docker.internal:4873/:_authToken=secretVerdaccioToken
+  //   `,
+  //     { encoding: 'utf-8' }
+  //   );
 
   return {
     appName,

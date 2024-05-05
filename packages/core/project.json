@@ -1,0 +1,18 @@
+{
+  "name": "core",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/core/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "assets": ["packages/core/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest"
+    }
+  }
+}

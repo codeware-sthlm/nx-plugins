@@ -1,0 +1,30 @@
+{
+  "name": "@cdwr/core",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Nx plugin core package.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codeware-sthlm/nx-plugins.git",
+    "directory": "packages/core"
+  },
+  "author": "Håkan Ströberg",
+  "license": "MIT",
+  "keywords": [
+    "Nx",
+    "Monorepo",
+    "Plugin",
+    "Core",
+    "Jest",
+    "CLI"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts"
+}

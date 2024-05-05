@@ -63,53 +63,81 @@
     "projects": ["packages/*"],
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}-{version}",
-    "git": { "commitMessage": "chore(release): packages" },
+    "git": {
+      "commitMessage": "chore(release): packages"
+    },
     "changelog": {
-      "projectChangelogs": { "createRelease": "github" },
+      "projectChangelogs": {
+        "createRelease": "github"
+      },
       "workspaceChangelog": false
     },
-    "version": { "conventionalCommits": true },
+    "version": {
+      "preVersionCommand": "yarn dlx nx run-many -t build",
+      "conventionalCommits": true,
+      "generatorOptions": { "fallbackCurrentVersionResolver": "disk" }
+    },
     "conventionalCommits": {
       "types": {
         "feat": {
           "semverBump": "minor",
-          "changelog": { "title": "✨ Features" }
+          "changelog": {
+            "title": "✨ Features"
+          }
         },
         "fix": {
           "semverBump": "patch",
-          "changelog": { "title": "🐞 Bug Fixes" }
+          "changelog": {
+            "title": "🐞 Bug Fixes"
+          }
         },
         "perf": {
           "semverBump": "patch",
-          "changelog": { "title": "⚡️ Performance Improvements" }
+          "changelog": {
+            "title": "⚡️ Performance Improvements"
+          }
         },
         "revert": {
           "semverBump": "patch",
-          "changelog": { "title": "🔙 Revert Code Changes" }
+          "changelog": {
+            "title": "🔙 Revert Code Changes"
+          }
         },
         "docs": {
           "semverBump": "patch",
-          "changelog": { "title": "📄 Documentation" }
+          "changelog": {
+            "title": "📄 Documentation"
+          }
         },
         "chore": {
           "semverBump": "patch",
-          "changelog": { "title": "⚙️ Miscellaneous Chores" }
+          "changelog": {
+            "title": "⚙️ Miscellaneous Chores"
+          }
         },
         "refactor": {
           "semverBump": "patch",
-          "changelog": { "title": "🧹 Code Refactoring" }
+          "changelog": {
+            "title": "🧹 Code Refactoring"
+          }
         },
         "test": {
           "semverBump": "none",
-          "changelog": { "title": "✅ Tests" }
+          "changelog": {
+            "title": "✅ Tests"
+          }
         },
         "ci": {
           "semverBump": "none",
-          "changelog": { "title": "🤖 Continuous Integration" }
+          "changelog": {
+            "title": "🤖 Continuous Integration"
+          }
         },
         "build": {
           "semverBump": "none",
-          "changelog": { "title": "🛠️ Build System" }
+          "changelog": {
+            "title": "🛠️ Build System"
+          }
         }
       }
     }

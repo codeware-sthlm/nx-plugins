@@ -4,6 +4,8 @@
  * For e2e it is meant to be called in jest's `globalSetup`.
  */
 
+import { execSync } from 'child_process';
+
 import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { releasePublish, releaseVersion } from 'nx/release';
 
@@ -16,11 +18,14 @@ export default async () => {
   // storage folder for the local registry
   const storage = './tmp/local-registry/storage';
 
-  global.stopLocalRegistry = await startLocalRegistry({
-    localRegistryTarget,
-    storage,
-    verbose
-  });
+  // global.stopLocalRegistry = await startLocalRegistry({
+  //   localRegistryTarget,
+  //   storage,
+  //   verbose
+  // });
+
+  execSync('npx nx local-registry:start', { stdio: 'inherit' });
+  global.stopLocalRegistry = () => execSync('npx nx local-registry:stop');
 
   await releaseVersion({
     stageChanges: false,

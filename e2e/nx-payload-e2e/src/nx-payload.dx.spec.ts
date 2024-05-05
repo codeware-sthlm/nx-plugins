@@ -4,7 +4,7 @@ import { agent } from 'supertest';
 import { ensureCreateNxWorkspaceProject } from './utils/ensure-create-nx-workspace-project';
 
 // TODO: Getting "ECONNREFUSED" during `npm install` in Dockerfile, using local Verdaccio registry
-describe.skip('Test developer experience', () => {
+describe('Test developer experience', () => {
   jest.setTimeout(900_000);
 
   beforeAll(() => {

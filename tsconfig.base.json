@@ -16,10 +16,9 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-plugins/create-nx-payload": [
-        "packages/create-nx-payload/bin/index.ts"
-      ],
-      "@nx-plugins/nx-payload": ["packages/nx-payload/src/index.ts"]
+      "@cdwr/core": ["packages/core/src/index.ts"],
+      "@cdwr/create-nx-payload": ["packages/create-nx-payload/bin/index.ts"],
+      "@cdwr/nx-payload": ["packages/nx-payload/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

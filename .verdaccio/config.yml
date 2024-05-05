@@ -1,6 +1,9 @@
 # path to a directory with all packages
 storage: ../tmp/local-registry/storage
 
+listen:
+  - 127.0.0.1:4873
+
 # a list of other known repositories we can talk to
 uplinks:
   npmjs:
@@ -29,11 +32,11 @@ packages:
     # proxy requests to npm registry
     proxy: npmjs
 
-# log settings
-logs:
-  type: stdout
-  format: pretty
-  level: warn
+# log settings; https://verdaccio.org/docs/logger
+log:
+  type: stdout # [stdout, file] for 'file' add a 'path' property
+  format: pretty-timestamped # [pretty, pretty-timestamped]
+  level: trace # [fatal, error, warn, http, info, debug, trace]
 
 publish:
   allow_offline: true # set offline to true to allow publish offline

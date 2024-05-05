@@ -6,8 +6,38 @@
       "executor": "@nx/js:verdaccio",
       "options": {
         "port": 4873,
+        "location": "project",
         "config": ".verdaccio/config.yml",
         "storage": "tmp/local-registry/storage"
+      },
+      "cache": false
+    },
+    "local-registry:start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --quiet -f .verdaccio/Dockerfile -t verdaccio:local .",
+          "docker stop verdaccio-local || true",
+          "docker run --rm --name verdaccio-local -p 4873:4873 -d verdaccio:local",
+          "npm config set registry http://localhost:4873 --location user",
+          "npm config set //localhost:4873/:_authToken='secretVerdaccioToken' --location user",
+          "yarn config set npmRegistryServer http://localhost:4873/ --home",
+          "yarn config set unsafeHttpWhitelist 'localhost' --home"
+        ],
+        "parallel": false
+      }
+    },
+    "local-registry:stop": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker stop verdaccio-local || true",
+          "npm config set registry https://registry.npmjs.org/ --location user",
+          "npm config delete registry //localhost:4873/:_authToken --location user",
+          "yarn config unset npmRegistryServer --home",
+          "yarn config unset unsafeHttpWhitelist --home"
+        ],
+        "parallel": false
       }
     },
     "local-registry:publish": {
@@ -15,7 +45,7 @@
       "options": {
         "commands": [
           "yarn nx release version --stage-changes false --git-commit false --git-tag false --first-release true",
-          "yarn nx release publish --tag local --first-release true"
+          "yarn nx release publish --tag local --first-release true --registry http://localhost:4873"
         ],
         "parallel": false
       },
