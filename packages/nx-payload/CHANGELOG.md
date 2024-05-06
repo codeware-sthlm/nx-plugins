@@ -1,3 +1,28 @@
+## 0.8.0 (2024-05-06)
+
+
+### ✨ Features
+
+- **nx-payload:** all targets can be inferred ([736590d](https://github.com/codeware-sthlm/nx-plugins/commit/736590d))
+
+
+### 🐞 Bug Fixes
+
+- **nx-payload:** should respect NX_ADD_PLUGINS to opt out of inference ([b81411b](https://github.com/codeware-sthlm/nx-plugins/commit/b81411b))
+
+
+### 🛠️ Build System
+
+- 📦 update nx workspace to 18.2.4 ([82cbf67](https://github.com/codeware-sthlm/nx-plugins/commit/82cbf67))
+
+- 📦 update nx workspace to 18.3.4 ([d75383b](https://github.com/codeware-sthlm/nx-plugins/commit/d75383b))
+
+
+### ❤️  Thank You
+
+- hakalb @hakalb
+- Håkan Ströberg
+
 ## 0.7.1 (2024-04-10)
 
 
