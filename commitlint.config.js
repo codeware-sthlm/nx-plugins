@@ -5,6 +5,8 @@ const projects = JSON.parse(
     encoding: 'utf-8'
   })
 );
+// Allow release commits
+projects.push('release');
 
 module.exports = {
   extends: ['@commitlint/config-angular'],
