@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_SEMVER_TOKEN }}
+          token: ${{ secrets.GH_BOT_TOKEN }}
           fetch-depth: 0
 
       - name: Set git metadata
@@ -119,7 +119,7 @@ jobs:
           current: ${{ steps.workspace.outputs.current }}
           latest: ${{ steps.workspace.outputs.latest }}
         with:
-          git-token: ${{ secrets.GH_SEMVER_TOKEN }}
+          token: ${{ secrets.GH_BOT_TOKEN }}
           commit-message: 'build: 📦 update nx workspace to ${{ env.latest }}'
           branch: update-nx-workspace-${{ env.latest }}
           delete-branch: true
@@ -137,7 +137,7 @@ jobs:
         if: vars.NX_AUTO_MIGRATE == 'true' && steps.cpr.outputs.pull-request-operation == 'created'
         run: gh pr merge --rebase --auto ${{ steps.cpr.outputs.pull-request-number }}
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
 
       - name: Autoclose deprecated Pull Requests
         if: steps.cpr.outputs.pull-request-operation == 'created'
