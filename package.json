@@ -10,7 +10,8 @@
     "c": "czg",
     "cai": "czg ai",
     "commit": "czg",
-    "prepare": "is-ci || husky install"
+    "prepare": "is-ci || husky install",
+    "release": "ts-node ./tools/scripts/release.ts"
   },
   "dependencies": {
     "@swc/helpers": "0.5.11",
@@ -18,6 +19,7 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@clack/prompts": "^0.7.0",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-angular": "^18.0.0",
     "@commitlint/config-conventional": "^18.4.3",
@@ -44,7 +46,7 @@
     "@types/tmp": "^0.2.6",
     "@typescript-eslint/eslint-plugin": "7.7.0",
     "@typescript-eslint/parser": "7.7.0",
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.2",
     "cz-git": "^1.8.0",
     "czg": "^1.8.0",
     "dockerode": "^4.0.2",

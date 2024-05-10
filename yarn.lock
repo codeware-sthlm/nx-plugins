@@ -1462,6 +1462,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@clack/core@npm:^0.3.3":
+  version: 0.3.4
+  resolution: "@clack/core@npm:0.3.4"
+  dependencies:
+    picocolors: "npm:^1.0.0"
+    sisteransi: "npm:^1.0.5"
+  checksum: 10/36e5bef782f082dbddcd1f3502df3d366abbab2c5b608cfa986b2eb2c69f7122cf67dcffafe65488aba3560c51485feeed7f17f968f5fc99dd5be27b3d53bfa0
+  languageName: node
+  linkType: hard
+
+"@clack/prompts@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "@clack/prompts@npm:0.7.0"
+  dependencies:
+    "@clack/core": "npm:^0.3.3"
+    is-unicode-supported: "npm:*"
+    picocolors: "npm:^1.0.0"
+    sisteransi: "npm:^1.0.5"
+  checksum: 10/2ca1f84b1d36c5d08794994f6f96b86287e0b96f8b6a7483eceb98bbd34a7f9f0012775df8bf29a6d86737b48f52ac18809bdcf14c0453d1a43c7cf4da671a26
+  languageName: node
+  linkType: hard
+
 "@commitlint/cli@npm:^18.4.3":
   version: 18.6.1
   resolution: "@commitlint/cli@npm:18.6.1"
@@ -8743,6 +8765,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-unicode-supported@npm:*":
+  version: 2.0.0
+  resolution: "is-unicode-supported@npm:2.0.0"
+  checksum: 10/000b80639dedaf59a385f1c0a57f97a4d1435e0723716f24cc19ad94253a7a0a9f838bdc9ac49b10a29ac93b01f52ae9b2ed358a8876caf1eb74d73b4ede92b2
+  languageName: node
+  linkType: hard
+
 "is-unicode-supported@npm:^0.1.0":
   version: 0.1.0
   resolution: "is-unicode-supported@npm:0.1.0"
@@ -10875,6 +10904,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nx-plugins@workspace:."
   dependencies:
+    "@clack/prompts": "npm:^0.7.0"
     "@commitlint/cli": "npm:^18.4.3"
     "@commitlint/config-angular": "npm:^18.0.0"
     "@commitlint/config-conventional": "npm:^18.4.3"
@@ -10902,7 +10932,7 @@ __metadata:
     "@types/tmp": "npm:^0.2.6"
     "@typescript-eslint/eslint-plugin": "npm:7.7.0"
     "@typescript-eslint/parser": "npm:7.7.0"
-    chalk: "npm:^4.1.0"
+    chalk: "npm:^4.1.2"
     create-nx-workspace: "npm:19.0.2"
     cz-git: "npm:^1.8.0"
     czg: "npm:^1.8.0"

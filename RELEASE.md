@@ -2,6 +2,16 @@
 
 Instructions how to create new package releases and publish to NPM.
 
+## TLDR
+
+Recommend the interactive CLI ✨
+
+```sh
+yarn release
+```
+
+## Intro
+
 The release process is semi-automatic which means:
 
 - Release information and git tags are generated from a local machine by a developer
