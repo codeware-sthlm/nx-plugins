@@ -69,15 +69,14 @@ import { cancel, confirm, group, intro, outro, select } from '@clack/prompts';
     {
       // On Cancel callback that wraps the group
       // So if the user cancels one of the prompts in the group this function will be called
-      onCancel: ({ results }) => {
+      onCancel: () => {
         cancel('Release cancelled.');
         process.exit(0);
       }
     }
   );
 
-  const { verbose } = release;
-  const confirmRelease = release.confirmRelease === 'true';
+  const { confirmRelease, verbose } = release;
   const dryRun = release.dryRun === 'true';
   const publish = release.publish === 'true';
 
