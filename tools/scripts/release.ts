@@ -102,7 +102,8 @@ import {
   const { confirmRelease, verbose } = release;
   const dryRun = release.dryRun === 'true';
   const otp = Number(release.otp);
-  const publishLater = release.publishLater === 'true';
+  // Is `undefined` if the user selected dryRun
+  const publishLater = release.publishLater !== 'false';
 
   if (!dryRun && !confirmRelease) {
     cancel('Release cancelled.');
