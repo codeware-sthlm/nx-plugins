@@ -1,3 +1,23 @@
+## 0.5.3 (2024-05-12)
+
+
+### 🛠️ Build System
+
+- 📦 update nx workspace to 18.2.4 ([82cbf67](https://github.com/codeware-sthlm/nx-plugins/commit/82cbf67))
+
+- 📦 update nx workspace to 18.3.4 ([d75383b](https://github.com/codeware-sthlm/nx-plugins/commit/d75383b))
+
+- 📦 update nx workspace to 19.0.1 ([55065f2](https://github.com/codeware-sthlm/nx-plugins/commit/55065f2))
+
+- 📦 update nx workspace to 19.0.2 ([7acbbf1](https://github.com/codeware-sthlm/nx-plugins/commit/7acbbf1))
+
+
+### ❤️  Thank You
+
+- github-merge-queue @github-merge-queue
+- hakalb @hakalb
+- Håkan Ströberg
+
 ## 0.5.2 (2024-04-10)
 
 

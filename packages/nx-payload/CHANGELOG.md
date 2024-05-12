@@ -1,3 +1,15 @@
+## 0.9.1 (2024-05-12)
+
+
+### ⚙️ Miscellaneous Chores
+
+- fix otp code for publish from release script ([42cf1a3](https://github.com/codeware-sthlm/nx-plugins/commit/42cf1a3))
+
+
+### ❤️  Thank You
+
+- Håkan Ströberg
+
 ## 0.9.0 (2024-05-12)
 
 
