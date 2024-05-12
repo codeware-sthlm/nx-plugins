@@ -2,7 +2,15 @@ import chalk from 'chalk';
 import { releaseChangelog, releasePublish, releaseVersion } from 'nx/release';
 import type { NxReleaseChangelogResult } from 'nx/src/command-line/release/changelog';
 import type { VersionData } from 'nx/src/command-line/release/version';
-import { cancel, confirm, group, intro, outro, select } from '@clack/prompts';
+import {
+  cancel,
+  confirm,
+  group,
+  intro,
+  outro,
+  select,
+  text
+} from '@clack/prompts';
 
 (async () => {
   intro(`Let's release some Nx Plugin packages`);
@@ -26,7 +34,7 @@ import { cancel, confirm, group, intro, outro, select } from '@clack/prompts';
           ],
           initialValue: 'true'
         }),
-      publish: ({ results: { dryRun } }) => {
+      publishLater: ({ results: { dryRun } }) => {
         // If the user selected dryRun, skip the publish prompt
         if (dryRun === 'true') {
           return;
@@ -46,6 +54,21 @@ import { cancel, confirm, group, intro, outro, select } from '@clack/prompts';
           ],
           initialValue: 'true'
         });
+      },
+      otp: ({ results: { publishLater } }) => {
+        if (publishLater === 'false') {
+          return text({
+            message: 'Enter NPM OTP code from your 2FA app:',
+            validate: (value) => {
+              if (!value) {
+                return 'OTP code is required';
+              }
+              if (!/^\d{6}$/.test(value)) {
+                return 'OTP code must be a 6-digit number';
+              }
+            }
+          });
+        }
       },
       verbose: () =>
         confirm({
@@ -78,7 +101,8 @@ import { cancel, confirm, group, intro, outro, select } from '@clack/prompts';
 
   const { confirmRelease, verbose } = release;
   const dryRun = release.dryRun === 'true';
-  const publish = release.publish === 'true';
+  const otp = Number(release.otp);
+  const publishLater = release.publishLater === 'true';
 
   if (!dryRun && !confirmRelease) {
     cancel('Release cancelled.');
@@ -107,7 +131,9 @@ import { cancel, confirm, group, intro, outro, select } from '@clack/prompts';
     });
     projectChangelogs = changelogStatus.projectChangelogs;
   } catch (error) {
-    console.error(`Generate changelogs: ${(error as Error).message}`);
+    console.error(
+      `Generate changelogs: ${chalk.red((error as Error).message)}`
+    );
     process.exit(1);
   }
 
@@ -116,7 +142,7 @@ import { cancel, confirm, group, intro, outro, select } from '@clack/prompts';
     (project) => projectsVersionData[project].newVersion
   );
 
-  if (newVersionFound && !publish && !dryRun) {
+  if (newVersionFound && publishLater && !dryRun) {
     outro('The new release will be published by GitHub Actions');
     process.exit(0);
   }
@@ -126,8 +152,8 @@ import { cancel, confirm, group, intro, outro, select } from '@clack/prompts';
     process.exit(0);
   }
 
-  // Skip publish with message if the user selected dryRun and not to publish
-  if (dryRun && !publish) {
+  // Skip publish with message if the user selected dryRun and publish via GitHub Actions
+  if (dryRun && publishLater) {
     outro(
       `${chalk.green('Done!')} Nothing gets changed when running in ${chalk.bgYellow(' preview ')} mode`
     );
@@ -135,7 +161,7 @@ import { cancel, confirm, group, intro, outro, select } from '@clack/prompts';
   }
 
   // Skip publish
-  if (!publish) {
+  if (publishLater) {
     process.exit(0);
   }
 
@@ -144,10 +170,11 @@ import { cancel, confirm, group, intro, outro, select } from '@clack/prompts';
   try {
     publishStatus = await releasePublish({
       dryRun,
-      verbose
+      verbose,
+      otp
     });
   } catch (error) {
-    console.error(`Publish packages: ${(error as Error).message}`);
+    console.error(`Publish packages: ${chalk.red((error as Error).message)}`);
     process.exit(1);
   }
 
