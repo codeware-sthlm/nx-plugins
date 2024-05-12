@@ -4,7 +4,9 @@ export const normalizeOptions = (
   options?: PayloadPluginOptions
 ): NormalizedOptions => ({
   buildTargetName: options?.buildTargetName ?? 'build',
-  mongodbTargetname: options?.mongodbTargetname ?? 'mongodb',
+  dockerBuildTargetName: options?.dockerBuildTargetName ?? 'docker:build',
+  dockerRunTargetName: options?.dockerRunTargetName ?? 'docker:run',
+  mongodbTargetName: options?.mongodbTargetName ?? 'mongodb',
   payloadTargetName: options?.payloadTargetName ?? 'payload',
   postgresTargetName: options?.postgresTargetName ?? 'postgres',
   startTargetName: options?.startTargetName ?? 'start',

@@ -47,7 +47,7 @@ export const createPayloadTargets = async (
   };
 
   // Add `mongodb` target
-  targets[options.mongodbTargetname] = {
+  targets[options.mongodbTargetName] = {
     executor: 'nx:run-commands',
     options: {
       command: `docker ps -q -f name=mongodb-${projectConfig.name} | grep . && echo '[Running] mongodb is already started' || docker run --name mongodb-${projectConfig.name} --rm -d -p 27017:27017 mongo`
@@ -85,6 +85,24 @@ export const createPayloadTargets = async (
     executor: 'nx:run-commands',
     options: {
       command: `docker compose -f ${projectRoot}/docker-compose.yml down`
+    },
+    cache: false
+  };
+
+  // Add `docker:build` target
+  targets[options.dockerBuildTargetName] = {
+    executor: 'nx:run-commands',
+    options: {
+      command: `docker build -f ${projectRoot}/Dockerfile -t ${projectConfig.name} .`
+    },
+    cache: false
+  };
+
+  // Add `docker:run` target
+  targets[options.dockerRunTargetName] = {
+    executor: 'nx:run-commands',
+    options: {
+      command: `docker run --name ${projectConfig.name} --rm --env-file ${projectRoot}/.env -d -p 3000:3000 ${projectConfig.name}`
     },
     cache: false
   };

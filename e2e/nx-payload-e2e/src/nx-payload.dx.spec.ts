@@ -26,4 +26,9 @@ describe.skip('Test developer experience', () => {
       200
     );
   });
+
+  it(`should build image using 'docker:build' target`, () => {
+    const result = runNxCommand('docker:build');
+    expect(result).toContain('Successfully ran target docker:build');
+  });
 });
