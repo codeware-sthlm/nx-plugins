@@ -1,3 +1,23 @@
+## 0.9.0 (2024-05-12)
+
+
+### ✨ Features
+
+- **nx-payload:** infer docker build and run targets ([1a16998](https://github.com/codeware-sthlm/nx-plugins/commit/1a16998))
+
+
+### 🛠️ Build System
+
+- 📦 update nx workspace to 19.0.1 ([55065f2](https://github.com/codeware-sthlm/nx-plugins/commit/55065f2))
+
+- 📦 update nx workspace to 19.0.2 ([7acbbf1](https://github.com/codeware-sthlm/nx-plugins/commit/7acbbf1))
+
+
+### ❤️  Thank You
+
+- github-merge-queue @github-merge-queue
+- Håkan Ströberg
+
 ## 0.8.0 (2024-05-06)
 
 
