@@ -108,7 +108,7 @@
           "changelog": { "title": "🤖 Continuous Integration" }
         },
         "build": {
-          "semverBump": "none",
+          "semverBump": "patch",
           "changelog": { "title": "🛠️ Build System" }
         }
       }
