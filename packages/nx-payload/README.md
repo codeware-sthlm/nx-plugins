@@ -32,6 +32,7 @@
   - [Start Payload and database in Docker](#start-payload-and-database-in-docker)
   - [Start a local database instance of choice](#start-a-local-database-instance-of-choice)
   - [Serve Payload application in development mode](#serve-payload-application-in-development-mode)
+  - [Build and run application in Docker](#build-and-run-application-in-docker)
   - [Run Payload commands](#run-payload-commands)
   - [Troubleshooting](#troubleshooting)
     - [I can't get Payload to start properly with Postgres in prod mode](#i-cant-get-payload-to-start-properly-with-postgres-in-prod-mode)
@@ -65,6 +66,8 @@ The plugin automatically creates tasks for projects with a `payload.config.ts` c
 - `postgres`
 - `start`
 - `stop`
+- `docker:build`
+- `docker:run`
 
 ### Configuration
 
@@ -87,7 +90,9 @@ or use `options` to assign custom target names
       "plugin": "@cdwr/nx-payload/plugin",
       "options": {
         "buildTargetName": "my-build",
-        "mongodbTargetname": "my-mongodb",
+        "dockerBuildTargetName": "my-docker:build",
+        "dockerRunTargetName": "my-docker:run",
+        "mongodbTargetName": "my-mongodb",
         "payloadTargetName": "my-payload",
         "postgresTargetName": "my-postgres",
         "startTargetName": "my-start",
@@ -235,6 +240,24 @@ npx nx serve [app-name]
 
 Open your browser and navigate to <http://localhost:3000>.
 
+### Build and run application in Docker
+
+This is commands that could be used as input to a hosting provider supporting `Dockerfile`.
+
+It's also an alternative to the docker compose commands `start` and `stop`, when you have a custom database setup.
+
+```sh
+npx nx docker:build [app-name]
+```
+
+Edit application `.env` file to match the database setup and start the application
+
+```sh
+npx nx docker:run [app-name]
+```
+
+> **Hint!** Run `nx show project [app-name] --web` to find the docker build command
+
 ### Run Payload commands
 
 All commands available from Payload can be used by the generated application via target `payload`.
@@ -347,6 +370,7 @@ Later versions of Nx or Payload might work as well, but the versions below have 
 
 | Plugin version | Nx version | Payload version |
 | -------------- | ---------- | --------------- |
+| `^0.8.0`       | `^18.3.4`  | `^2.8.2`        |
 | `^0.7.0`       | `~18.2.2`  | `^2.8.2`        |
 | `^0.6.0`       | `~18.1.1`  | `^2.8.2`        |
 | `^0.5.0`       | `~18.0.3`  | `^2.8.2`        |

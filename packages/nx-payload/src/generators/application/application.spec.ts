@@ -279,7 +279,16 @@ describe('application generator', () => {
   it('should skip setup plugin inference when plugin exists as object with full options', async () => {
     addInferencePlugin({
       plugin: '@cdwr/nx-payload/plugin',
-      options: { buildTargetName: 'my-build', payloadTargetName: 'my-payload' }
+      options: {
+        buildTargetName: 'my-build',
+        dockerBuildTargetName: 'my-docker:build',
+        dockerRunTargetName: 'my-docker:run',
+        mongodbTargetName: 'my-mongodb',
+        payloadTargetName: 'my-payload',
+        postgresTargetName: 'my-postgres',
+        startTargetName: 'my-start',
+        stopTargetName: 'my-stop'
+      }
     });
     await generator(tree, options);
 
@@ -289,7 +298,13 @@ describe('application generator', () => {
         plugin: '@cdwr/nx-payload/plugin',
         options: {
           buildTargetName: 'my-build',
-          payloadTargetName: 'my-payload'
+          dockerBuildTargetName: 'my-docker:build',
+          dockerRunTargetName: 'my-docker:run',
+          mongodbTargetName: 'my-mongodb',
+          payloadTargetName: 'my-payload',
+          postgresTargetName: 'my-postgres',
+          startTargetName: 'my-start',
+          stopTargetName: 'my-stop'
         }
       }
     ]);
@@ -298,7 +313,11 @@ describe('application generator', () => {
   it('should skip setup plugin inference when plugin exists as object with partial options', async () => {
     addInferencePlugin({
       plugin: '@cdwr/nx-payload/plugin',
-      options: { buildTargetName: 'my-build' }
+      options: {
+        buildTargetName: 'my-build',
+        startTargetName: 'my-start',
+        stopTargetName: 'my-stop'
+      }
     });
     await generator(tree, options);
 
@@ -307,7 +326,9 @@ describe('application generator', () => {
       {
         plugin: '@cdwr/nx-payload/plugin',
         options: {
-          buildTargetName: 'my-build'
+          buildTargetName: 'my-build',
+          startTargetName: 'my-start',
+          stopTargetName: 'my-stop'
         }
       }
     ]);

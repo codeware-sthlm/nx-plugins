@@ -53,7 +53,14 @@ describe('@cdwr/nx-payload:app', () => {
       ['build', 'payload'].forEach((target) => {
         expect(projectJson.targets[target]).toBeDefined();
       });
-      ['mongodb', 'postgres', 'start', 'stop'].forEach((target) => {
+      [
+        'docker:build',
+        'docker:run',
+        'mongodb',
+        'postgres',
+        'start',
+        'stop'
+      ].forEach((target) => {
         expect(projectJson.targets[target]).toBeUndefined();
       });
     });
