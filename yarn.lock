@@ -2194,104 +2194,104 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/devkit@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nrwl/devkit@npm:19.0.2"
+"@nrwl/devkit@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nrwl/devkit@npm:19.0.4"
   dependencies:
-    "@nx/devkit": "npm:19.0.2"
-  checksum: 10/0aecc538e0d43a1afeaf1d6904d6c19e4350158f9d6e4b7926de19dd32bae0c821114cdca7f4fb393805e7beefb53e4c04550ad2a4c22f6280f4d13b18f4661b
+    "@nx/devkit": "npm:19.0.4"
+  checksum: 10/bdf8e67100c597aa1c3c511b3b32fea1a672589b3013c37642db43e3df0a7d9c28198556cbe6d505ae6232653564c46e3d196a0c7cacd6009a3bb60d2b7ef4a8
   languageName: node
   linkType: hard
 
-"@nrwl/eslint-plugin-nx@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nrwl/eslint-plugin-nx@npm:19.0.2"
+"@nrwl/eslint-plugin-nx@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nrwl/eslint-plugin-nx@npm:19.0.4"
   dependencies:
-    "@nx/eslint-plugin": "npm:19.0.2"
-  checksum: 10/ec342a76b0653e67e4efbb25d903a50334e9127f702bff51fa9c55a9610b9d58ed2ce8fed18929d727db4c8cb2a807ae2ec3623e3314dd05c41c18c8bf48e539
+    "@nx/eslint-plugin": "npm:19.0.4"
+  checksum: 10/2a92b4354274695dd08c6f0117b3c12d64d9a09858dd9d665bb283c52dc203c1f3b2ae0dc10598c79c0d9e5063a4f0fdae5e9243f22d7a44ab26b2fd55654776
   languageName: node
   linkType: hard
 
-"@nrwl/express@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nrwl/express@npm:19.0.2"
+"@nrwl/express@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nrwl/express@npm:19.0.4"
   dependencies:
-    "@nx/express": "npm:19.0.2"
-  checksum: 10/cccf5820a80883fc3da6a20a4a5b6da13c7494c99ea7aac067053adf04002f8a767da623096a693f22a24d6b380cd352e8109b11a376bf540c33e0dacbe9911b
+    "@nx/express": "npm:19.0.4"
+  checksum: 10/6ad9b954697ba982804496cbaebbaa9e1229cfa80fce2b41bc21d14f7bfec480e832658c617e75f6fc782d3f70ad3f0f5d686094950b7f632cdc31de04e922fd
   languageName: node
   linkType: hard
 
-"@nrwl/jest@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nrwl/jest@npm:19.0.2"
+"@nrwl/jest@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nrwl/jest@npm:19.0.4"
   dependencies:
-    "@nx/jest": "npm:19.0.2"
-  checksum: 10/eeea09971dec8b12d94dd9c9e0128da6b243c2200a36417d2c5bdc93d2ad3a77c51e6d86ee1bf92b1831771bba0e070abce275dab3af3cfc8b2b5fab91c2249f
+    "@nx/jest": "npm:19.0.4"
+  checksum: 10/71aae24d5353dfb94ccccc0f277b336ddec2a007be0e63277c296a39c973a0720edbbbd803d99cfae35ca9758065f2cff8e03168191f7c3f7ab55f8a53641d5a
   languageName: node
   linkType: hard
 
-"@nrwl/js@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nrwl/js@npm:19.0.2"
+"@nrwl/js@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nrwl/js@npm:19.0.4"
   dependencies:
-    "@nx/js": "npm:19.0.2"
-  checksum: 10/893aa1605563b96d87b18c2ae52b2968a3dca482e866b38cc12a4d8c616f4aed21d01b1aafd54cca8232128973c9359c9a6be97d8db3e4b4cf082b32f4986c99
+    "@nx/js": "npm:19.0.4"
+  checksum: 10/4b88fa515a66633a0c3e4fc903ede83e7505fe3d6085292dd3340e53ca51b5178fb348bbc67126b2b2a44cced2c66fe5f493617be4c94713ae30784fd8116524
   languageName: node
   linkType: hard
 
-"@nrwl/node@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nrwl/node@npm:19.0.2"
+"@nrwl/node@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nrwl/node@npm:19.0.4"
   dependencies:
-    "@nx/node": "npm:19.0.2"
-  checksum: 10/87672efca3901f61966a4c72b51248582711e470cf52ce52572e2df060b08eefdde2abec72b489805ac28ee8905b989d7e23bef55dc35b0acf9907966062f75d
+    "@nx/node": "npm:19.0.4"
+  checksum: 10/1353a84815b6bba035004cc4e0905100d004ddb9db5d4a863cd22eb6e74db9b2bcd8b97fb6b88ced345c9fde7e34fe4955b2117504fe3e62901860510652b33e
   languageName: node
   linkType: hard
 
-"@nrwl/nx-plugin@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nrwl/nx-plugin@npm:19.0.2"
+"@nrwl/nx-plugin@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nrwl/nx-plugin@npm:19.0.4"
   dependencies:
-    "@nx/plugin": "npm:19.0.2"
-  checksum: 10/9c6a431c1437079b66077c8fbee1dda3b51f175e316ca1dcda4d50fc8951bf0c3911c536fb5350df0c2a50b0068d8b8476c5eec2438bfbce63d9de5b1e1d7cd4
+    "@nx/plugin": "npm:19.0.4"
+  checksum: 10/3cf2a0aef87ad4005f62211ffb1a266b8b95f9171497e27a7707af8fe8ead32d2dd153537939727883ceca16bc1a17a5a810595205858ed02ac12dcf42df09ba
   languageName: node
   linkType: hard
 
-"@nrwl/tao@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nrwl/tao@npm:19.0.2"
+"@nrwl/tao@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nrwl/tao@npm:19.0.4"
   dependencies:
-    nx: "npm:19.0.2"
+    nx: "npm:19.0.4"
     tslib: "npm:^2.3.0"
   bin:
     tao: index.js
-  checksum: 10/f6dd8bc4f148a5b0566f7afb67dc91ce842bce46f77dcc34a4aab31aaccfef8f20e8641096d9db249e5b1f0555900e360d78f4ae62edf3aa2860a505e103d2df
+  checksum: 10/1e5a40857a1dbd568cfd42081a9a5568bb968311c0f784fb09d47d576e23267593ac6a2a58bca9c46fbbc97484d7732aaf9358ad8f975d20b1b3d37985b6fd7d
   languageName: node
   linkType: hard
 
-"@nrwl/webpack@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nrwl/webpack@npm:19.0.2"
+"@nrwl/webpack@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nrwl/webpack@npm:19.0.4"
   dependencies:
-    "@nx/webpack": "npm:19.0.2"
-  checksum: 10/25afd520d63de95b5ebc547b70a2fe9b70b0362547d9479cf9f8ecbda3d4bf256d271eb287c61f9d13dd164921424a0f13e97518c6bbf50062035e92d90863ab
+    "@nx/webpack": "npm:19.0.4"
+  checksum: 10/b8db9d5ebdd00e1fa65fd15c2133fd31ce1229d38592f977ad509d3689a117ad3f76603ade4159d17fe4947c67daa9c984de0bd44a6003a72ee408c271d89415
   languageName: node
   linkType: hard
 
-"@nrwl/workspace@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nrwl/workspace@npm:19.0.2"
+"@nrwl/workspace@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nrwl/workspace@npm:19.0.4"
   dependencies:
-    "@nx/workspace": "npm:19.0.2"
-  checksum: 10/4b1d310aa9e0bd2d70feab4dffee0a4f20f7b30fcfa0fcaffde6e8770b7b643b324b6c6cb7a1557a59d68092a584f1c7121f5fc5713c6044c36574e5a4963af5
+    "@nx/workspace": "npm:19.0.4"
+  checksum: 10/17abfe578b8211d3ea722797c76eb18adef6e6a3ee2320aec3fbf27e72e53e15052a8e7d0bc13c15cb9dd266da915999c6ec8bdee96b494e121ba407fe11627c
   languageName: node
   linkType: hard
 
-"@nx/devkit@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/devkit@npm:19.0.2"
+"@nx/devkit@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/devkit@npm:19.0.4"
   dependencies:
-    "@nrwl/devkit": "npm:19.0.2"
+    "@nrwl/devkit": "npm:19.0.4"
     ejs: "npm:^3.1.7"
     enquirer: "npm:~2.3.6"
     ignore: "npm:^5.0.4"
@@ -2302,17 +2302,17 @@ __metadata:
     yargs-parser: "npm:21.1.1"
   peerDependencies:
     nx: ">= 17 <= 20"
-  checksum: 10/433a38374b5fa199a9e53d9ba9b339c1db2d79dede50dba021c25c0c95d008bcbb71e76458e27d7285177567e94a57e3b9af589b3f9657a75394f89591aa2652
+  checksum: 10/98baaffce4f4030d46f6b75b450507b66bc67ba9037956e2bf795e23efebf9066f62bf2499fcb36978c2bf0339b8c2aa50953bdaf25a8a26a4ea81d1871785a9
   languageName: node
   linkType: hard
 
-"@nx/eslint-plugin@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/eslint-plugin@npm:19.0.2"
+"@nx/eslint-plugin@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/eslint-plugin@npm:19.0.4"
   dependencies:
-    "@nrwl/eslint-plugin-nx": "npm:19.0.2"
-    "@nx/devkit": "npm:19.0.2"
-    "@nx/js": "npm:19.0.2"
+    "@nrwl/eslint-plugin-nx": "npm:19.0.4"
+    "@nx/devkit": "npm:19.0.4"
+    "@nx/js": "npm:19.0.4"
     "@typescript-eslint/type-utils": "npm:^7.3.0"
     "@typescript-eslint/utils": "npm:^7.3.0"
     chalk: "npm:^4.1.0"
@@ -2326,17 +2326,17 @@ __metadata:
   peerDependenciesMeta:
     eslint-config-prettier:
       optional: true
-  checksum: 10/d1c27068be7ae90e8f964daf4a95434121214178cbfe933661549162384ff7d615e7288a090f55091f4e2ae8456cc0a2e11cd6b52041f889982a4a8d04603e41
+  checksum: 10/9e0d1e645cb62f97bd4da6b12a435a1a86dafe4ec81c4b5f6b694ff40e38244c2f8f9f62cb2cd4a0b4547649ce86403d813b49c7144b19ca19ebc017090819f5
   languageName: node
   linkType: hard
 
-"@nx/eslint@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/eslint@npm:19.0.2"
+"@nx/eslint@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/eslint@npm:19.0.4"
   dependencies:
-    "@nx/devkit": "npm:19.0.2"
-    "@nx/js": "npm:19.0.2"
-    "@nx/linter": "npm:19.0.2"
+    "@nx/devkit": "npm:19.0.4"
+    "@nx/js": "npm:19.0.4"
+    "@nx/linter": "npm:19.0.4"
     eslint: "npm:^8.0.0"
     tslib: "npm:^2.3.0"
     typescript: "npm:~5.4.2"
@@ -2345,36 +2345,36 @@ __metadata:
   peerDependenciesMeta:
     js-yaml:
       optional: true
-  checksum: 10/1550f40c00167c8361946db75fbc8c55f3bba16d7990a538b648152a391946ea2aafe0e97ccba7d046a5f6321f424142c63cb8b2e0e658ec50e77304d2c0082e
+  checksum: 10/9212a9c9d0f37749c1260b3bc13e33f16f8fffadca48789149240bc05c850cfe368a844b9a743ac360d5ec875cf7fb8362a7d1b6f53d377d42d73491a6ba8de0
   languageName: node
   linkType: hard
 
-"@nx/express@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/express@npm:19.0.2"
+"@nx/express@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/express@npm:19.0.4"
   dependencies:
-    "@nrwl/express": "npm:19.0.2"
-    "@nx/devkit": "npm:19.0.2"
-    "@nx/node": "npm:19.0.2"
+    "@nrwl/express": "npm:19.0.4"
+    "@nx/devkit": "npm:19.0.4"
+    "@nx/node": "npm:19.0.4"
     tslib: "npm:^2.3.0"
   peerDependencies:
     express: ^4.18.1
   peerDependenciesMeta:
     express:
       optional: true
-  checksum: 10/e6e5841682382ce68e3372c24f70c5cd959e2bb4c059a47f5d7b6b0e58a600032efed0b452098dc99d2ca0717adefdad6a8077363c05ebfdb3ee33283f006950
+  checksum: 10/73207966d8598e9051be510e2ab3efb365e0830a490a9d69948b97f8ff42dd2896d5f4055bfb3f82f173a060a9a2167739ab19f4828c410ba9501435172da45d
   languageName: node
   linkType: hard
 
-"@nx/jest@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/jest@npm:19.0.2"
+"@nx/jest@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/jest@npm:19.0.4"
   dependencies:
     "@jest/reporters": "npm:^29.4.1"
     "@jest/test-result": "npm:^29.4.1"
-    "@nrwl/jest": "npm:19.0.2"
-    "@nx/devkit": "npm:19.0.2"
-    "@nx/js": "npm:19.0.2"
+    "@nrwl/jest": "npm:19.0.4"
+    "@nx/devkit": "npm:19.0.4"
+    "@nx/js": "npm:19.0.4"
     "@phenomnomnominal/tsquery": "npm:~5.0.1"
     chalk: "npm:^4.1.0"
     identity-obj-proxy: "npm:3.0.0"
@@ -2385,13 +2385,13 @@ __metadata:
     resolve.exports: "npm:1.1.0"
     tslib: "npm:^2.3.0"
     yargs-parser: "npm:21.1.1"
-  checksum: 10/7109f048dce21bc04980bc604554b170c9a0db673f17bcd67faf4ee74738d3cb0d222c382cc42fe7a3f0502e173cc5cb781c3e780c90c126afb58933e5838d14
+  checksum: 10/13fcfee7e156b995c15892babd0d4ac5854533fe3887aaf770e446815d50f0e0fa0166a20d298bd4c4019c5931ab2b0e1b496d70adc9797cf60a5998db3d2b4e
   languageName: node
   linkType: hard
 
-"@nx/js@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/js@npm:19.0.2"
+"@nx/js@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/js@npm:19.0.4"
   dependencies:
     "@babel/core": "npm:^7.23.2"
     "@babel/plugin-proposal-decorators": "npm:^7.22.7"
@@ -2400,9 +2400,9 @@ __metadata:
     "@babel/preset-env": "npm:^7.23.2"
     "@babel/preset-typescript": "npm:^7.22.5"
     "@babel/runtime": "npm:^7.22.6"
-    "@nrwl/js": "npm:19.0.2"
-    "@nx/devkit": "npm:19.0.2"
-    "@nx/workspace": "npm:19.0.2"
+    "@nrwl/js": "npm:19.0.4"
+    "@nx/devkit": "npm:19.0.4"
+    "@nx/workspace": "npm:19.0.4"
     babel-plugin-const-enum: "npm:^1.0.1"
     babel-plugin-macros: "npm:^2.8.0"
     babel-plugin-transform-typescript-metadata: "npm:^0.3.1"
@@ -2427,126 +2427,126 @@ __metadata:
   peerDependenciesMeta:
     verdaccio:
       optional: true
-  checksum: 10/8ced3c4e5d6e17e38fb37f6674ae016f53e8c727a385099e502eb740d86f23627328abe0e0e4fd2d53a8c7e4257bd951184cf8e30fdc8b490e8974dca4609022
+  checksum: 10/42f4f8fa4836d832363126e6f2b5f731f3f1e58cb73e3cca1f7f31d053ee93ae4c7fb966b3003849ef66284e830bfdbc7e3300e16a5627cb5c33f9edf2295225
   languageName: node
   linkType: hard
 
-"@nx/linter@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/linter@npm:19.0.2"
+"@nx/linter@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/linter@npm:19.0.4"
   dependencies:
-    "@nx/eslint": "npm:19.0.2"
-  checksum: 10/c1ff258de9167fda995aba36a1b4749b44cc35fae7c3d22c914bbe91893f40c6b8b06a6720eacebc9f4d6d3c860b52b28d771adf9281dd7d6302e776a59e3b13
+    "@nx/eslint": "npm:19.0.4"
+  checksum: 10/99af7183052070cf03d9edaca5713e5ae9408563a8f65096bd9817ad78383d314189d96cd28add2892615aad0fced296e14f6c8d5ae618fa763e1116788bfe0c
   languageName: node
   linkType: hard
 
-"@nx/node@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/node@npm:19.0.2"
+"@nx/node@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/node@npm:19.0.4"
   dependencies:
-    "@nrwl/node": "npm:19.0.2"
-    "@nx/devkit": "npm:19.0.2"
-    "@nx/eslint": "npm:19.0.2"
-    "@nx/jest": "npm:19.0.2"
-    "@nx/js": "npm:19.0.2"
+    "@nrwl/node": "npm:19.0.4"
+    "@nx/devkit": "npm:19.0.4"
+    "@nx/eslint": "npm:19.0.4"
+    "@nx/jest": "npm:19.0.4"
+    "@nx/js": "npm:19.0.4"
     tslib: "npm:^2.3.0"
-  checksum: 10/fb2b143ddb2788b73d0838c9ce6c133631a204054347e4089aa2232d57ce3c5c41ae57cad85455e17db7b40da160a0bf64f924f50060d3bd17659e98a7dbe9c7
+  checksum: 10/4c7523db93b69069a3748d71dd2c54b152808b48bc775674f678041e51421df3e9180862f5637c83e0e07a568dd6902ed4fdea1448eff30ef6dee266ca903062
   languageName: node
   linkType: hard
 
-"@nx/nx-darwin-arm64@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/nx-darwin-arm64@npm:19.0.2"
+"@nx/nx-darwin-arm64@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/nx-darwin-arm64@npm:19.0.4"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@nx/nx-darwin-x64@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/nx-darwin-x64@npm:19.0.2"
+"@nx/nx-darwin-x64@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/nx-darwin-x64@npm:19.0.4"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@nx/nx-freebsd-x64@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/nx-freebsd-x64@npm:19.0.2"
+"@nx/nx-freebsd-x64@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/nx-freebsd-x64@npm:19.0.4"
   conditions: os=freebsd & cpu=x64
   languageName: node
   linkType: hard
 
-"@nx/nx-linux-arm-gnueabihf@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/nx-linux-arm-gnueabihf@npm:19.0.2"
+"@nx/nx-linux-arm-gnueabihf@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/nx-linux-arm-gnueabihf@npm:19.0.4"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@nx/nx-linux-arm64-gnu@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/nx-linux-arm64-gnu@npm:19.0.2"
+"@nx/nx-linux-arm64-gnu@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/nx-linux-arm64-gnu@npm:19.0.4"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@nx/nx-linux-arm64-musl@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/nx-linux-arm64-musl@npm:19.0.2"
+"@nx/nx-linux-arm64-musl@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/nx-linux-arm64-musl@npm:19.0.4"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@nx/nx-linux-x64-gnu@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/nx-linux-x64-gnu@npm:19.0.2"
+"@nx/nx-linux-x64-gnu@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/nx-linux-x64-gnu@npm:19.0.4"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@nx/nx-linux-x64-musl@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/nx-linux-x64-musl@npm:19.0.2"
+"@nx/nx-linux-x64-musl@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/nx-linux-x64-musl@npm:19.0.4"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@nx/nx-win32-arm64-msvc@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/nx-win32-arm64-msvc@npm:19.0.2"
+"@nx/nx-win32-arm64-msvc@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/nx-win32-arm64-msvc@npm:19.0.4"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@nx/nx-win32-x64-msvc@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/nx-win32-x64-msvc@npm:19.0.2"
+"@nx/nx-win32-x64-msvc@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/nx-win32-x64-msvc@npm:19.0.4"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@nx/plugin@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/plugin@npm:19.0.2"
+"@nx/plugin@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/plugin@npm:19.0.4"
   dependencies:
-    "@nrwl/nx-plugin": "npm:19.0.2"
-    "@nx/devkit": "npm:19.0.2"
-    "@nx/eslint": "npm:19.0.2"
-    "@nx/jest": "npm:19.0.2"
-    "@nx/js": "npm:19.0.2"
+    "@nrwl/nx-plugin": "npm:19.0.4"
+    "@nx/devkit": "npm:19.0.4"
+    "@nx/eslint": "npm:19.0.4"
+    "@nx/jest": "npm:19.0.4"
+    "@nx/js": "npm:19.0.4"
     fs-extra: "npm:^11.1.0"
     tslib: "npm:^2.3.0"
-  checksum: 10/bb66ac508460b3bfb941b06ccf956c686fbfb61e29d0ea3585ebe327aa2530af4d69841805078f47adc402d74626e79aebabe6b4ed920d5e421be46ea9f1d2d1
+  checksum: 10/8cda2a3266ee64e2e02549ad0eccb4af246c4f196607ef71e2e7e54a271745ccab8b44fa0ca5a03b57232884a75bc01f2e7938d0139656dcca614a7aaf2bd1e1
   languageName: node
   linkType: hard
 
-"@nx/webpack@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/webpack@npm:19.0.2"
+"@nx/webpack@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/webpack@npm:19.0.4"
   dependencies:
     "@babel/core": "npm:^7.23.2"
-    "@nrwl/webpack": "npm:19.0.2"
-    "@nx/devkit": "npm:19.0.2"
-    "@nx/js": "npm:19.0.2"
+    "@nrwl/webpack": "npm:19.0.4"
+    "@nx/devkit": "npm:19.0.4"
+    "@nx/js": "npm:19.0.4"
     ajv: "npm:^8.12.0"
     autoprefixer: "npm:^10.4.9"
     babel-loader: "npm:^9.1.2"
@@ -2580,22 +2580,22 @@ __metadata:
     webpack-dev-server: "npm:^4.9.3"
     webpack-node-externals: "npm:^3.0.0"
     webpack-subresource-integrity: "npm:^5.1.0"
-  checksum: 10/d2b34a864f26d3ea34fcc3883858d89f2f9e47d13ed37d6846e848ecb18478439f8294094b6ac0b79d28ed5b5c39866d7f884b427c20cdd493f7d888dcca901f
+  checksum: 10/35dbc9c06ff3922e150f55dc66dcd5067fe79e956971408f5d91b4246db5cb62f612e638d11aeefcfeb64c58d19230008a5f0abb3425330f3af47773003f5ca4
   languageName: node
   linkType: hard
 
-"@nx/workspace@npm:19.0.2":
-  version: 19.0.2
-  resolution: "@nx/workspace@npm:19.0.2"
+"@nx/workspace@npm:19.0.4":
+  version: 19.0.4
+  resolution: "@nx/workspace@npm:19.0.4"
   dependencies:
-    "@nrwl/workspace": "npm:19.0.2"
-    "@nx/devkit": "npm:19.0.2"
+    "@nrwl/workspace": "npm:19.0.4"
+    "@nx/devkit": "npm:19.0.4"
     chalk: "npm:^4.1.0"
     enquirer: "npm:~2.3.6"
-    nx: "npm:19.0.2"
+    nx: "npm:19.0.4"
     tslib: "npm:^2.3.0"
     yargs-parser: "npm:21.1.1"
-  checksum: 10/c1eeb89369b7dc9f08cda72d5c7c12596d827747c5fe6327022184076c986cdfe0cca7eb9cbc72d141dd5882f940bd3e853a0d31bf2fd63b10dfb272bed1d379
+  checksum: 10/9f7e6d10258e4766845e2763e24f505741489d6674c513fed0eae9243dc8c001b77b4b1501e93a2c98d6311799e6466b85410f42637abacc9dfa626797b88bb4
   languageName: node
   linkType: hard
 
@@ -5690,9 +5690,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-nx-workspace@npm:19.0.2":
-  version: 19.0.2
-  resolution: "create-nx-workspace@npm:19.0.2"
+"create-nx-workspace@npm:19.0.4":
+  version: 19.0.4
+  resolution: "create-nx-workspace@npm:19.0.4"
   dependencies:
     axios: "npm:^1.6.0"
     chalk: "npm:^4.1.0"
@@ -5704,7 +5704,7 @@ __metadata:
     yargs: "npm:^17.6.2"
   bin:
     create-nx-workspace: bin/index.js
-  checksum: 10/605d472f353482b586531d5e79ecbaf86ba322d2c9f39f21f1f10f5987978f44d0e462fa0967b126757897769d499b2fb672a7e686a94316c0717a0a7e74cffb
+  checksum: 10/264a4f4efba03d0b1626346d19127c058751f737971adf49a73a75d7fb392714e798e8322fcba8626ab2fcb0c22cb2777035709558d236f1e6eae78518b7155c
   languageName: node
   linkType: hard
 
@@ -10908,15 +10908,15 @@ __metadata:
     "@commitlint/cli": "npm:^18.4.3"
     "@commitlint/config-angular": "npm:^18.0.0"
     "@commitlint/config-conventional": "npm:^18.4.3"
-    "@nx/devkit": "npm:19.0.2"
-    "@nx/eslint": "npm:19.0.2"
-    "@nx/eslint-plugin": "npm:19.0.2"
-    "@nx/express": "npm:19.0.2"
-    "@nx/jest": "npm:19.0.2"
-    "@nx/js": "npm:19.0.2"
-    "@nx/plugin": "npm:19.0.2"
-    "@nx/webpack": "npm:19.0.2"
-    "@nx/workspace": "npm:19.0.2"
+    "@nx/devkit": "npm:19.0.4"
+    "@nx/eslint": "npm:19.0.4"
+    "@nx/eslint-plugin": "npm:19.0.4"
+    "@nx/express": "npm:19.0.4"
+    "@nx/jest": "npm:19.0.4"
+    "@nx/js": "npm:19.0.4"
+    "@nx/plugin": "npm:19.0.4"
+    "@nx/webpack": "npm:19.0.4"
+    "@nx/workspace": "npm:19.0.4"
     "@swc-node/register": "npm:1.9.0"
     "@swc/cli": "npm:0.3.12"
     "@swc/core": "npm:1.4.17"
@@ -10933,7 +10933,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:7.7.0"
     "@typescript-eslint/parser": "npm:7.7.0"
     chalk: "npm:^4.1.2"
-    create-nx-workspace: "npm:19.0.2"
+    create-nx-workspace: "npm:19.0.4"
     cz-git: "npm:^1.8.0"
     czg: "npm:^1.8.0"
     dockerode: "npm:^4.0.2"
@@ -10948,7 +10948,7 @@ __metadata:
     jest-environment-jsdom: "npm:^29.4.1"
     jsonc-eslint-parser: "npm:^2.1.0"
     lint-staged: "npm:^15.2.0"
-    nx: "npm:19.0.2"
+    nx: "npm:19.0.4"
     prettier: "npm:^3.1.1"
     supertest: "npm:^6.3.3"
     tiny-invariant: "npm:^1.3.3"
@@ -10961,21 +10961,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"nx@npm:19.0.2":
-  version: 19.0.2
-  resolution: "nx@npm:19.0.2"
+"nx@npm:19.0.4":
+  version: 19.0.4
+  resolution: "nx@npm:19.0.4"
   dependencies:
-    "@nrwl/tao": "npm:19.0.2"
-    "@nx/nx-darwin-arm64": "npm:19.0.2"
-    "@nx/nx-darwin-x64": "npm:19.0.2"
-    "@nx/nx-freebsd-x64": "npm:19.0.2"
-    "@nx/nx-linux-arm-gnueabihf": "npm:19.0.2"
-    "@nx/nx-linux-arm64-gnu": "npm:19.0.2"
-    "@nx/nx-linux-arm64-musl": "npm:19.0.2"
-    "@nx/nx-linux-x64-gnu": "npm:19.0.2"
-    "@nx/nx-linux-x64-musl": "npm:19.0.2"
-    "@nx/nx-win32-arm64-msvc": "npm:19.0.2"
-    "@nx/nx-win32-x64-msvc": "npm:19.0.2"
+    "@nrwl/tao": "npm:19.0.4"
+    "@nx/nx-darwin-arm64": "npm:19.0.4"
+    "@nx/nx-darwin-x64": "npm:19.0.4"
+    "@nx/nx-freebsd-x64": "npm:19.0.4"
+    "@nx/nx-linux-arm-gnueabihf": "npm:19.0.4"
+    "@nx/nx-linux-arm64-gnu": "npm:19.0.4"
+    "@nx/nx-linux-arm64-musl": "npm:19.0.4"
+    "@nx/nx-linux-x64-gnu": "npm:19.0.4"
+    "@nx/nx-linux-x64-musl": "npm:19.0.4"
+    "@nx/nx-win32-arm64-msvc": "npm:19.0.4"
+    "@nx/nx-win32-x64-msvc": "npm:19.0.4"
     "@yarnpkg/lockfile": "npm:^1.1.0"
     "@yarnpkg/parsers": "npm:3.0.0-rc.46"
     "@zkochan/js-yaml": "npm:0.0.6"
@@ -11041,7 +11041,7 @@ __metadata:
   bin:
     nx: bin/nx.js
     nx-cloud: bin/nx-cloud.js
-  checksum: 10/65fa4d31f7ce5cd4be504267eb157e497d195f311264e5d7b1664cfcd7fcd67a6549270786440fb57b44462cb51626e9a68b3a383f3f91550ffe79cb3090c3e0
+  checksum: 10/37f63af1dc9bbdfe88e6d00ba73a7181e7fb631aa5944ec942e6f4a5b6fff189168974bef332008fc3ec38aaa5341cd92609d834f3306b80f96a631e254994c9
   languageName: node
   linkType: hard
 
