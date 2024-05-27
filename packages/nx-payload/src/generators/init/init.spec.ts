@@ -5,6 +5,7 @@ import { type PackageJson } from 'nx/src/utils/package-json';
 import {
   payloadPluginsVersions,
   payloadVersion,
+  rimrafVersion,
   tsLibVersion
 } from '../../utils/versions';
 
@@ -84,6 +85,14 @@ describe('init', () => {
     expect(packageJson.dependencies['express']).toBeDefined();
     expect(packageJson.devDependencies['@nx/express']).toBeDefined();
     expect(packageJson.devDependencies['express']).toBeUndefined();
+  });
+
+  it('should add rimraf to dependencies', async () => {
+    await initGenerator(tree, {});
+    const packageJson = readJson<PackageJson>(tree, 'package.json');
+
+    expect(packageJson.dependencies['rimraf']).toBeUndefined();
+    expect(packageJson.devDependencies['rimraf']).toBe(rimrafVersion);
   });
 
   it('should add tslib to dependencies', async () => {

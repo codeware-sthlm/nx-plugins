@@ -3,7 +3,8 @@ export type PayloadPluginOptions = {
   dockerBuildTargetName?: string;
   dockerRunTargetName?: string;
   mongodbTargetName?: string;
-  payloadTargetName?: string;
+  payloadBuildTargetName?: string;
+  payloadCliTargetName?: string;
   postgresTargetName?: string;
   startTargetName?: string;
   stopTargetName?: string;

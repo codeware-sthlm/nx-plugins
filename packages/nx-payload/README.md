@@ -62,12 +62,13 @@ The plugin automatically creates tasks for projects with a `payload.config.ts` c
 
 - `build`
 - `mongodb`
-- `payload`
+- `payload-build`
+- `payload-cli`
 - `postgres`
 - `start`
 - `stop`
-- `docker:build`
-- `docker:run`
+- `docker-build`
+- `docker-run`
 
 ### Configuration
 
@@ -90,10 +91,11 @@ or use `options` to assign custom target names
       "plugin": "@cdwr/nx-payload/plugin",
       "options": {
         "buildTargetName": "my-build",
-        "dockerBuildTargetName": "my-docker:build",
-        "dockerRunTargetName": "my-docker:run",
+        "dockerBuildTargetName": "my-docker-build",
+        "dockerRunTargetName": "my-docker-run",
         "mongodbTargetName": "my-mongodb",
-        "payloadTargetName": "my-payload",
+        "payloadBuildTargetName": "my-payload-build",
+        "payloadCliTargetName": "my-payload-cli",
         "postgresTargetName": "my-postgres",
         "startTargetName": "my-start",
         "stopTargetName": "my-stop"
@@ -110,7 +112,7 @@ Plugin configuration is created automatically, but you can opt out using one of 
 - Set `useInferencePlugins` in `nx.json` to `false`
 - Set environment variable `NX_ADD_PLUGINS` to `false`
 
-**Note!** Created targets will be limited to `build` and `payload`.
+**Note!** Created targets will be limited to `build`, `payload-build` and `payload-cli`.
 
 ## Usage
 
@@ -247,23 +249,23 @@ This is commands that could be used as input to a hosting provider supporting `D
 It's also an alternative to the docker compose commands `start` and `stop`, when you have a custom database setup.
 
 ```sh
-npx nx docker:build [app-name]
+npx nx docker-build [app-name]
 ```
 
 Edit application `.env` file to match the database setup and start the application
 
 ```sh
-npx nx docker:run [app-name]
+npx nx docker-run [app-name]
 ```
 
 > **Hint!** Run `nx show project [app-name] --web` to find the docker build command
 
 ### Run Payload commands
 
-All commands available from Payload can be used by the generated application via target `payload`.
+All commands available from Payload can be used by the generated application via target `payload-cli`.
 
 ```sh
-npx nx payload [app-name] [payload-command]
+npx nx payload-cli [app-name] [payload-command]
 ```
 
 This is specially useful for managing [migrations](https://payloadcms.com/docs/database/migrations#commands).
@@ -277,7 +279,7 @@ Using Postgres in dev mode (serve) enables automatic migration. But when startin
 The solution is to run a migration on the database before Payload is started.
 
 ```sh
-npx nx payload [app-name] migrate
+npx nx payload-cli [app-name] migrate
 ```
 
 **How do I create a migration file?**
@@ -289,13 +291,13 @@ npx nx serve [app-name]
 ```
 
 ```sh
-npx nx payload [app-name] migrate:create
+npx nx payload-cli [app-name] migrate:create
 ```
 
 View migration files
 
 ```sh
-npx nx payload [app-name] migrate:status
+npx nx payload-cli [app-name] migrate:status
 ```
 
 ## You don't have an Nx workspace?
@@ -318,15 +320,15 @@ Alias: `app`
 
 Generate a Payload application served by Express.
 
-| Option           | Type    | Required | Default   | Description                                         |
-| ---------------- | ------- | :------: | --------- | --------------------------------------------------- |
-| `name`           | string  |    ✅    |           | The name of the application                         |
-| `directory`      | string  |    ✅    |           | The path of the application files                   |
-| `database`       | string  |          | `mongodb` | Preferred database to setup [`mongodb`, `postgres`] |
-| `tags`           | string  |          | `''`      | Comma separated tags                                |
-| `unitTestRunner` | string  |          | `jest`    | The preferred unit test runner [ `jest`, `none` ]   |
-| `linter`         | string  |          | `eslint`  | The tool to use for running lint checks             |
-| `skipE2e`        | boolean |          | `false`   | Skip generating e2e application                     |
+| Option           | Type    | Required | Default   | Description                                          |
+| ---------------- | ------- | :------: | --------- | ---------------------------------------------------- |
+| `name`           | string  |    ✅    |           | The name of the application.                         |
+| `directory`      | string  |    ✅    |           | The path of the application files.                   |
+| `database`       | string  |          | `mongodb` | Preferred database to setup [`mongodb`, `postgres`]. |
+| `tags`           | string  |          | `''`      | Comma separated tags.                                |
+| `unitTestRunner` | string  |          | `jest`    | The preferred unit test runner [ `jest`, `none` ].   |
+| `linter`         | string  |          | `eslint`  | The tool to use for running lint checks.             |
+| `skipE2e`        | boolean |          | `false`   | Skip generating e2e application.                     |
 
 > 💡 `name` can also be provided as the first argument (used in the examples in this readme)
 
@@ -334,30 +336,39 @@ Generate a Payload application served by Express.
 
 ### `build` <!-- omit in toc -->
 
-Build a Payload application.
+Build the Express application.
 
-| Option       | Type                      | Required | Default | Description                                   |
-| ------------ | ------------------------- | :------: | ------- | --------------------------------------------- |
-| `main`       | string                    |    ✅    |         | The name of the main entry-point file         |
-| `outputPath` | string                    |    ✅    |         | The output path of the generated files        |
-| `tsConfig`   | string                    |    ✅    |         | The path to the Typescript configuration file |
-| `assets`     | array of object or string |          | `[]`    | List of static assets                         |
-| `clean`      | boolean                   |          | `true`  | Remove previous output before build           |
+| Option           | Type                      | Required | Inferred                        | Description                                                                                                                    |
+| ---------------- | ------------------------- | :------: | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `main`           | string                    |    ✅    | `apps/{name}/src/main.ts`       | The name of the main entry-point. file                                                                                         |
+| `outputPath`     | string                    |    ✅    | `dist/apps/{name}`              | The output path of the generated. files                                                                                        |
+| `outputFileName` | string                    |    ✅    | `src/main.js`                   | The relative path, from `outputPath`, to the output main file. A webpack property required to make `serve` find the main file. |
+| `tsConfig`       | string                    |    ✅    | `apps/{name}/tsconfig.app.json` | The path to the Typescript configuration file.                                                                                 |
+| `assets`         | array of object or string |          | `[]`                            | List of static assets.                                                                                                         |
+| `clean`          | boolean                   |          | `false`                         | Remove previous output before build.                                                                                           |
 
-### `payload` <!-- omit in toc -->
+### `payload-build` <!-- omit in toc -->
 
-Run Payload commands for an application.
+Build Payload admin page.
+
+It's usually not needed to run this target manually since it will always run as part of the `build` target, due to usage of the `dependsOn` property.
+
+_No options_.
+
+### `payload-cli` <!-- omit in toc -->
+
+Run Payload cli commands for an application.
 
 _No options_.
 
 ```sh
-npx nx payload [app-name] [payload-command]
+npx nx payload-cli [app-name] [payload-command]
 ```
 
 For example to check database migration status
 
 ```sh
-npx nx payload my-app migrate:status
+npx nx payload-cli my-app migrate:status
 ```
 
 ## Plugin Migrations

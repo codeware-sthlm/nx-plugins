@@ -4,11 +4,11 @@ import {
   type NormalizedSchema,
   normalizeOptions
 } from './libs/normalize-options';
-import type { PayloadExecutorSchema } from './schema';
+import type { PayloadCliExecutorSchema } from './schema';
 
-describe('Build Executor', () => {
+describe('Payload Cli Executor', () => {
   let context: ExecutorContext;
-  let testOptions: PayloadExecutorSchema;
+  let testOptions: PayloadCliExecutorSchema;
 
   beforeEach(async () => {
     context = {
@@ -23,7 +23,7 @@ describe('Build Executor', () => {
       nxJsonConfiguration: {},
       isVerbose: false,
       projectName: 'testapp',
-      targetName: 'build'
+      targetName: 'payload-cli'
     };
 
     testOptions = {

@@ -43,11 +43,17 @@ describe('@cdwr/nx-payload/plugin', () => {
       `${myAppPath}/project.json`
     );
 
-    ['build', 'mongodb', 'payload', 'postgres', 'start', 'stop'].forEach(
-      (target) => {
-        expect(projectJson.targets[target]).toBeUndefined();
-      }
-    );
+    [
+      'build',
+      'mongodb',
+      'payload-build',
+      'payload-cli',
+      'postgres',
+      'start',
+      'stop'
+    ].forEach((target) => {
+      expect(projectJson.targets[target]).toBeUndefined();
+    });
   });
 
   it('should resolve inferred projects', () => {
@@ -55,11 +61,17 @@ describe('@cdwr/nx-payload/plugin', () => {
       runNxCommand(`show project ${myApp} --json`)
     );
 
-    ['build', 'mongodb', 'payload', 'postgres', 'start', 'stop'].forEach(
-      (target) => {
-        expect(projectConfig.targets[target]).toBeDefined();
-      }
-    );
+    [
+      'build',
+      'mongodb',
+      'payload-build',
+      'payload-cli',
+      'postgres',
+      'start',
+      'stop'
+    ].forEach((target) => {
+      expect(projectConfig.targets[target]).toBeDefined();
+    });
   });
 
   it('should build application', () => {
@@ -68,8 +80,8 @@ describe('@cdwr/nx-payload/plugin', () => {
   });
 
   it('should invoke payload cli', () => {
-    const result = runNxCommand(`payload ${myApp}`);
-    expect(result).toContain('Successfully ran target payload');
+    const result = runNxCommand(`payload-cli ${myApp}`);
+    expect(result).toContain('Successfully ran target payload-cli');
   });
 
   it('opt out with usePluginInference set to false', () => {
@@ -92,7 +104,7 @@ describe('@cdwr/nx-payload/plugin', () => {
       `apps/${myApp}/project.json`
     );
 
-    ['build', 'payload'].forEach((target) => {
+    ['build', 'payload-build', 'payload-cli'].forEach((target) => {
       expect(projectJson.targets[target]).toBeDefined();
     });
     ['mongodb', 'postgres', 'start', 'stop'].forEach((target) => {

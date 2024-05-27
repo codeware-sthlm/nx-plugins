@@ -45,17 +45,17 @@ describe('@cdwr/nx-payload:app', () => {
       ).not.toThrow();
     });
 
-    it('should only have build and payload from inferred targets in project.json', () => {
+    it('should only have build, payload-build and payload-cli from inferred targets in project.json', () => {
       const projectJson = readJson<ProjectConfiguration>(
         `apps/${appName}/project.json`
       );
 
-      ['build', 'payload'].forEach((target) => {
+      ['build', 'payload-build', 'payload-cli'].forEach((target) => {
         expect(projectJson.targets[target]).toBeDefined();
       });
       [
-        'docker:build',
-        'docker:run',
+        'docker-build',
+        'docker-run',
         'mongodb',
         'postgres',
         'start',

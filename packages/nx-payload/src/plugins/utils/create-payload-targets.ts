@@ -36,13 +36,9 @@ export const createPayloadTargets = async (
       main: '{projectRoot}/src/main.ts',
       tsConfig: '{projectRoot}/tsconfig.app.json',
       outputPath: '{workspaceRoot}/dist/{projectRoot}',
-      assets: ['{projectRoot}/assets'],
-      clean: true,
-      updateBuildableProjectDepsInPackageJson: true,
-      buildableProjectDepsInPackageJsonType: 'dependencies',
-      transformers: [],
-      watch: false
+      outputFileName: 'src/main.js'
     },
+    dependsOn: [options.payloadBuildTargetName],
     cache: true
   };
 
@@ -55,9 +51,20 @@ export const createPayloadTargets = async (
     cache: false
   };
 
-  // Add `payload` target
-  targets[options.payloadTargetName] = {
-    executor: '@cdwr/nx-payload:payload',
+  // Add `payload-build` target
+  targets[options.payloadBuildTargetName] = {
+    executor: '@cdwr/nx-payload:payload-build',
+    configurations: {
+      production: {
+        outputPath: '{workspaceRoot}/dist/{projectRoot}'
+      }
+    },
+    cache: true
+  };
+
+  // Add `payload-cli` target
+  targets[options.payloadCliTargetName] = {
+    executor: '@cdwr/nx-payload:payload-cli',
     cache: false
   };
 
@@ -89,7 +96,7 @@ export const createPayloadTargets = async (
     cache: false
   };
 
-  // Add `docker:build` target
+  // Add `docker-build` target
   targets[options.dockerBuildTargetName] = {
     executor: 'nx:run-commands',
     options: {
@@ -98,7 +105,7 @@ export const createPayloadTargets = async (
     cache: false
   };
 
-  // Add `docker:run` target
+  // Add `docker-run` target
   targets[options.dockerRunTargetName] = {
     executor: 'nx:run-commands',
     options: {

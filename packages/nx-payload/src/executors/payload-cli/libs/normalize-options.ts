@@ -1,19 +1,19 @@
 import type { ExecutorContext } from '@nx/devkit';
 import invariant from 'tiny-invariant';
 
-import type { PayloadExecutorSchema } from '../schema';
+import type { PayloadCliExecutorSchema } from '../schema';
 
-export type NormalizedSchema = PayloadExecutorSchema & {
+export type NormalizedSchema = PayloadCliExecutorSchema & {
   projectRoot: string;
   sourceRoot: string;
 };
 
 export function normalizeOptions(
-  options: PayloadExecutorSchema,
+  options: PayloadCliExecutorSchema,
   context: ExecutorContext
 ): NormalizedSchema {
   const { projectName } = context;
-  invariant(projectName, 'No project name provided to build executor');
+  invariant(projectName, 'No project name provided to executor');
 
   const configuration = context?.projectsConfigurations?.projects[projectName];
   invariant(configuration, 'No configuration provided for project');

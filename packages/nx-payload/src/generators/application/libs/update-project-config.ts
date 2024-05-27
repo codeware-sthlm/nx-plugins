@@ -11,7 +11,13 @@ import { isPluginInferenceEnabled } from './is-plugin-inference-enabled';
 import type { NormalizedSchema } from './normalize-options';
 
 /** Available targets */
-type Target = 'build' | 'lint' | 'payload' | 'serve' | 'test';
+type Target =
+  | 'build'
+  | 'lint'
+  | 'payload-build'
+  | 'payload-cli'
+  | 'serve'
+  | 'test';
 
 export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
   const nxJson = readNxJson(host);
@@ -24,6 +30,7 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
     throw new Error('Could not read project.json');
   }
 
+  // Project targets with options
   const projectBuild = projectConfig.targets?.build;
   const projectLint = projectConfig.targets?.lint;
   const projectServe = projectConfig.targets?.serve;
@@ -36,8 +43,10 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
       options: {
         main: projectBuild?.options.main,
         tsConfig: projectBuild?.options.tsConfig,
-        outputPath: projectBuild?.options.outputPath
-      }
+        outputPath: projectBuild?.options.outputPath,
+        outputFileName: projectBuild?.options.outputFileName
+      },
+      dependsOn: ['payload-build']
     },
     serve: {
       ...projectServe,
@@ -58,13 +67,26 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
     test: {
       ...projectTest
     },
-    payload: {
-      executor: '@cdwr/nx-payload:payload'
+    ['payload-build']: {
+      executor: '@cdwr/nx-payload:payload-build',
+      defaultConfiguration: projectBuild?.defaultConfiguration,
+      configurations: {
+        production: {
+          outputPath: projectBuild?.options.outputPath
+        }
+      }
+    },
+    ['payload-cli']: {
+      executor: '@cdwr/nx-payload:payload-cli'
     }
   };
 
-  // Targets which can also be inferred
-  const inferredTargets: Array<Target> = ['build', 'payload'];
+  // Targets above which can also be inferred
+  const inferredTargets: Array<Target> = [
+    'build',
+    'payload-build',
+    'payload-cli'
+  ];
 
   // Targets which should be added to the project configuration
   // (if inference is enabled, the inferred targets will not be added to the project configuration)

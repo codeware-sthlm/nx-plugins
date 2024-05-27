@@ -6,6 +6,12 @@ import invariant from 'tiny-invariant';
 import type { BuildExecutorSchema } from '../schema';
 
 export type NormalizedSchema = BuildExecutorSchema & {
+  updateBuildableProjectDepsInPackageJson: boolean;
+  buildableProjectDepsInPackageJsonType:
+    | 'dependencies'
+    | 'devDependencies'
+    | 'none';
+} & {
   projectRoot: string;
   sourceRoot: string;
 };
@@ -24,14 +30,20 @@ export function normalizeOptions(
   invariant(projectRoot, 'No root provided for project');
   invariant(sourceRoot, 'No sourceRoot provided for project');
 
+  // Required target options
+  const { main, outputFileName, outputPath, tsConfig } = options;
+
   return {
     projectRoot,
     sourceRoot,
-    outputPath: options.outputPath,
-    main: options.main,
-    tsConfig: options.tsConfig,
+    outputPath,
+    outputFileName,
+    main,
+    tsConfig,
     assets: options?.assets ?? [join(sourceRoot, 'assets')],
-    clean: options?.clean ?? true,
+    // Must be `false` as long as this target depends on payload build target.
+    // Otherwise the output from the payload build will be deleted.
+    clean: false,
     watch: false,
     transformers: [],
     updateBuildableProjectDepsInPackageJson: true,

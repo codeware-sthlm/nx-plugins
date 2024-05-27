@@ -43,6 +43,10 @@ describe('application generator', () => {
     tree = createTreeWithEmptyWorkspace();
   });
 
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
+
   it('should add payload dependency', async () => {
     await generator(tree, options);
     const packageJson = readJson<PackageJson>(tree, 'package.json');
@@ -221,6 +225,27 @@ describe('application generator', () => {
     expect(content.match(/postgresAdapter|POSTGRES_URL/g).length).toBe(3);
   });
 
+  it('should have dependency to payload-build from build', async () => {
+    setInferenceFlag(false);
+    await generator(tree, options);
+
+    const projectJson = readProjectConfiguration(tree, options.name);
+    expect(projectJson.targets['build'].dependsOn).toEqual(['payload-build']);
+  });
+
+  it('should have production configuration to dist folder for payload-build', async () => {
+    setInferenceFlag(false);
+    await generator(tree, options);
+
+    const projectJson = readProjectConfiguration(tree, options.name);
+    expect(
+      Object.keys(projectJson.targets['payload-build'].configurations)
+    ).toEqual(['production']);
+    expect(
+      projectJson.targets['payload-build'].configurations['production']
+    ).toEqual({ outputPath: 'dist/apps/test-dir' });
+  });
+
   it("should setup plugin inference when 'useInferencePlugins' doesn't exist", async () => {
     setInferenceFlag();
     await generator(tree, options);
@@ -230,8 +255,10 @@ describe('application generator', () => {
     expect(nxJson.plugins).toEqual(['@cdwr/nx-payload/plugin']);
 
     const projectJson = readProjectConfiguration(tree, options.name);
+    expect(Object.keys(projectJson.targets).length).toBe(3);
     expect(projectJson.targets['build']).toBeUndefined();
-    expect(projectJson.targets['payload']).toBeUndefined();
+    expect(projectJson.targets['payload-build']).toBeUndefined();
+    expect(projectJson.targets['payload-cli']).toBeUndefined();
   });
 
   it("should setup plugin inference when 'useInferencePlugins' is 'true'", async () => {
@@ -243,8 +270,10 @@ describe('application generator', () => {
     expect(nxJson.plugins).toEqual(['@cdwr/nx-payload/plugin']);
 
     const projectJson = readProjectConfiguration(tree, options.name);
+    expect(Object.keys(projectJson.targets).length).toBe(3);
     expect(projectJson.targets['build']).toBeUndefined();
-    expect(projectJson.targets['payload']).toBeUndefined();
+    expect(projectJson.targets['payload-build']).toBeUndefined();
+    expect(projectJson.targets['payload-cli']).toBeUndefined();
   });
 
   it("should not setup plugin inference when 'useInferencePlugins' is 'false'", async () => {
@@ -256,8 +285,10 @@ describe('application generator', () => {
     expect(nxJson.plugins).toBeUndefined();
 
     const projectJson = readProjectConfiguration(tree, options.name);
+    expect(Object.keys(projectJson.targets).length).toBe(6);
     expect(projectJson.targets['build']).toBeDefined();
-    expect(projectJson.targets['payload']).toBeDefined();
+    expect(projectJson.targets['payload-build']).toBeDefined();
+    expect(projectJson.targets['payload-cli']).toBeDefined();
   });
 
   it('should skip setup plugin inference when plugin exists as string', async () => {
@@ -284,7 +315,8 @@ describe('application generator', () => {
         dockerBuildTargetName: 'my-docker:build',
         dockerRunTargetName: 'my-docker:run',
         mongodbTargetName: 'my-mongodb',
-        payloadTargetName: 'my-payload',
+        payloadBuildTargetName: 'my-payload-build',
+        payloadCliTargetName: 'my-payload-cli',
         postgresTargetName: 'my-postgres',
         startTargetName: 'my-start',
         stopTargetName: 'my-stop'
@@ -301,7 +333,8 @@ describe('application generator', () => {
           dockerBuildTargetName: 'my-docker:build',
           dockerRunTargetName: 'my-docker:run',
           mongodbTargetName: 'my-mongodb',
-          payloadTargetName: 'my-payload',
+          payloadBuildTargetName: 'my-payload-build',
+          payloadCliTargetName: 'my-payload-cli',
           postgresTargetName: 'my-postgres',
           startTargetName: 'my-start',
           stopTargetName: 'my-stop'

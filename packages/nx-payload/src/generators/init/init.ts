@@ -11,6 +11,7 @@ import { initGenerator as expressInitGenerator } from '@nx/express/src/generator
 import {
   payloadPluginsVersions,
   payloadVersion,
+  rimrafVersion,
   tsLibVersion
 } from '../../utils/versions';
 
@@ -24,7 +25,7 @@ function updateDependencies(tree: Tree) {
       ...payloadPluginsVersions,
       tslib: tsLibVersion
     },
-    {}
+    { rimraf: rimrafVersion }
   );
 }
 
