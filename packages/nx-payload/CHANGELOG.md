@@ -1,3 +1,15 @@
+## 0.9.2 (2024-05-27)
+
+
+### 🐞 Bug Fixes
+
+- **nx-payload:** fix serve target for generated applications ([970867d](https://github.com/codeware-sthlm/nx-plugins/commit/970867d))
+
+
+### ❤️  Thank You
+
+- Håkan Ströberg
+
 ## 0.9.1 (2024-05-12)
 
 
