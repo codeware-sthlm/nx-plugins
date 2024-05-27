@@ -22,7 +22,7 @@ describe('Build app Dockerfile', () => {
     // Setup as if the plugin was built inside the e2e test directory,
     // and make the dist folder copy afterwards.
 
-    // Besides, it's not possible to build image using `docker:build` target.
+    // Besides, it's not possible to build image using `docker-build` target.
     // Plugin is not found since it's located outside the docker host.
 
     // Faking a path within docker host could for testing docker build command?

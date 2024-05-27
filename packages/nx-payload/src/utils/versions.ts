@@ -7,4 +7,6 @@ export const payloadPluginsVersions: Record<string, string> = {
   '@payloadcms/richtext-slate': '^1.3.1'
 };
 
+export const rimrafVersion = 'latest';
+
 export const tsLibVersion = '^2.4.1';

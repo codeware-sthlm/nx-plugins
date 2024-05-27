@@ -4,10 +4,10 @@ import { type ExecutorContext } from '@nx/devkit';
 import runCommandsImpl from 'nx/src/executors/run-commands/run-commands.impl';
 
 import { normalizeOptions } from './libs/normalize-options';
-import type { PayloadExecutorSchema } from './schema';
+import type { PayloadCliExecutorSchema } from './schema';
 
-export async function payloadExecutor(
-  options: PayloadExecutorSchema,
+export async function payloadCliExecutor(
+  options: PayloadCliExecutorSchema,
   context: ExecutorContext
 ) {
   const normalizedOptions = normalizeOptions(options, context);
@@ -34,4 +34,4 @@ export async function payloadExecutor(
   };
 }
 
-export default payloadExecutor;
+export default payloadCliExecutor;

@@ -16,8 +16,12 @@ describe('Build Executor', () => {
       cwd: '/root',
       projectsConfigurations: {
         version: 2,
+
         projects: {
-          testapp: { root: 'apps/testapp', sourceRoot: 'apps/testapp/src' }
+          testapp: {
+            root: 'apps/testapp',
+            sourceRoot: 'apps/testapp/src'
+          }
         }
       },
       nxJsonConfiguration: {},
@@ -27,15 +31,13 @@ describe('Build Executor', () => {
     };
 
     testOptions = {
-      main: 'apps/testapp/src/index.ts',
+      main: 'apps/testapp/src/main.ts',
       outputPath: 'dist/apps/testapp',
+      outputFileName: 'src/main.js',
       tsConfig: 'apps/testapp/tsconfig.app.json',
       assets: [],
-      updateBuildableProjectDepsInPackageJson: true,
-      buildableProjectDepsInPackageJsonType: 'dependencies',
-      transformers: [],
       watch: false,
-      clean: true
+      transformers: []
     };
   });
 
@@ -46,14 +48,15 @@ describe('Build Executor', () => {
       projectRoot: 'apps/testapp',
       sourceRoot: 'apps/testapp/src',
       outputPath: 'dist/apps/testapp',
-      main: 'apps/testapp/src/index.ts',
+      outputFileName: 'src/main.js',
+      main: 'apps/testapp/src/main.ts',
       tsConfig: 'apps/testapp/tsconfig.app.json',
       assets: [],
       updateBuildableProjectDepsInPackageJson: true,
       buildableProjectDepsInPackageJsonType: 'dependencies',
       transformers: [],
       watch: false,
-      clean: true
+      clean: false
     });
   });
 
@@ -76,15 +79,15 @@ describe('Build Executor', () => {
     });
   });
 
-  it('should default clean to true', () => {
-    testOptions.clean = false;
+  it('should not be able to override clean false', () => {
+    testOptions.clean = true;
     expect(normalizeOptions(testOptions, context)).toMatchObject({
       clean: false
     });
 
     delete testOptions.clean;
     expect(normalizeOptions(testOptions, context)).toMatchObject({
-      clean: true
+      clean: false
     });
   });
 
