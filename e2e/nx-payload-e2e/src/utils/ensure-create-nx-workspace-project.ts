@@ -21,7 +21,7 @@ export type CreateNxWorkspaceProject = {
 };
 
 /** Package mananger options for `E2E_PACKAGE_MANAGER` */
-const PackageManagersEnv = ['npm', 'pnpm', 'yarn', 'infer'] as const;
+const PackageManagersEnv = ['bun', 'npm', 'pnpm', 'yarn', 'infer'] as const;
 type PackageManagerEnv = (typeof PackageManagersEnv)[number];
 
 /**
@@ -31,7 +31,7 @@ type PackageManagerEnv = (typeof PackageManagersEnv)[number];
  * This function uses the local registry instead to setup the workspace in a more real world scenario.
  *
  * Package mananger can be set via environment variable `E2E_PACKAGE_MANAGER`,
- * where the value can be `npm`, `pnpm`, `yarn`, or `infer` (current workspace).
+ * where the value can be `bun`, `npm`, `pnpm`, `yarn`, or `infer` (current workspace).
  *
  * @param preset Which preset to use as option to `create-nx-workspace`
  * @returns Project workspace details
