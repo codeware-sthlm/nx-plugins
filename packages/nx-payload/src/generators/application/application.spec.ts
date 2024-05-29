@@ -16,7 +16,8 @@ describe('application generator', () => {
   let tree: Tree;
   const options: AppGeneratorSchema = {
     directory: 'apps/test-dir',
-    name: 'test-app'
+    name: 'test-app',
+    skipFormat: true
   };
 
   console.log = jest.fn();
