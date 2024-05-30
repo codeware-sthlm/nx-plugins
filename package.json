@@ -20,9 +20,9 @@
   },
   "devDependencies": {
     "@clack/prompts": "^0.7.0",
-    "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-angular": "^18.0.0",
-    "@commitlint/config-conventional": "^18.4.3",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-angular": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@nx/devkit": "19.1.1",
     "@nx/eslint": "19.1.1",
     "@nx/eslint-plugin": "19.1.1",
