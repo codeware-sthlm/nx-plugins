@@ -11,15 +11,7 @@
       }
     },
     "local-registry:publish": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "yarn nx release version --stage-changes false --git-commit false --git-tag false --first-release true",
-          "yarn nx release publish --tag local --first-release true"
-        ],
-        "parallel": false
-      },
-      "cache": false
+      "command": "yarn nx release version --stage-changes false --git-commit false --git-tag false --first-release true && yarn nx release publish --tag local --first-release true"
     }
   }
 }
