@@ -1,3 +1,26 @@
+## 0.9.3 (2024-05-30)
+
+
+### 🛠️ Build System
+
+- 📦 update nx workspace to 19.1.1 ([850448f](https://github.com/codeware-sthlm/nx-plugins/commit/850448f))
+
+
+### ⚙️ Miscellaneous Chores
+
+- **nx-payload:** prepare for bun support ([81ed10a](https://github.com/codeware-sthlm/nx-plugins/commit/81ed10a))
+
+
+### ✅ Tests
+
+- **nx-payload:** prevent test issues by skipping format ([179982f](https://github.com/codeware-sthlm/nx-plugins/commit/179982f))
+
+
+### ❤️  Thank You
+
+- github-merge-queue @github-merge-queue
+- Håkan Ströberg
+
 ## 0.9.2 (2024-05-27)
 
 
