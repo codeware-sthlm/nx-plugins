@@ -1,8 +1,8 @@
 /* eslint-disable */
 export default {
-  displayName: 'nx-payload-e2e',
+  displayName: 'core',
   preset: '../../jest.preset.js',
-  globals: {},
+  testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': [
       'ts-jest',
@@ -12,7 +12,5 @@ export default {
     ]
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/e2e/nx-payload-e2e',
-  globalSetup: '../utils/start-local-registry.ts',
-  globalTeardown: '../utils/stop-local-registry.ts'
+  coverageDirectory: '../../coverage/packages/core'
 };

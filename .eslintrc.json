@@ -18,8 +18,23 @@
             "allow": [],
             "depConstraints": [
               {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "sourceTag": "scope:core",
+                "onlyDependOnLibsWithTags": ["scope:core"]
+              },
+              {
+                "sourceTag": "scope:create-nx-payload",
+                "onlyDependOnLibsWithTags": [
+                  "scope:core",
+                  "scope:create-nx-payload"
+                ]
+              },
+              {
+                "sourceTag": "scope:e2e",
+                "onlyDependOnLibsWithTags": ["scope:core", "scope:e2e"]
+              },
+              {
+                "sourceTag": "scope:nx-payload",
+                "onlyDependOnLibsWithTags": ["scope:core", "scope:nx-payload"]
               }
             ]
           }

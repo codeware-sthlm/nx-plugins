@@ -16,6 +16,6 @@
       "dependsOn": ["nx-payload:build"]
     }
   },
-  "tags": [],
+  "tags": ["scope:e2e"],
   "implicitDependencies": ["nx-payload"]
 }

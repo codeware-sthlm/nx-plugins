@@ -4,7 +4,7 @@
   "name": "create-nx-payload",
   "projectType": "library",
   "sourceRoot": "packages/create-nx-payload/bin",
-  "tags": [],
+  "tags": ["scope:create-nx-payload"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",

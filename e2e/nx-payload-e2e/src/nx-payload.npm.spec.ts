@@ -1,7 +1,6 @@
 import { runCommandAsync, runNxCommand } from '@nx/plugin/testing';
+import { ensureCreateNxWorkspaceProject } from '@nx-plugins/e2e/utils';
 import { agent } from 'supertest';
-
-import { ensureCreateNxWorkspaceProject } from './utils/ensure-create-nx-workspace-project';
 
 describe('Verify local npm and create empty workspace', () => {
   jest.setTimeout(900_000);

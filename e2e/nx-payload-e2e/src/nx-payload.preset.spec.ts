@@ -1,9 +1,8 @@
 import { readJson, runCommandAsync, runNxCommand } from '@nx/plugin/testing';
-
 import {
   type CreateNxWorkspaceProject,
   ensureCreateNxWorkspaceProject
-} from './utils/ensure-create-nx-workspace-project';
+} from '@nx-plugins/e2e/utils';
 
 describe('Create workspace with preset', () => {
   let project: CreateNxWorkspaceProject;

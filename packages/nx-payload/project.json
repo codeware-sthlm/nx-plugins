@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "packages/nx-payload/src",
-  "tags": [],
+  "tags": ["scope:nx-payload"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",

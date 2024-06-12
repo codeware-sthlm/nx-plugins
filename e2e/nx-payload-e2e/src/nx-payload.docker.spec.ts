@@ -7,9 +7,8 @@ import {
   tmpProjPath,
   uniq
 } from '@nx/plugin/testing';
+import { buildImage, logError } from '@nx-plugins/core';
 import { copySync } from 'fs-extra';
-
-import { buildImage } from './utils/build-image';
 
 describe('Build app Dockerfile', () => {
   const appName = uniq('app');
@@ -51,7 +50,7 @@ describe('Build app Dockerfile', () => {
     });
 
     if (error) {
-      console.log(error);
+      logError('Failed to build docker image', error.message);
     }
 
     expect(error).toBeNull();

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /**
  * This script stops the local registry for testing purposes.
  *
@@ -5,11 +7,11 @@
  */
 
 export default () => {
-  if (!global.stopLocalRegistry) {
+  if (!(global as any).stopLocalRegistry) {
     console.log('Local registry is not started');
     return;
   }
 
-  global.stopLocalRegistry();
+  (global as any).stopLocalRegistry();
   console.log('Killed local registry process');
 };
