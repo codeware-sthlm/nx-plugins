@@ -10,6 +10,7 @@ import {
   tmpProjPath,
   uniq
 } from '@nx/plugin/testing';
+import { logDebug, logError } from '@nx-plugins/core';
 
 export type CreateNxWorkspaceProject = {
   /** Generated application name */
@@ -49,13 +50,17 @@ export function ensureCreateNxWorkspaceProject(
   }
 
   // Ensure the e2e temp path is removed
-  cleanup();
+  try {
+    cleanup();
+  } catch (error) {
+    logError('Failed to cleanup e2e temp path', error.message);
+  }
 
   // Prepare the options for `create-nx-workspace`
   const options = ['--nxCloud', 'skip', '--no-interactive'];
 
   // Select package manager from environment where `infer` use the current package manager
-  const packageManager = process.env.E2E_PACKAGE_MANAGER as
+  const packageManager = process.env['E2E_PACKAGE_MANAGER'] as
     | PackageManagerEnv
     | '';
   if (packageManager in PackageManagersEnv) {
@@ -64,8 +69,8 @@ export function ensureCreateNxWorkspaceProject(
     options.push('--packageManager', pm);
   }
 
-  let appName: string;
-  let appDirectory: string;
+  let appName = '';
+  let appDirectory = '';
 
   // Add required options for `@cdwr/nx-payload` preset
   if (preset === '@cdwr/nx-payload') {
@@ -89,6 +94,8 @@ export function ensureCreateNxWorkspaceProject(
   if (!directoryExists(runPath)) {
     mkdirSync(runPath, { recursive: true });
   }
+
+  logDebug(`Creating Nx workspace project with preset '${preset}'`);
 
   const result = runCommand(
     `npx create-nx-workspace@${version} ${name} --preset ${preset} ${cliOptions}`,

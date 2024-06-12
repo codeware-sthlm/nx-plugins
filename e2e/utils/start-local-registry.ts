@@ -8,7 +8,7 @@ import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { releasePublish, releaseVersion } from 'nx/release';
 
 export default async () => {
-  const verbose = process.env.NX_VERBOSE_LOGGING === 'true';
+  const verbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
 
   // local registry target to run
   const localRegistryTarget = 'workspace:local-registry';
@@ -16,7 +16,8 @@ export default async () => {
   // storage folder for the local registry
   const storage = './tmp/local-registry/storage';
 
-  global.stopLocalRegistry = await startLocalRegistry({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (global as any).stopLocalRegistry = await startLocalRegistry({
     localRegistryTarget,
     storage,
     verbose

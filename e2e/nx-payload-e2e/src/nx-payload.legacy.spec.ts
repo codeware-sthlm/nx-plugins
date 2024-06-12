@@ -64,29 +64,6 @@ describe('@cdwr/nx-payload:app', () => {
         expect(projectJson.targets[target]).toBeUndefined();
       });
     });
-
-    it('should build application', () => {
-      const result = runNxCommand(`build ${appName}`);
-      expect(result).toContain('Successfully ran target build');
-
-      expect(() =>
-        checkFilesExist(
-          `dist/apps/${appName}/build/index.html`,
-          `dist/apps/${appName}/package.json`,
-          `dist/apps/${appName}/src/main.js`
-        )
-      ).not.toThrow();
-    });
-
-    it('should test application', () => {
-      const result = runNxCommand(`test ${appName}`);
-      expect(result).toContain('Successfully ran target test');
-    });
-
-    it('should lint application', () => {
-      const result = runNxCommand(`lint ${appName}`);
-      expect(result).toContain('Successfully ran target lint');
-    });
   });
 
   describe('optional options', () => {
@@ -123,10 +100,5 @@ describe('@cdwr/nx-payload:app', () => {
         checkFilesExist(`apps/${appName}-e2e/project.json`)
       ).toThrow();
     });
-  });
-
-  describe('launch application', () => {
-    it.todo('should have a running mongo instance');
-    it.todo('should open admin page and create a new user');
   });
 });

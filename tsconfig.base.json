@@ -16,9 +16,11 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
+      "@nx-plugins/core": ["packages/core/src/index.ts"],
       "@nx-plugins/create-nx-payload": [
         "packages/create-nx-payload/bin/index.ts"
       ],
+      "@nx-plugins/e2e/utils": ["e2e/utils"],
       "@nx-plugins/nx-payload": ["packages/nx-payload/src/index.ts"]
     }
   },

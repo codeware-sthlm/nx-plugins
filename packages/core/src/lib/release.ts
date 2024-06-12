@@ -1,7 +1,3 @@
-import chalk from 'chalk';
-import { releaseChangelog, releasePublish, releaseVersion } from 'nx/release';
-import type { NxReleaseChangelogResult } from 'nx/src/command-line/release/changelog';
-import type { VersionData } from 'nx/src/command-line/release/version';
 import {
   cancel,
   confirm,
@@ -11,9 +7,11 @@ import {
   select,
   text
 } from '@clack/prompts';
+import chalk from 'chalk';
+import { releaseChangelog, releasePublish, releaseVersion } from 'nx/release';
 
 (async () => {
-  intro(`Let's release some Nx Plugin packages`);
+  intro(`Let's release some Nx Plugin packages 📦`);
 
   const release = await group(
     {
@@ -66,9 +64,11 @@ import {
               if (!/^\d{6}$/.test(value)) {
                 return 'OTP code must be a 6-digit number';
               }
+              return undefined;
             }
           });
         }
+        return;
       },
       verbose: () =>
         confirm({
@@ -93,7 +93,7 @@ import {
       // On Cancel callback that wraps the group
       // So if the user cancels one of the prompts in the group this function will be called
       onCancel: () => {
-        cancel('Release cancelled.');
+        cancel('🚫 Release cancelled.');
         process.exit(0);
       }
     }
@@ -106,12 +106,10 @@ import {
   const publishLater = release.publishLater !== 'false';
 
   if (!dryRun && !confirmRelease) {
-    cancel('Release cancelled.');
+    cancel('🚫 Release cancelled.');
     process.exit(0);
   }
 
-  let projectsVersionData: VersionData;
-  let projectChangelogs: NxReleaseChangelogResult | undefined;
   let publishStatus: number;
 
   // Analyze changes
@@ -120,17 +118,16 @@ import {
     dryRun,
     verbose
   });
-  projectsVersionData = versionStatus.projectsVersionData;
+  const projectsVersionData = versionStatus.projectsVersionData;
 
   // Generate changelogs
   console.log(`${chalk.magenta.underline('Generate changelogs')}`);
   try {
-    const changelogStatus = await releaseChangelog({
+    await releaseChangelog({
       versionData: projectsVersionData,
       dryRun,
       verbose
     });
-    projectChangelogs = changelogStatus.projectChangelogs;
   } catch (error) {
     console.error(
       `Generate changelogs: ${chalk.red((error as Error).message)}`
@@ -144,7 +141,7 @@ import {
   );
 
   if (newVersionFound && publishLater && !dryRun) {
-    outro('The new release will be published by GitHub Actions');
+    outro('🚀 The new release will be published by GitHub Actions!');
     process.exit(0);
   }
 
@@ -156,7 +153,7 @@ import {
   // Skip publish with message if the user selected dryRun and publish via GitHub Actions
   if (dryRun && publishLater) {
     outro(
-      `${chalk.green('Done!')} Nothing gets changed when running in ${chalk.bgYellow(' preview ')} mode`
+      `👓 ${chalk.green('Done!')} Nothing gets changed when running in ${chalk.bgYellow(' preview ')} mode`
     );
     process.exit(0);
   }
@@ -181,13 +178,13 @@ import {
 
   if (dryRun) {
     outro(
-      `${chalk.green('Done!')} Nothing gets changed when running in ${chalk.bgYellow(' preview ')} mode`
+      `👓 ${chalk.green('Done!')} Nothing gets changed when running in ${chalk.bgYellow(' preview ')} mode`
     );
   } else {
     outro(
       publishStatus === 0
-        ? chalk.green('Released successfully!')
-        : chalk.red('Release failed')
+        ? chalk.green('🚀 Released successfully!')
+        : chalk.red('🚫 Release failed')
     );
   }
 
