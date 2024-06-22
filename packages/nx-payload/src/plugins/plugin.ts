@@ -13,11 +13,10 @@ import {
 import { calculateHashForCreateNodes } from '@nx/devkit/src/utils/calculate-hash-for-create-nodes';
 import { getLockFileName } from '@nx/js';
 
+import { cachePath, targetsCache, writeTargetsToCache } from './utils/cache';
 import { createPayloadTargets } from './utils/create-payload-targets';
 import { normalizeOptions } from './utils/normalize-options';
-import { cachePath, targetsCache } from './utils/read-targets-cache';
 import type { PayloadPluginOptions } from './utils/types';
-import { writeTargetsToCache } from './utils/write-targets-to-cache';
 
 /**
  * Export Nx hook functions to make the plugin support Project Crystal
@@ -89,7 +88,7 @@ export const createNodes: CreateNodes<PayloadPluginOptions> = [
 
     const normalizedOptions = normalizeOptions(options);
 
-    const hash = calculateHashForCreateNodes(
+    const hash = await calculateHashForCreateNodes(
       projectRoot,
       normalizedOptions,
       context,
