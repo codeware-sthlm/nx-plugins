@@ -1,3 +1,25 @@
+## 0.5.5 (2024-06-27)
+
+
+### 🛠️ Build System
+
+- 📦 update nx workspace to 19.1.2 ([09df5db](https://github.com/codeware-sthlm/nx-plugins/commit/09df5db))
+
+- 📦 update nx workspace to 19.3.1 ([c40d8a9](https://github.com/codeware-sthlm/nx-plugins/commit/c40d8a9))
+
+- 📦 update nx workspace to 19.3.2 ([0f30b9a](https://github.com/codeware-sthlm/nx-plugins/commit/0f30b9a))
+
+
+### ✅ Tests
+
+- **nx-payload:** add test for serve target ([7a5e85e](https://github.com/codeware-sthlm/nx-plugins/commit/7a5e85e))
+
+
+### ❤️  Thank You
+
+- github-merge-queue @github-merge-queue
+- Håkan Ströberg
+
 ## 0.5.4 (2024-05-30)
 
 
