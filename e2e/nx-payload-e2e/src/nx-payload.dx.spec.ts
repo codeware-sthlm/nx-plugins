@@ -55,7 +55,7 @@ describe('Developer experience', () => {
       )
     ).toBeTruthy();
     expect(output.includes(`[ started ] on port 3000 (test)`)).toBeTruthy();
-  }, 60_000);
+  });
 
   it.skip('should be able to start app and database', async () => {
     runNxCommand('start');
