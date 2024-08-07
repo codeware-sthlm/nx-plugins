@@ -17,7 +17,7 @@ import {
   withOptions,
   withPackageManager
 } from 'create-nx-workspace/src/internal-utils/yargs-options';
-import { printNxCloudSuccessMessage } from 'create-nx-workspace/src/utils/nx/nx-cloud';
+import { showNxWarning } from 'create-nx-workspace/src/utils/nx/show-nx-warning';
 import { output } from 'create-nx-workspace/src/utils/output';
 import * as enquirer from 'enquirer';
 import * as yargs from 'yargs';
@@ -110,8 +110,10 @@ async function main(parsedArgs: yargs.Arguments<Arguments>): Promise<void> {
     parsedArgs
   );
 
+  showNxWarning(pluginName);
+
   if (parsedArgs.nxCloud !== 'skip' && workspaceInfo.nxCloudInfo) {
-    printNxCloudSuccessMessage(workspaceInfo.nxCloudInfo);
+    console.log(workspaceInfo.nxCloudInfo);
   }
 
   output.log({

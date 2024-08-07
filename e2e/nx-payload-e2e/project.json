@@ -13,9 +13,9 @@
       "configurations": {
         "windows": { "testPathIgnorePatterns": ["docker"] }
       },
-      "dependsOn": ["nx-payload:build"]
+      "dependsOn": ["create-nx-payload:build", "nx-payload:build"]
     }
   },
   "tags": ["scope:e2e"],
-  "implicitDependencies": ["nx-payload"]
+  "implicitDependencies": ["create-nx-payload", "nx-payload"]
 }

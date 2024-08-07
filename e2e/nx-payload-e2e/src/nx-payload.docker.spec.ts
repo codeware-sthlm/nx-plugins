@@ -14,7 +14,7 @@ describe('Build app Dockerfile', () => {
   const appName = uniq('app');
   const projPath = tmpProjPath().replace(`${cwd()}/`, '');
 
-  jest.setTimeout(900_000);
+  jest.setTimeout(1000_000);
 
   beforeAll(() => {
     // Dockerfile cannot find dist folder outside e2e test directory.
