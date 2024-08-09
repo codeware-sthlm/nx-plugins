@@ -12,11 +12,15 @@ export async function payloadBuildExecutor(
 ) {
   const normalizedOptions = normalizeOptions(options, context);
 
+  // Since build target depends on this target, we must start with a clean output
+  const preCleanup = normalizedOptions.outputPath
+    ? [`rimraf ${normalizedOptions.outputPath} || true`]
+    : [];
+
   const output = await runCommandsImpl(
     {
       commands: [
-        // Since build target depends on this target, we must start with a clean output
-        `rimraf ${normalizedOptions.outputPath} || true`,
+        ...preCleanup,
         'npx payload build',
         'npx payload generate:types',
         'npx payload generate:graphQLSchema'
