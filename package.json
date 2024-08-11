@@ -54,7 +54,7 @@
     "czg": "^1.8.0",
     "dockerode": "^4.0.2",
     "enquirer": "^2.4.1",
-    "eslint": "8.57.0",
+    "eslint": "9.9.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "^2.26.0",
     "fs-extra": "^11.2.0",
