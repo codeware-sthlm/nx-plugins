@@ -1,3 +1,15 @@
+## 0.5.6 (2024-08-11)
+
+
+### 🛠️ Build System
+
+- 📦 update nx workspace to 19.5.7 ([b28d725](https://github.com/codeware-sthlm/nx-plugins/commit/b28d725))
+
+
+### ❤️  Thank You
+
+- github-merge-queue @github-merge-queue
+
 ## 0.5.5 (2024-06-27)
 
 

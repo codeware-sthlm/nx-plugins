@@ -1,3 +1,26 @@
+## 0.9.5 (2024-08-11)
+
+
+### 🐞 Bug Fixes
+
+- **nx-payload:** undefined paths do not need to be cleared during build ([1df4002](https://github.com/codeware-sthlm/nx-plugins/commit/1df4002))
+
+
+### 📄 Documentation
+
+- **nx-payload:** update version ([c9ec970](https://github.com/codeware-sthlm/nx-plugins/commit/c9ec970))
+
+
+### 🛠️ Build System
+
+- 📦 update nx workspace to 19.5.7 ([b28d725](https://github.com/codeware-sthlm/nx-plugins/commit/b28d725))
+
+
+### ❤️  Thank You
+
+- github-merge-queue @github-merge-queue
+- Håkan Ströberg
+
 ## 0.9.4 (2024-06-27)
 
 
