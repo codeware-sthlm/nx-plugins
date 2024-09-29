@@ -8,34 +8,46 @@ import {
   text
 } from '@clack/prompts';
 import chalk from 'chalk';
-import { releaseChangelog, releasePublish, releaseVersion } from 'nx/release';
+import { releaseVersion } from 'nx/release';
+
+import { changelogs } from './release/changelogs';
+import { publish } from './release/publish';
+
+const modes = ['publish', 'release'] as const;
+type Mode = (typeof modes)[number];
+
+/** Finalizing message when there is a release to handle, but user selected dryRun mode */
+const dryRunOutro = (): void =>
+  outro(
+    `👓 ${chalk.green('Done!')} Nothing gets changed when running in ${chalk.bgYellow(' preview ')} mode`
+  );
 
 (async () => {
   intro(`Let's release some Nx Plugin packages 📦`);
 
   const release = await group(
     {
-      dryRun: () =>
+      mode: () =>
         select({
-          message:
-            'Do you want to see a preview before making the actual release?',
+          message: 'What parts of the release process do you want to run?',
           options: [
             {
-              value: 'true',
-              label: `Yes, just a preview 🤓`,
-              hint: 'recommended before the actual release'
+              value: 'release',
+              label: `Default release process 💫`,
+              hint: 'analyze commits, create changelog and publish'
             },
             {
-              value: 'false',
-              label: 'No, try to make the actual release 🚀'
+              value: 'publish',
+              label: 'Publish a release 📦',
+              hint: 'release must have been pre-generated earlier'
             }
           ],
-          initialValue: 'true'
+          initialValue: 'release'
         }),
-      publishLater: ({ results: { dryRun } }) => {
-        // If the user selected dryRun, skip the publish prompt
-        if (dryRun === 'true') {
-          return;
+      postponePublish: ({ results: { mode } }) => {
+        // If the user selected publish mode, the publish prompt is not needed
+        if ((mode as Mode) === 'publish') {
+          return Promise.resolve('false');
         }
         return select({
           message: 'Do you want GitHub Actions to publish the packages to NPM?',
@@ -53,8 +65,30 @@ import { releaseChangelog, releasePublish, releaseVersion } from 'nx/release';
           initialValue: 'true'
         });
       },
-      otp: ({ results: { publishLater } }) => {
-        if (publishLater === 'false') {
+      dryRun: () =>
+        select({
+          message: 'Do you want to see a preview before making any changes?',
+          options: [
+            {
+              value: 'true',
+              label: `Yes, just a preview 🤓`,
+              hint: 'recommended before the actual run'
+            },
+            {
+              value: 'false',
+              label: 'No, run the selected process 🚀'
+            }
+          ],
+          initialValue: 'true'
+        }),
+      otp: ({ results: { dryRun, mode, postponePublish } }) => {
+        // Require OTP for publish mode or a complete release process
+        const modeT = mode as Mode;
+        if (
+          dryRun === 'false' &&
+          (modeT === 'publish' ||
+            (modeT === 'release' && postponePublish === 'false'))
+        ) {
           return text({
             message: 'Enter NPM OTP code from your 2FA app:',
             validate: (value) => {
@@ -83,7 +117,7 @@ import { releaseChangelog, releasePublish, releaseVersion } from 'nx/release';
           return;
         }
         return confirm({
-          message: `✋ You will run the actual release process! Are you sure?`,
+          message: `✋ You will make changes! Are you sure?`,
           active: 'Yes, do it!',
           inactive: `No, I'm not ready yet`
         });
@@ -100,93 +134,88 @@ import { releaseChangelog, releasePublish, releaseVersion } from 'nx/release';
   );
 
   const { confirmRelease, verbose } = release;
+  const mode = release.mode as Mode;
   const dryRun = release.dryRun === 'true';
   const otp = Number(release.otp);
   // Is `undefined` if the user selected dryRun
-  const publishLater = release.publishLater !== 'false';
+  const postponePublish = release.postponePublish !== 'false';
 
-  if (!dryRun && !confirmRelease) {
+  if (confirmRelease === false) {
     cancel('🚫 Release cancelled.');
     process.exit(0);
   }
 
-  let publishStatus: number;
+  console.log('');
 
-  // Analyze changes
-  console.log(`\n${chalk.magenta.underline('Analyze changes')}`);
-  const versionStatus = await releaseVersion({
-    dryRun,
-    verbose
-  });
-  const projectsVersionData = versionStatus.projectsVersionData;
+  switch (mode) {
+    case 'publish':
+      break;
+    case 'release':
+      {
+        // Analyze changes
+        console.log(`${chalk.magenta.underline('Analyze changes')}`);
+        const versionStatus = await releaseVersion({
+          dryRun,
+          verbose
+        });
+        const projectsVersionData = versionStatus.projectsVersionData;
 
-  // Generate changelogs
-  console.log(`${chalk.magenta.underline('Generate changelogs')}`);
-  try {
-    await releaseChangelog({
-      versionData: projectsVersionData,
-      dryRun,
-      verbose
-    });
-  } catch (error) {
-    console.error(
-      `Generate changelogs: ${chalk.red((error as Error).message)}`
-    );
-    process.exit(1);
+        // Generate changelogs and exit when it fails
+        if (
+          !(await changelogs({
+            dryRun,
+            verbose,
+            versionData: projectsVersionData
+          }))
+        ) {
+          process.exit(1);
+        }
+
+        // Check if there are any changes to publish
+        const newVersionFound = Object.keys(projectsVersionData).some(
+          (project) => projectsVersionData[project].newVersion
+        );
+
+        if (newVersionFound && postponePublish && !dryRun) {
+          outro('🚀 The new release will be published by GitHub Actions!');
+          process.exit(0);
+        }
+
+        // Skip publish if there are no changes
+        if (!newVersionFound) {
+          process.exit(0);
+        }
+
+        // Skip publish with info message if the user selected dryRun and postponed publish
+        if (dryRun && postponePublish) {
+          dryRunOutro();
+          process.exit(0);
+        }
+
+        // Skip publish
+        if (postponePublish) {
+          process.exit(0);
+        }
+      }
+      break;
   }
 
-  // Check if there are any changes to publish
-  const newVersionFound = Object.keys(projectsVersionData).some(
-    (project) => projectsVersionData[project].newVersion
-  );
-
-  if (newVersionFound && publishLater && !dryRun) {
-    outro('🚀 The new release will be published by GitHub Actions!');
-    process.exit(0);
+  // Publish releases and exit when it fails
+  const publishStatus = await publish({ dryRun, otp, verbose });
+  if (publishStatus) {
+    process.exit(publishStatus);
   }
 
-  // Skip publish if there are no changes
-  if (!newVersionFound) {
-    process.exit(0);
-  }
+  const term = mode === 'publish' ? 'Publish' : 'Release';
+  const termed = mode === 'publish' ? 'Published' : 'Released';
 
-  // Skip publish with message if the user selected dryRun and publish via GitHub Actions
-  if (dryRun && publishLater) {
-    outro(
-      `👓 ${chalk.green('Done!')} Nothing gets changed when running in ${chalk.bgYellow(' preview ')} mode`
-    );
-    process.exit(0);
-  }
+  dryRun
+    ? dryRunOutro()
+    : outro(
+        publishStatus === 0
+          ? chalk.green(`🚀 ${termed} successfully!`)
+          : chalk.red(`🚫 ${term} failed`)
+      );
 
-  // Skip publish
-  if (publishLater) {
-    process.exit(0);
-  }
-
-  // The returned number value from releasePublish will be zero if all projects are published successfully, non-zero if not
-  console.log(`${chalk.magenta.underline('Publish packages')}\n`);
-  try {
-    publishStatus = await releasePublish({
-      dryRun,
-      verbose,
-      otp
-    });
-  } catch (error) {
-    console.error(`Publish packages: ${chalk.red((error as Error).message)}`);
-    process.exit(1);
-  }
-
-  if (dryRun) {
-    outro(
-      `👓 ${chalk.green('Done!')} Nothing gets changed when running in ${chalk.bgYellow(' preview ')} mode`
-    );
-  } else {
-    outro(
-      publishStatus === 0
-        ? chalk.green('🚀 Released successfully!')
-        : chalk.red('🚫 Release failed')
-    );
-  }
-
-  process.exit(publishStatus);
+  process.exit(0);
 })();

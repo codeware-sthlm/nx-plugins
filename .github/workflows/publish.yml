@@ -1,5 +1,6 @@
 # Semi-automated Nx releases where pre-created tags gets published to NPM.
 # The tags has been created locally using `npx nx release --skip-publish`.
+# Build all packages before publish to make sure `dist` folder is up-to-date.
 
 name: Publish
 
@@ -36,6 +37,10 @@ jobs:
 
       - name: Print Environment Info
         run: npx nx report
+        shell: bash
+
+      - name: Pre-build packages
+        run: npx nx run-many -t build
         shell: bash
 
       - name: Publish packages
