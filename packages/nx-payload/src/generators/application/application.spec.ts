@@ -114,7 +114,7 @@ describe('application generator', () => {
       tree.exists(`${options.directory}/src/payload.config.ts`)
     ).toBeTruthy();
 
-    expect(tree.exists(`${options.directory}/.eslintrc.json`)).toBeTruthy();
+    expect(tree.exists(`${options.directory}/eslint.config.js`)).toBeTruthy();
 
     expect(tree.exists(`${options.directory}/tsconfig.app.json`)).toBeTruthy();
     expect(tree.exists(`${options.directory}/tsconfig.json`)).toBeTruthy();
