@@ -8,7 +8,7 @@
     "dockerode": "^4.0.2",
     "kill-port": "^2.0.1",
     "nx": "19.8.4",
-    "tar-fs": "2.0.1",
+    "tar-fs": "2.1.1",
     "tcp-port-used": "^1.0.2",
     "tree-kill": "^1.2.2",
     "tslib": "^2.3.0"
