@@ -1,7 +1,7 @@
 import { mkdirSync } from 'fs';
 import { basename, join } from 'path';
 
-import { detectPackageManager, readJsonFile } from '@nx/devkit';
+import { readJsonFile } from '@nx/devkit';
 import {
   cleanup,
   directoryExists,
@@ -12,6 +12,8 @@ import {
 } from '@nx/plugin/testing';
 import { logDebug, logError } from '@nx-plugins/core';
 
+import { getE2EPackageManager } from './get-e2e-package-manager';
+
 export type CreateNxWorkspaceProject = {
   /** Generated application name */
   appName?: string;
@@ -21,18 +23,13 @@ export type CreateNxWorkspaceProject = {
   projectPath: string;
 };
 
-/** Package mananger options for `E2E_PACKAGE_MANAGER` */
-const PackageManagersEnv = ['bun', 'npm', 'pnpm', 'yarn', 'infer'] as const;
-type PackageManagerEnv = (typeof PackageManagersEnv)[number];
-
 /**
  * Ensure the creation of a new E2E Nx workspace project, using `create-nx-workspace`.
  *
  * It's an alternative to `ensureNxProject` which uses the plugin build from local `dist` folder.
  * This function uses the local registry instead to setup the workspace in a more real world scenario.
  *
- * Package mananger can be set via environment variable `E2E_PACKAGE_MANAGER`,
- * where the value can be `bun`, `npm`, `pnpm`, `yarn`, or `infer` (current workspace).
+ * Package mananger can be set via environment variable `E2E_PACKAGE_MANAGER`.
  *
  * @param preset Which preset to use as option to `create-nx-workspace`
  * @returns Project workspace details
@@ -56,18 +53,17 @@ export function ensureCreateNxWorkspaceProject(
     logError('Failed to cleanup e2e temp path', error.message);
   }
 
-  // Prepare the options for `create-nx-workspace`
-  const options = ['--nxCloud', 'skip', '--no-interactive'];
+  const pm = getE2EPackageManager();
+  logDebug(`Resolved test package manager '${pm}'`);
 
-  // Select package manager from environment where `infer` use the current package manager
-  const packageManager = process.env['E2E_PACKAGE_MANAGER'] as
-    | PackageManagerEnv
-    | '';
-  if (packageManager in PackageManagersEnv) {
-    const pm =
-      packageManager === 'infer' ? detectPackageManager() : packageManager;
-    options.push('--packageManager', pm);
-  }
+  // Prepare the options for `create-nx-workspace`
+  const options = [
+    '--nxCloud',
+    'skip',
+    '--no-interactive',
+    '--packageManager',
+    pm
+  ];
 
   let appName = '';
   let appDirectory = '';

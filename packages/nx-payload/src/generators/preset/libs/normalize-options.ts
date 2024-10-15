@@ -1,7 +1,7 @@
-import { type Tree } from '@nx/devkit';
+import type { Tree } from '@nx/devkit';
 
-import { type AppGeneratorSchema } from '../../application/schema';
-import { type PresetGeneratorSchema } from '../schema';
+import type { AppGeneratorSchema } from '../../application/schema';
+import type { PresetGeneratorSchema } from '../schema';
 
 /**
  * App generator properties which are opinionated by the preset.

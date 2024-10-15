@@ -11,11 +11,13 @@ import { initGenerator as expressInitGenerator } from '@nx/express/src/generator
 import {
   payloadPluginsVersions,
   payloadVersion,
+  processVersion,
   rimrafVersion,
-  tsLibVersion
+  tsLibVersion,
+  typesExpressVersion
 } from '../../utils/versions';
 
-import { type Schema } from './schema';
+import type { Schema } from './schema';
 
 function updateDependencies(tree: Tree) {
   return addDependenciesToPackageJson(
@@ -23,9 +25,13 @@ function updateDependencies(tree: Tree) {
     {
       payload: payloadVersion,
       ...payloadPluginsVersions,
+      process: processVersion,
       tslib: tsLibVersion
     },
-    { rimraf: rimrafVersion }
+    {
+      '@types/express': typesExpressVersion,
+      rimraf: rimrafVersion
+    }
   );
 }
 

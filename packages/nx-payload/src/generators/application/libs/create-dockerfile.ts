@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+
 import { type Tree, getPackageManagerCommand, readNxJson } from '@nx/devkit';
 
 import { type NormalizedSchema } from './normalize-options';
@@ -9,11 +11,22 @@ export function createDockerfile(host: Tree, options: NormalizedSchema): void {
   const { directory, name } = options;
 
   const skipNxCloud = readNxJson(host)?.nxCloudAccessToken === undefined;
-
   const pmCommand = getPackageManagerCommand();
+
+  // Yarn special handling of package manager and cache
+  const yarnRcFile = ['.yarnrc', '.yarnrc.yml'].find((file) =>
+    existsSync(file) ? file : ''
+  );
+  const copyYarnCache = existsSync('.yarn') ? `COPY .yarn .yarn` : '';
+
+  const runPreInstall = pmCommand.preInstall
+    ? `RUN ${pmCommand.preInstall}`
+    : '';
 
   const content = `
 FROM node:20-alpine as base
+
+RUN corepack enable
 
 FROM base as builder
 
@@ -29,8 +42,13 @@ ENV PORT=\${PORT}
 
 WORKDIR /app
 
-COPY package.json ./
-RUN ${pmCommand.install}
+${[`COPY package.json${yarnRcFile ? ` ${yarnRcFile}` : ''} ./`, copyYarnCache]
+  .filter((row) => row.length)
+  .join('\n')}
+
+${[runPreInstall, `RUN ${pmCommand.install}`]
+  .filter((row) => row.length)
+  .join('\n')}
 
 COPY . .
 
@@ -44,8 +62,16 @@ ENV NODE_ENV production
 
 WORKDIR /app
 
-COPY --from=builder /app/dist/${directory}/package.json ./
-RUN ${pmCommand.install}
+${[
+  `COPY --from=builder /app/dist/${directory}/package.json ./`,
+  `${yarnRcFile ? `COPY --from=builder /app/${yarnRcFile} ./` : ''}`
+]
+  .filter((row) => row.length)
+  .join('\n')}
+
+${[runPreInstall, `RUN ${pmCommand.install}`]
+  .filter((row) => row.length)
+  .join('\n')}
 
 COPY --from=builder /app/dist/${directory}/src   ./dist
 COPY --from=builder /app/dist/${directory}/build ./dist/${directory}/build

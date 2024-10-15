@@ -1,6 +1,10 @@
 import { join } from 'path';
 
-import { type ExecutorContext, logger } from '@nx/devkit';
+import {
+  type ExecutorContext,
+  getPackageManagerCommand,
+  logger
+} from '@nx/devkit';
 import runCommandsImpl from 'nx/src/executors/run-commands/run-commands.impl';
 
 import { normalizeOptions } from './libs/normalize-options';
@@ -17,13 +21,15 @@ export async function payloadBuildExecutor(
     ? [`rimraf ${normalizedOptions.outputPath} || true`]
     : [];
 
+  const pmc = getPackageManagerCommand();
+
   const output = await runCommandsImpl(
     {
       commands: [
         ...preCleanup,
-        'npx payload build',
-        'npx payload generate:types',
-        'npx payload generate:graphQLSchema'
+        `${pmc.exec} payload build`,
+        `${pmc.exec} payload generate:types`,
+        `${pmc.exec} payload generate:graphQLSchema`
       ],
       parallel: false,
       envFile: join(normalizedOptions.projectRoot, '.env.payload'),

@@ -1,38 +1,20 @@
-import { cwd } from 'process';
-
+import { checkFilesExist, runNxCommand, tmpProjPath } from '@nx/plugin/testing';
+import { dockerBuild, logError } from '@nx-plugins/core';
 import {
-  checkFilesExist,
-  ensureNxProject,
-  runNxCommand,
-  tmpProjPath,
-  uniq
-} from '@nx/plugin/testing';
-import { buildImage, logError } from '@nx-plugins/core';
-import { copySync } from 'fs-extra';
+  ensureCreateNxWorkspaceProject,
+  ensureDockerConnectToLocalRegistry
+} from '@nx-plugins/e2e/utils';
 
 describe('Build app Dockerfile', () => {
-  const appName = uniq('app');
-  const projPath = tmpProjPath().replace(`${cwd()}/`, '');
+  let appName: string;
 
   jest.setTimeout(1000_000);
 
   beforeAll(() => {
-    // Dockerfile cannot find dist folder outside e2e test directory.
-    // Setup as if the plugin was built inside the e2e test directory,
-    // and make the dist folder copy afterwards.
+    const project = ensureCreateNxWorkspaceProject('@cdwr/nx-payload');
+    appName = project.appName;
 
-    // Besides, it's not possible to build image using `docker-build` target.
-    // Plugin is not found since it's located outside the docker host.
-
-    // Faking a path within docker host could for testing docker build command?
-    const projPluginDist = `${projPath}/dist/packages/nx-payload`;
-
-    ensureNxProject('@cdwr/nx-payload', projPluginDist);
-    copySync('dist/packages/nx-payload', projPluginDist);
-
-    runNxCommand(
-      `g @cdwr/nx-payload:app ${appName} --directory apps/${appName}`
-    );
+    ensureDockerConnectToLocalRegistry(appName);
   });
 
   afterAll(() => {
@@ -43,14 +25,21 @@ describe('Build app Dockerfile', () => {
     expect(() => checkFilesExist(`apps/${appName}/Dockerfile`)).not.toThrow();
   });
 
-  it('should build docker image manually', async () => {
-    const error = await buildImage({
-      context: tmpProjPath(),
-      dockerfile: `apps/${appName}/Dockerfile`
-    });
-
-    if (error) {
-      logError('Failed to build docker image', error.message);
+  it('should build docker image', async () => {
+    let error = null;
+    try {
+      await dockerBuild(
+        {
+          context: tmpProjPath(),
+          dockerfile: `apps/${appName}/Dockerfile`,
+          name: appName,
+          tag: 'e2e'
+        },
+        true
+      );
+    } catch (err) {
+      logError('Failed to build docker image', err.message);
+      error = err;
     }
 
     expect(error).toBeNull();

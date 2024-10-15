@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-import { type ExecutorContext } from '@nx/devkit';
+import { type ExecutorContext, getPackageManagerCommand } from '@nx/devkit';
 import runCommandsImpl from 'nx/src/executors/run-commands/run-commands.impl';
 
 import { normalizeOptions } from './libs/normalize-options';
@@ -14,9 +14,11 @@ export async function payloadCliExecutor(
 
   const cliArgs = options?._ ?? [];
 
+  const pmc = getPackageManagerCommand();
+
   const output = await runCommandsImpl(
     {
-      command: `npx payload ${cliArgs.join(' ')}`,
+      command: `${pmc.exec} payload ${cliArgs.join(' ')}`,
       envFile: join(normalizedOptions.projectRoot, '.env.payload'),
       __unparsed__: []
     },

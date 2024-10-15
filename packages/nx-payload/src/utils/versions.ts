@@ -8,5 +8,8 @@ export const payloadPluginsVersions: Record<string, string> = {
 };
 
 export const rimrafVersion = 'latest';
-
 export const tsLibVersion = '^2.4.1';
+
+// Required by PNPM building Docker image
+export const processVersion = 'latest';
+export const typesExpressVersion = 'latest';

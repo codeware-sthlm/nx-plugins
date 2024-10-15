@@ -1,14 +1,6 @@
-import {
-  type NxJsonConfiguration,
-  type ProjectConfiguration
-} from '@nx/devkit';
-import {
-  ensureNxProject,
-  readJson,
-  runNxCommand,
-  uniq,
-  updateFile
-} from '@nx/plugin/testing';
+import type { NxJsonConfiguration, ProjectConfiguration } from '@nx/devkit';
+import { readJson, runNxCommand, uniq, updateFile } from '@nx/plugin/testing';
+import { ensureNxProjectWithPm } from '@nx-plugins/e2e/utils';
 
 describe('@cdwr/nx-payload/plugin', () => {
   let myApp = uniq('my-app');
@@ -23,7 +15,8 @@ describe('@cdwr/nx-payload/plugin', () => {
     originalEnv = process.env.NX_ADD_PLUGINS;
     process.env.NX_ADD_PLUGINS = 'true';
 
-    ensureNxProject('@cdwr/nx-payload', 'dist/packages/nx-payload');
+    ensureNxProjectWithPm('@cdwr/nx-payload', 'dist/packages/nx-payload');
+
     runNxCommand(`g @cdwr/nx-payload:app ${myApp} --directory ${myAppPath}`);
   });
 

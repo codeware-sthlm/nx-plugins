@@ -4,8 +4,10 @@
  * For e2e it is meant to be called in jest's `globalSetup`.
  */
 
-import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
+//import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { releasePublish, releaseVersion } from 'nx/release';
+
+import { localRegistry } from './local-registry';
 
 export default async () => {
   const verbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
@@ -17,13 +19,14 @@ export default async () => {
   const storage = './tmp/local-registry/storage';
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (global as any).stopLocalRegistry = await startLocalRegistry({
+  (global as any).stopLocalRegistry = await localRegistry({
     localRegistryTarget,
     storage,
     verbose
   });
 
   await releaseVersion({
+    specifier: `0.0.${Date.now()}-e2e`,
     stageChanges: false,
     gitCommit: false,
     gitTag: false,

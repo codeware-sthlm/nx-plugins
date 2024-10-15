@@ -67,6 +67,22 @@ export function logSuccess(title: string, body?: string): void {
   return consoleLogger(message, body);
 }
 
+/**
+ * Log a colored warning message to the console.
+ *
+ * Log prefix can be customized by setting the `NX_PLUGINS_LOG_PREFIX` environment variable.
+ * Default log prefix is `E2E`.
+ *
+ * @param title Log message title
+ * @param body Log message body
+ */
+export function logWarning(title: string, body?: string): void {
+  const message = `${chalk.reset.inverse.bold.yellow(
+    ' WARNING '
+  )} ${chalk.bold.yellow(title)}`;
+  return consoleLogger(message, body);
+}
+
 /** @private */
 function consoleLogger(message: string, body?: string): void {
   process.stdout.write('\n');

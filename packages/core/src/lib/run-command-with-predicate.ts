@@ -1,7 +1,5 @@
 import { exec } from 'child_process';
 
-import { tmpProjPath } from '@nx/plugin/testing';
-
 import { killProcessTree } from './kill-process-tree';
 import { logDebug, logError } from './log-utils';
 
@@ -13,8 +11,6 @@ type Options = {
 
 /**
  * Run an Nx command and exit gracefully when the provided predicate function is true.
- *
- * The command is executed inside the e2e project directory.
  *
  * The predicate function is called for each log line and should return `true` to exit the running process.
  *
@@ -39,7 +35,7 @@ export function runCommandWithPredicate(
   doneFn: (log: string) => boolean,
   options?: Options
 ): Promise<string> {
-  const cwd = options?.cwd ?? tmpProjPath();
+  const cwd = options?.cwd;
   const env = options?.env ?? process.env;
   const verbose = options?.verbose;
 

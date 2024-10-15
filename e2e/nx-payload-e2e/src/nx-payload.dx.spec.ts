@@ -1,22 +1,30 @@
-import { checkFilesExist, runNxCommand } from '@nx/plugin/testing';
+import { checkFilesExist, runNxCommand, tmpProjPath } from '@nx/plugin/testing';
 import { runCommandWithPredicate } from '@nx-plugins/core';
-import { ensureCreateNxWorkspaceProject } from '@nx-plugins/e2e/utils';
+import {
+  ensureCleanupDockerContainers,
+  ensureCreateNxWorkspaceProject,
+  ensureDockerConnectToLocalRegistry,
+  resetDocker,
+  waitForDockerLogMatch
+} from '@nx-plugins/e2e/utils';
 import { agent } from 'supertest';
-
-// TODO: Docker tests are getting "ECONNREFUSED" during `npm install` in Dockerfile, using local Verdaccio registry
 
 describe('Developer experience', () => {
   let appName: string;
 
   jest.setTimeout(900_000);
 
-  beforeAll(() => {
+  beforeAll(async () => {
     const project = ensureCreateNxWorkspaceProject('@cdwr/nx-payload');
     appName = project.appName;
+
+    ensureDockerConnectToLocalRegistry(appName);
+    await ensureCleanupDockerContainers();
   });
 
-  afterAll(() => {
+  afterAll(async () => {
     runNxCommand('reset');
+    await resetDocker(appName);
   });
 
   it('should build application', () => {
@@ -46,7 +54,7 @@ describe('Developer experience', () => {
     const output = await runCommandWithPredicate(
       `serve ${appName}`,
       (log) => log.includes('[ started ]'),
-      { verbose: process.env.NX_VERBOSE_LOGGING === 'true' }
+      { cwd: tmpProjPath(), verbose: process.env.NX_VERBOSE_LOGGING === 'true' }
     );
 
     expect(
@@ -57,21 +65,36 @@ describe('Developer experience', () => {
     expect(output.includes(`[ started ] on port 3000 (test)`)).toBeTruthy();
   });
 
-  it.skip('should be able to start app and database', async () => {
-    runNxCommand('start');
-    expect((await agent('http://localhost:3000').get('/')).statusCode).toBe(
-      200
-    );
+  it('should start application and navigate to page', async () => {
+    const startLog = runNxCommand('start');
+    expect(startLog).toContain('Successfully ran target start');
 
-    runNxCommand('stop');
-    expect((await agent('http://localhost:3000').get('/')).statusCode).not.toBe(
-      200
-    );
+    await waitForDockerLogMatch({
+      containerName: appName,
+      matchString: 'Using DB adapter',
+      timeoutSeconds: 10
+    });
+
+    const startResponse = await agent('http://localhost:3000').get('/');
+    expect(startResponse.status).toBe(302);
+    expect(startResponse.headers['location']).toBe('/admin');
+
+    // Shut down
+    const stopLog = runNxCommand('stop');
+    expect(stopLog).toContain('Successfully ran target stop');
+
+    let stopCode: string;
+    try {
+      await agent('http://localhost:3000').get('/');
+    } catch (error) {
+      stopCode = error['code'];
+    }
+    expect(stopCode).toBe('ECONNREFUSED');
   });
 
-  it.skip(`should build image using 'docker-build' target`, () => {
+  it(`should build image using 'docker-build' target`, () => {
     const result = runNxCommand('docker-build');
-    expect(result).toContain('Successfully ran target docker:build');
+    expect(result).toContain('Successfully ran target docker-build');
   });
 
   it.todo('should have a running mongo instance');
