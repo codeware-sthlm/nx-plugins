@@ -1,7 +1,7 @@
-/* eslint-disable */
 export default {
   displayName: 'nx-payload',
   preset: '../../jest.preset.js',
+  testEnvironment: 'node',
   globals: {},
   transform: {
     '^.+\\.[tj]s$': [
