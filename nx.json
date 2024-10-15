@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "nxCloudAccessToken": "YzY5OGI1YTctYWJlMi00NTkxLWIwY2ItZjYyZDcwYWMzOWJhfHJlYWQtd3JpdGU=",
+  "nxCloudId": "60cbc62702254e4c6470c413",
   "parallel": 3,
   "defaultBase": "master",
   "namedInputs": {

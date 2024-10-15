@@ -10,6 +10,9 @@ on:
       - create-nx-payload-*.*.*
       - nx-payload-*.*.*
 
+env:
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
 jobs:
   publish:
     runs-on: ubuntu-latest
