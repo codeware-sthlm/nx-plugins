@@ -79,8 +79,8 @@ jobs:
           - 18
         package_manager:
           - npm
-          # - yarn
-          # - pnpm
+          - yarn
+          - pnpm
         project:
           - nx-payload-e2e
         include:
@@ -101,7 +101,13 @@ jobs:
             # will skip docker build test since node image doesn't exist running inside a windows container
             configuration: 'windows'
         exclude:
-          # windows: only npm 20
+          # run just npm v20 on macos and windows
+          - os: macos-latest
+            package_manager: yarn
+          - os: macos-latest
+            package_manager: pnpm
+          - os: macos-latest
+            node_version: 18
           - os: windows-latest
             package_manager: yarn
           - os: windows-latest
@@ -141,6 +147,7 @@ jobs:
         run: yarn nx e2e ${{ matrix.project }} -c ${{ matrix.configuration }}
         timeout-minutes: ${{ matrix.os_timeout }}
         env:
+          E2E_PACKAGE_MANAGER: ${{ matrix.package_manager }}
           NX_CACHE_DIRECTORY: 'tmp'
           NX_PERF_LOGGING: 'false'
           NX_NO_CLOUD: ${{ contains(github.head_ref || github.ref_name, 'renovate') }}
@@ -148,7 +155,6 @@ jobs:
           NX_DAEMON: ${{ env.NX_DAEMON == 'false' && 'false' || 'true' }}
           # NX_VERBOSE_LOGGING defaults to 'false' unless explicitly set to 'true'
           NX_VERBOSE_LOGGING: ${{ env.NX_VERBOSE_LOGGING == 'true' && 'true' || 'false' }}
-          E2E_PACKAGE_MANAGER: ${{ env.E2E_PACKAGE_MANAGER }}
 
       - name: Setup tmate session
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug-enabled && failure() }}
