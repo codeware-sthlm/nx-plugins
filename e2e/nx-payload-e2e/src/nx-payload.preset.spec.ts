@@ -10,11 +10,13 @@ describe('Create workspace with preset', () => {
   jest.setTimeout(900_000);
 
   beforeAll(() => {
-    project = ensureCreateNxWorkspaceProject('@cdwr/nx-payload');
+    project = ensureCreateNxWorkspaceProject({
+      preset: '@cdwr/nx-payload'
+    });
   });
 
   afterAll(() => {
-    runNxCommand('reset');
+    runNxCommand('reset', { silenceError: true });
   });
 
   it('should have installed nx-payload plugin', async () => {

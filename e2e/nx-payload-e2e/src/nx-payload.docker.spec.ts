@@ -11,14 +11,16 @@ describe('Build app Dockerfile', () => {
   jest.setTimeout(1000_000);
 
   beforeAll(() => {
-    const project = ensureCreateNxWorkspaceProject('@cdwr/nx-payload');
+    const project = ensureCreateNxWorkspaceProject({
+      preset: '@cdwr/nx-payload'
+    });
     appName = project.appName;
 
     ensureDockerConnectToLocalRegistry(appName);
   });
 
   afterAll(() => {
-    runNxCommand('reset');
+    runNxCommand('reset', { silenceError: true });
   });
 
   it('should hava a Dockerfile', async () => {

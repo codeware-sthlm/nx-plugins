@@ -46,7 +46,8 @@ export function localRegistry({
       const match = dataStr.match(/http:\/\/(?<host>[^:/]+)(:(?<port>\d+))?/);
 
       if (match) {
-        const { host, port } = match.groups;
+        const host = match.groups?.host;
+        const port = match.groups?.port;
         console.log(`Local registry started on host '${host}' port '${port}'`);
         const registry = `http://${host}:${port}`;
         process.env.npm_config_registry = registry;

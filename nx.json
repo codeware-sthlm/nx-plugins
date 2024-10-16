@@ -26,7 +26,8 @@
       ],
       "options": {
         "passWithNoTests": true,
-        "jestConfig": "{projectRoot}/jest.config.ts"
+        "jestConfig": "{projectRoot}/jest.config.ts",
+        "runInBand": true
       },
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "configurations": {
@@ -74,7 +75,10 @@
     },
     "version": {
       "conventionalCommits": true,
-      "generatorOptions": { "fallbackCurrentVersionResolver": "disk" }
+      "generatorOptions": {
+        "fallbackCurrentVersionResolver": "disk"
+      },
+      "preVersionCommand": "npx nx run-many -t build --skip-nx-cache"
     },
     "conventionalCommits": {
       "types": {

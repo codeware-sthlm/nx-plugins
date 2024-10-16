@@ -4,22 +4,48 @@
  * For e2e it is meant to be called in jest's `globalSetup`.
  */
 
-//import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
+import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { releasePublish, releaseVersion } from 'nx/release';
 
 import { localRegistry } from './local-registry';
 
 export default async () => {
+  function isCI() {
+    return (
+      process.env.CI === 'true' ||
+      process.env.TF_BUILD === 'true' ||
+      process.env.GITHUB_ACTIONS === 'true' ||
+      process.env.BUILDKITE === 'true' ||
+      process.env.CIRCLECI === 'true' ||
+      process.env.CIRRUS_CI === 'true' ||
+      process.env.TRAVIS === 'true' ||
+      !!process.env['bamboo.buildKey'] ||
+      !!process.env.CODEBUILD_BUILD_ID ||
+      !!process.env.GITLAB_CI ||
+      !!process.env.HEROKU_TEST_RUN_ID ||
+      !!process.env.BUILD_ID ||
+      !!process.env.BUILD_BUILDID ||
+      !!process.env.TEAMCITY_VERSION
+    );
+  }
+
   const verbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
 
+  // use the native local registry function in CI
+  const localRegistryFn = isCI() ? startLocalRegistry : localRegistry;
+
   // local registry target to run
-  const localRegistryTarget = 'workspace:local-registry';
+  const localRegistryTarget = `workspace:local-registry${isCI() ? ':ci' : ''}`;
+
+  console.log(
+    `\nStart local registry target '${localRegistryTarget}' when CI=${isCI()}`
+  );
 
   // storage folder for the local registry
   const storage = './tmp/local-registry/storage';
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (global as any).stopLocalRegistry = await localRegistry({
+  (global as any).stopLocalRegistry = await localRegistryFn({
     localRegistryTarget,
     storage,
     verbose

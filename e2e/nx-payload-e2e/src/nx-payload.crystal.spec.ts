@@ -1,10 +1,10 @@
 import type { NxJsonConfiguration, ProjectConfiguration } from '@nx/devkit';
 import { readJson, runNxCommand, uniq, updateFile } from '@nx/plugin/testing';
-import { ensureNxProjectWithPm } from '@nx-plugins/e2e/utils';
+import { ensureCreateNxWorkspaceProject } from '@nx-plugins/e2e/utils';
 
 describe('@cdwr/nx-payload/plugin', () => {
-  let myApp = uniq('my-app');
-  let myAppPath = `apps/${myApp}`;
+  let appName: string;
+  let appDirectory: string;
 
   let originalEnv: string;
 
@@ -15,14 +15,16 @@ describe('@cdwr/nx-payload/plugin', () => {
     originalEnv = process.env.NX_ADD_PLUGINS;
     process.env.NX_ADD_PLUGINS = 'true';
 
-    ensureNxProjectWithPm('@cdwr/nx-payload', 'dist/packages/nx-payload');
-
-    runNxCommand(`g @cdwr/nx-payload:app ${myApp} --directory ${myAppPath}`);
+    const project = ensureCreateNxWorkspaceProject({
+      preset: '@cdwr/nx-payload'
+    });
+    appName = project.appName;
+    appDirectory = project.appDirectory;
   });
 
   afterAll(() => {
     process.env.NX_ADD_PLUGINS = originalEnv;
-    runNxCommand('reset');
+    runNxCommand('reset', { silenceError: true });
   });
 
   it('should configure plugin without custom target names', () => {
@@ -33,7 +35,7 @@ describe('@cdwr/nx-payload/plugin', () => {
 
   it('should not have any inferred targets in project.json', () => {
     const projectJson = readJson<ProjectConfiguration>(
-      `${myAppPath}/project.json`
+      `${appDirectory}/project.json`
     );
 
     [
@@ -51,7 +53,7 @@ describe('@cdwr/nx-payload/plugin', () => {
 
   it('should resolve inferred projects', () => {
     const projectConfig: ProjectConfiguration = JSON.parse(
-      runNxCommand(`show project ${myApp} --json`)
+      runNxCommand(`show project ${appName} --json`)
     );
 
     [
@@ -68,18 +70,18 @@ describe('@cdwr/nx-payload/plugin', () => {
   });
 
   it('should build application', () => {
-    const result = runNxCommand(`build ${myApp}`);
+    const result = runNxCommand(`build ${appName}`);
     expect(result).toContain('Successfully ran target build');
   });
 
   it('should invoke payload cli', () => {
-    const result = runNxCommand(`payload-cli ${myApp}`);
+    const result = runNxCommand(`payload-cli ${appName}`);
     expect(result).toContain('Successfully ran target payload-cli');
   });
 
   it('opt out with usePluginInference set to false', () => {
-    myApp = uniq('my-app');
-    myAppPath = `apps/${myApp}`;
+    appName = uniq('my-app');
+    appDirectory = `apps/${appName}`;
 
     updateFile('nx.json', (content) => {
       const nxJson = JSON.parse(content);
@@ -91,10 +93,12 @@ describe('@cdwr/nx-payload/plugin', () => {
     expect(nxJson.useInferencePlugins).toBe(false);
     expect(process.env.NX_ADD_PLUGINS).toBe('true');
 
-    runNxCommand(`g @cdwr/nx-payload:app ${myApp} --directory ${myAppPath}`);
+    runNxCommand(
+      `g @cdwr/nx-payload:app ${appName} --directory ${appDirectory}`
+    );
 
     const projectJson = readJson<ProjectConfiguration>(
-      `apps/${myApp}/project.json`
+      `apps/${appName}/project.json`
     );
 
     ['build', 'payload-build', 'payload-cli'].forEach((target) => {

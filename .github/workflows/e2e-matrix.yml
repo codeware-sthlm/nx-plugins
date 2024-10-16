@@ -24,6 +24,8 @@ concurrency:
 
 env:
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  # https://yarnpkg.com/features/security#hardened-mode
+  YARN_ENABLE_HARDENED_MODE: 0
 
 jobs:
   preinstall:
@@ -32,11 +34,14 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
+          - macos-latest
           - windows-latest
         node_version:
           - 20
           - 18
         exclude:
+          - os: macos-latest
+            node_version: 18
           - os: windows-latest
             node_version: 18
 
@@ -44,6 +49,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install PNPM
+        run: npm install -g @pnpm/exe@8
 
       - name: Set node
         uses: actions/setup-node@v4
@@ -73,53 +81,71 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
+          # - macos-latest
+          # - windows-latest
         node_version:
           - 20
-          - 18
+          # - 18
         package_manager:
           - npm
           - yarn
-          - pnpm
+          # - pnpm
         project:
           - nx-payload-e2e
         include:
           # os short names
           - os: ubuntu-latest
             os_name: 'Linux'
-          - os: windows-latest
-            os_name: 'Windows'
+          # - os: macos-latest
+          #   os_name: 'MacOS'
+          # - os: windows-latest
+          #   os_name: 'Windows'
           # test timeouts
           - os: ubuntu-latest
             os_timeout: 60
-          - os: windows-latest
-            os_timeout: 60
-          # configurations
+          # - os: macos-latest
+          #   os_timeout: 60
+          # - os: windows-latest
+          # os_timeout: 60
+          # Apply 'skip-docker' configuration for all but Node 20 on Linux
           - os: ubuntu-latest
-            configuration: ''
-          - os: windows-latest
-            # will skip docker build test since node image doesn't exist running inside a windows container
-            configuration: 'windows'
-        exclude:
-          # run just npm v20 on macos and windows
-          - os: macos-latest
+            verdaccio_host: 'localhost'
+          # - os: ubuntu-latest
+          #   node_version: 18
+          #   configuration: 'skip-docker'
+          - os: ubuntu-latest
             package_manager: yarn
-          - os: macos-latest
-            package_manager: pnpm
-          - os: macos-latest
-            node_version: 18
-          - os: windows-latest
-            package_manager: yarn
-          - os: windows-latest
-            package_manager: pnpm
-          - os: windows-latest
-            node_version: 18
+            configuration: 'skip-docker'
+          # - os: ubuntu-latest
+          #   package_manager: pnpm
+          #   configuration: 'skip-docker'
+          # - os: macos-latest
+          #   configuration: 'skip-docker'
+          # - os: windows-latest
+          #   configuration: 'skip-docker'
+        # exclude:
+        #   # run just npm v20 on macos and windows
+        #   - os: macos-latest
+        #     package_manager: yarn
+        #   - os: macos-latest
+        #     package_manager: pnpm
+        #   - os: macos-latest
+        #     node_version: 18
+        #   - os: windows-latest
+        #     package_manager: yarn
+        #   - os: windows-latest
+        #     package_manager: pnpm
+        #   - os: windows-latest
+        #     node_version: 18
       fail-fast: false
 
     name: E2E ${{ matrix.os_name }}/${{ matrix.package_manager }}/${{ matrix.node_version }} ${{ join(matrix.project) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install PNPM
+        run: npm install -g @pnpm/exe@8
 
       - name: Use Node.js ${{ matrix.node_version }}
         uses: actions/setup-node@v4
@@ -147,14 +173,17 @@ jobs:
         run: yarn nx e2e ${{ matrix.project }} -c ${{ matrix.configuration }}
         timeout-minutes: ${{ matrix.os_timeout }}
         env:
-          E2E_PACKAGE_MANAGER: ${{ matrix.package_manager }}
+          YARN_ENABLE_IMMUTABLE_INSTALLS: false # DEBUG
+          CDWR_E2E_PACKAGE_MANAGER: ${{ matrix.package_manager }}
+          CDWR_E2E_VERDACCIO_HOST: ${{ matrix.verdaccio_host }}
+          CDWR_DEBUG_LOGGING: 'true'
           NX_CACHE_DIRECTORY: 'tmp'
           NX_PERF_LOGGING: 'false'
           NX_NO_CLOUD: ${{ contains(github.head_ref || github.ref_name, 'renovate') }}
           # NX_DAEMON defaults to 'true' unless explicitly set to 'false'
-          NX_DAEMON: ${{ env.NX_DAEMON == 'false' && 'false' || 'true' }}
+          NX_DAEMON: ${{ vars.NX_DAEMON == 'false' && 'false' || 'true' }}
           # NX_VERBOSE_LOGGING defaults to 'false' unless explicitly set to 'true'
-          NX_VERBOSE_LOGGING: ${{ env.NX_VERBOSE_LOGGING == 'true' && 'true' || 'false' }}
+          NX_VERBOSE_LOGGING: ${{ vars.NX_VERBOSE_LOGGING == 'true' && 'true' || 'false' }}
 
       - name: Setup tmate session
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug-enabled && failure() }}

@@ -1,6 +1,7 @@
 {
   "name": "workspace",
   "$schema": "node_modules/nx/schemas/project-schema.json",
+  "includedScripts": [],
   "targets": {
     "local-registry": {
       "executor": "@nx/js:verdaccio",
@@ -9,10 +10,31 @@
         "port": 4873,
         "listenAddress": "0.0.0.0",
         "storage": "tmp/local-registry/storage"
+      },
+      "configurations": {
+        "ci": {
+          "listenAddress": "localhost"
+        }
       }
     },
     "local-registry:publish": {
-      "command": "yarn nx release version --stage-changes false --git-commit false --git-tag false --first-release true && yarn nx release publish --tag local --first-release true"
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "yarn nx release version --stage-changes false --git-commit false --git-tag false --first-release true {args.specifier} && yarn nx release publish --tag local --first-release true"
+        ],
+        "parallel": false
+      }
+    },
+    "local-registry:reset": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm config set registry https://registry.npmjs.org/",
+          "npm config delete //0.0.0.0:4873/:_authToken",
+          "npm config delete //localhost:4873/:_authToken"
+        ]
+      }
     }
   }
 }

@@ -15,7 +15,9 @@ describe('Developer experience', () => {
   jest.setTimeout(900_000);
 
   beforeAll(async () => {
-    const project = ensureCreateNxWorkspaceProject('@cdwr/nx-payload');
+    const project = ensureCreateNxWorkspaceProject({
+      preset: '@cdwr/nx-payload'
+    });
     appName = project.appName;
 
     ensureDockerConnectToLocalRegistry(appName);
@@ -23,7 +25,7 @@ describe('Developer experience', () => {
   });
 
   afterAll(async () => {
-    runNxCommand('reset');
+    runNxCommand('reset', { silenceError: true });
     await resetDocker(appName);
   });
 
