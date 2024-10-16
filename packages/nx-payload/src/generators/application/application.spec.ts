@@ -33,12 +33,6 @@ describe('application generator', () => {
     updateNxJson(tree, workspace);
   };
 
-  const setpackageManager = (packageManager: string) => {
-    const content = JSON.parse(tree.read('package.json', 'utf-8'));
-    content['packageManager'] = packageManager;
-    tree.write('package.json', content);
-  };
-
   const addInferencePlugin = (plugin: PluginConfiguration) => {
     const workspace = readNxJson(tree);
     workspace.plugins = workspace.plugins || [];
@@ -46,13 +40,12 @@ describe('application generator', () => {
     updateNxJson(tree, workspace);
   };
 
-  beforeEach(async () => {
-    jest.clearAllMocks();
+  beforeEach(() => {
     tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
   });
 
   afterAll(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
   });
 
   it('should add payload dependency', async () => {
@@ -181,49 +174,7 @@ describe('application generator', () => {
     ).toBeTruthy();
   });
 
-  // TODO: How to mock `detectPackageManager`?
-  it.skip('should create Dockerfile for npm package manager', async () => {
-    tree.write('.npmrc', '');
-    tree.write('package-lock.json', '');
-    setpackageManager('npm@5');
-
-    //detectPackageManager.mockReturnValue('npm');
-    await generator(tree, options);
-
-    const content = tree.read(`${options.directory}/Dockerfile`, 'utf-8');
-    expect(content).toMatchSnapshot();
-  });
-
-  it.skip('should create Dockerfile for pnpm package manager', async () => {
-    tree.write('.npmrc', '');
-    tree.write('pnpm-lock.yaml', '');
-    setpackageManager('pnpm@5');
-
-    //detectPackageManager.mockReturnValue('pnpm');
-    await generator(tree, options);
-
-    const content = tree.read(`${options.directory}/Dockerfile`, 'utf-8');
-    expect(content).toMatchSnapshot();
-  });
-
-  it.skip('should create Dockerfile for yarn classic package manager', async () => {
-    tree.write('.yarnrc', '');
-    tree.write('yarn.lock', '');
-    setpackageManager('yarn@1');
-
-    //detectPackageManager.mockReturnValue('yarn');
-    await generator(tree, options);
-
-    const content = tree.read(`${options.directory}/Dockerfile`, 'utf-8');
-    expect(content).toMatchSnapshot();
-  });
-
-  it.skip('should create Dockerfile for yarn berry package manager', async () => {
-    tree.write('.yarnrc.yml', '');
-    tree.write('yarn.lock', '');
-    setpackageManager('yarn@2');
-
-    //detectPackageManager.mockReturnValue('yarn');
+  it('should create Dockerfile for npm package manager', async () => {
     await generator(tree, options);
 
     const content = tree.read(`${options.directory}/Dockerfile`, 'utf-8');

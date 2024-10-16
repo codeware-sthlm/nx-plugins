@@ -76,7 +76,7 @@ export function runCommandWithPredicate(
     p.on('exit', (code) => {
       if (!complete) {
         logError(
-          'Command output:',
+          'Command output',
           output
             .split('\n')
             .map((l) => `    ${l}`)

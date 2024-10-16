@@ -6,12 +6,12 @@ import {
 import { logWarning } from '@nx-plugins/core';
 
 /**
- * Get package manager from `E2E_PACKAGE_MANAGER` or fallback to the current workspace
+ * Get package manager from `CDWR_E2E_PACKAGE_MANAGER` or fallback to the current workspace
  *
  * @returns Package manager
  */
 export function getE2EPackageManager(): PackageManager {
-  let pm = process.env['E2E_PACKAGE_MANAGER'] as PackageManager;
+  let pm = process.env['CDWR_E2E_PACKAGE_MANAGER'] as PackageManager;
 
   if (!pm) {
     return detectPackageManager();

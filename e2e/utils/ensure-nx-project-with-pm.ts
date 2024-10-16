@@ -1,18 +1,22 @@
 import { execSync } from 'child_process';
 import { dirname } from 'path';
 
-import { PackageManager, getPackageManagerCommand } from '@nx/devkit';
+import {
+  PackageManager,
+  getPackageManagerCommand,
+  getPackageManagerVersion
+} from '@nx/devkit';
 import {
   cleanup,
   patchPackageJsonForPlugin,
   tmpProjPath
 } from '@nx/plugin/testing';
-import { logDebug } from '@nx-plugins/core';
+import { logDebug, logInfo } from '@nx-plugins/core';
 import { copySync, mkdirSync } from 'fs-extra';
 
 import { getE2EPackageManager } from './get-e2e-package-manager';
 
-function runNxNewCommand(args, silent) {
+function runNxNewCommand(args: string, silent: boolean) {
   const localTmpDir = dirname(tmpProjPath());
   return execSync(
     `node ${require.resolve('nx')} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nx/workspace --npmScope=proj --preset=apps ${args || ''}`,
@@ -29,7 +33,7 @@ function runNxNewCommand(args, silent) {
  * Ensure the creation of a new E2E Nx workspace project, similar to `ensureNxProject`.
  *
  * This function lets you select which package manager to use within the test project.
- * When it's not provided `E2E_PACKAGE_MANAGER` is used in the first place,
+ * When it's not provided `CDWR_E2E_PACKAGE_MANAGER` is used in the first place,
  * with fallback to current workspace.
  *
  * @param npmPackageName Package name to test
@@ -52,7 +56,15 @@ export function ensureNxProjectWithPm(
   const pm = options?.packageManager || getE2EPackageManager();
   const pmc = getPackageManagerCommand(pm, cwd);
 
-  logDebug(`Resolved test package manager '${pm}'`);
+  logInfo('Resolved test package manager', pm);
+
+  let pmVersion;
+  try {
+    pmVersion = getPackageManagerVersion(pm, cwd);
+  } catch (error) {
+    pmVersion = (error as Error).message;
+  }
+  logDebug('Package manager version', pmVersion);
 
   // Re-create temp project folder
   mkdirSync(cwd, { recursive: true });
@@ -63,6 +75,7 @@ export function ensureNxProjectWithPm(
   patchPackageJsonForPlugin(npmPackageName, pluginDistPath);
 
   if (pmc.preInstall) {
+    logDebug('Run pre-install', pmc.preInstall);
     execSync(pmc.preInstall, {
       cwd,
       windowsHide: true,
@@ -74,6 +87,7 @@ export function ensureNxProjectWithPm(
     copySync(options.pluginDistPathToCopyFrom, pluginDistPath);
   }
 
+  logDebug('Run install', pmc.install);
   execSync(pmc.install, {
     cwd,
     windowsHide: true,

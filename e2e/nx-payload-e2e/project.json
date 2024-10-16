@@ -7,13 +7,11 @@
     "e2e": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "e2e/nx-payload-e2e/jest.config.ts",
-        "runInBand": true
+        "jestConfig": "e2e/nx-payload-e2e/jest.config.ts"
       },
       "configurations": {
-        "windows": { "testPathIgnorePatterns": ["docker"] }
-      },
-      "dependsOn": ["create-nx-payload:build", "nx-payload:build"]
+        "skip-docker": { "testPathIgnorePatterns": ["docker", "dx"] }
+      }
     }
   },
   "tags": ["scope:e2e"],
