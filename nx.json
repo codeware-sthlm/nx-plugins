@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "nxCloudAccessToken": "YzY5OGI1YTctYWJlMi00NTkxLWIwY2ItZjYyZDcwYWMzOWJhfHJlYWQtd3JpdGU=",
+  "nxCloudId": "60cbc62702254e4c6470c413",
   "parallel": 3,
   "defaultBase": "master",
   "namedInputs": {
@@ -26,7 +26,8 @@
       ],
       "options": {
         "passWithNoTests": true,
-        "jestConfig": "{projectRoot}/jest.config.ts"
+        "jestConfig": "{projectRoot}/jest.config.ts",
+        "runInBand": true
       },
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "configurations": {
@@ -74,7 +75,8 @@
     },
     "version": {
       "conventionalCommits": true,
-      "generatorOptions": { "fallbackCurrentVersionResolver": "disk" }
+      "generatorOptions": { "fallbackCurrentVersionResolver": "disk" },
+      "preVersionCommand": "npx nx run-many -t build --skip-nx-cache"
     },
     "conventionalCommits": {
       "types": {

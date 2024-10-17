@@ -8,7 +8,7 @@ import {
 import applicationGenerator from '../application/application';
 
 import { normalizeOptions } from './libs/normalize-options';
-import { type PresetGeneratorSchema } from './schema';
+import type { PresetGeneratorSchema } from './schema';
 
 export async function presetGenerator(
   tree: Tree,

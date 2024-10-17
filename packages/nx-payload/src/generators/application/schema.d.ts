@@ -1,4 +1,4 @@
-import { type Schema as ExpressSchema } from '@nx/express/src/generators/application/schema';
+import type { Schema as ExpressSchema } from '@nx/express/src/generators/application/schema';
 
 export type AppGeneratorSchema =
   // Not supporting `projectNameAndRootFormat='derived'`, which is deprecated and removed in Nx 18.

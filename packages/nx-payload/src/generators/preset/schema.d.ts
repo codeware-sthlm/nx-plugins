@@ -1,4 +1,4 @@
-import { AppGeneratorSchema } from '../application/schema';
+import type { AppGeneratorSchema } from '../application/schema';
 
 /**
  * Properties known up-front and handled by the preset.

@@ -11,6 +11,9 @@ on:
         type: boolean
         default: false
 
+env:
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
 jobs:
   release:
     if: github.ref_name == 'master'

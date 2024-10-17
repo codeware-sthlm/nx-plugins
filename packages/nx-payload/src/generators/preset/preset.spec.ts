@@ -2,7 +2,7 @@ import { type Tree, readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { presetGenerator } from './preset';
-import { type PresetGeneratorSchema } from './schema';
+import type { PresetGeneratorSchema } from './schema';
 
 describe('preset generator', () => {
   let tree: Tree;

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`init should generate correct package.json 1`] = `
+{
+  "dependencies": {
+    "@payloadcms/bundler-webpack": "^1.0.6",
+    "@payloadcms/db-mongodb": "^1.4.1",
+    "@payloadcms/db-postgres": "^0.5.2",
+    "@payloadcms/richtext-slate": "^1.3.1",
+    "express": "^4.18.1",
+    "payload": "^2.8.2",
+    "process": "latest",
+    "tslib": "^2.4.1",
+  },
+  "devDependencies": {
+    "@nx/express": "19.8.4",
+    "@types/express": "latest",
+    "rimraf": "latest",
+  },
+  "name": "@proj/source",
+}
+`;

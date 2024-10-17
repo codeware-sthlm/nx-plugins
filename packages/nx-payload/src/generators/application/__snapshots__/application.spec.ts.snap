@@ -1,14 +1,7 @@
-import type { Tree } from '@nx/devkit';
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
-import type { NormalizedSchema } from './normalize-options';
-
-/**
- * Create the application Dockerfile supporting `npm` package manager
- */
-export function createDockerfile(host: Tree, options: NormalizedSchema): void {
-  const { directory, name } = options;
-
-  const content = `
+exports[`application generator should create Dockerfile for npm package manager 1`] = `
+"
 FROM node:20-alpine as base
 
 FROM base as builder
@@ -31,7 +24,7 @@ RUN npm install
 
 COPY . .
 
-RUN npx nx build ${name}
+RUN npx nx build test-app
 
 # We'll create a structure similar to scaffolding a default payload workspace.
 # Admin build output should match \`buildPath\` in payload.config.ts.
@@ -41,17 +34,15 @@ ENV NODE_ENV production
 
 WORKDIR /app
 
-COPY --from=builder /app/dist/${directory}/package.json ./
+COPY --from=builder /app/dist/apps/test-dir/package.json ./
 
 RUN npm install --omit=dev
 
-COPY --from=builder /app/dist/${directory}/src   ./dist
-COPY --from=builder /app/dist/${directory}/build ./dist/${directory}/build
+COPY --from=builder /app/dist/apps/test-dir/src   ./dist
+COPY --from=builder /app/dist/apps/test-dir/build ./dist/apps/test-dir/build
 
 EXPOSE 3000
 
 CMD ["node", "dist/main.js"]
+"
 `;
-
-  host.write(`${directory}/Dockerfile`, content);
-}

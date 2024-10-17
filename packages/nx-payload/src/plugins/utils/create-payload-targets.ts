@@ -82,7 +82,7 @@ export const createPayloadTargets = async (
   targets[options.startTargetName] = {
     executor: 'nx:run-commands',
     options: {
-      command: `docker compose -f ${projectRoot}/docker-compose.yml up -d`
+      command: `docker compose -f ${projectRoot}/docker-compose.yml up --quiet-pull -d`
     },
     cache: false
   };
