@@ -41,7 +41,7 @@ describe('application generator', () => {
   };
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace();
+    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
   });
 
   afterAll(() => {
@@ -172,6 +172,13 @@ describe('application generator', () => {
     expect(
       tree.exists(`${options.directory}/Dockerfile.dockerignore`)
     ).toBeTruthy();
+  });
+
+  it('should create Dockerfile for npm package manager', async () => {
+    await generator(tree, options);
+
+    const content = tree.read(`${options.directory}/Dockerfile`, 'utf-8');
+    expect(content).toMatchSnapshot();
   });
 
   it('should add three dotenv files', async () => {

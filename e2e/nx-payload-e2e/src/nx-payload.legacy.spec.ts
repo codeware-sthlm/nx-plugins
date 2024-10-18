@@ -1,11 +1,11 @@
 import type { ProjectConfiguration } from '@nx/devkit';
 import {
   checkFilesExist,
-  ensureNxProject,
   readJson,
   runNxCommand,
   uniq
 } from '@nx/plugin/testing';
+import { ensureCreateNxWorkspaceProject } from '@nx-plugins/e2e/utils';
 
 describe('@cdwr/nx-payload:app', () => {
   let originalEnv: string;
@@ -17,7 +17,10 @@ describe('@cdwr/nx-payload:app', () => {
     originalEnv = process.env.NX_ADD_PLUGINS;
     process.env.NX_ADD_PLUGINS = 'false';
 
-    ensureNxProject('@cdwr/nx-payload', 'dist/packages/nx-payload');
+    ensureCreateNxWorkspaceProject({
+      preset: 'apps',
+      ensurePluginIsInstalled: true
+    });
   });
 
   afterAll(() => {
