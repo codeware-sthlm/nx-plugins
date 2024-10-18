@@ -74,7 +74,8 @@
     },
     "version": {
       "conventionalCommits": true,
-      "generatorOptions": { "fallbackCurrentVersionResolver": "disk" }
+      "generatorOptions": { "fallbackCurrentVersionResolver": "disk" },
+      "preVersionCommand": "npx nx run-many -t build --skip-nx-cache"
     },
     "conventionalCommits": {
       "types": {

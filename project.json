@@ -5,9 +5,15 @@
     "local-registry": {
       "executor": "@nx/js:verdaccio",
       "options": {
-        "port": 4873,
         "config": ".verdaccio/config.yml",
+        "port": 4873,
+        "listenAddress": "0.0.0.0",
         "storage": "tmp/local-registry/storage"
+      },
+      "configurations": {
+        "ci": {
+          "listenAddress": "localhost"
+        }
       }
     },
     "local-registry:publish": {
