@@ -9,6 +9,7 @@ import {
 import { initGenerator as expressInitGenerator } from '@nx/express/src/generators/init/init';
 
 import {
+  mongodbMemoryServerVersion,
   payloadPluginsVersions,
   payloadVersion,
   rimrafVersion,
@@ -25,7 +26,10 @@ function updateDependencies(tree: Tree) {
       ...payloadPluginsVersions,
       tslib: tsLibVersion
     },
-    { rimraf: rimrafVersion }
+    {
+      'mongodb-memory-server': mongodbMemoryServerVersion,
+      rimraf: rimrafVersion
+    }
   );
 }
 

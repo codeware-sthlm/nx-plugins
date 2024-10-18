@@ -11,12 +11,6 @@ on:
     branches:
       - master
   workflow_dispatch:
-    inputs:
-      debug-enabled:
-        type: boolean
-        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
-        required: false
-        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -27,17 +21,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-        node_version:
-          - 20
-          - 18
-        exclude:
-          - os: windows-latest
-            node_version: 18
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [20]
 
-    name: Cache install (${{ matrix.os }}, node v${{ matrix.node_version }})
+    name: Cache install (${{ matrix.os }}, node v${{ matrix.node }})
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,7 +32,7 @@ jobs:
       - name: Set node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node_version }}
+          node-version: ${{ matrix.node }}
           cache: 'yarn'
 
       - name: Cache node_modules
@@ -54,7 +41,7 @@ jobs:
         with:
           lookup-only: true
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ matrix.node_version }}-${{ github.run_id }}
+          key: ${{ matrix.os }}-modules-${{ matrix.node }}-${{ github.run_id }}
 
       - name: Install packages
         if: steps.cache-modules.outputs.cache-hit != 'true'
@@ -68,54 +55,47 @@ jobs:
     timeout-minutes: 90
     strategy:
       matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-        node_version:
-          - 20
-          - 18
-        package_manager:
-          - npm
-          # - yarn
-          # - pnpm
-        project:
-          - nx-payload-e2e
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [20]
+        pm: [npm, pnpm, yarn]
+        project: [nx-payload-e2e]
         include:
-          # os short names
           - os: ubuntu-latest
-            os_name: 'Linux'
+            name: Linux
+            timeout: 30
+            configuration: 'skip-docker'
+            verdaccio: localhost
+          - os: macos-latest
+            name: macOS
+            timeout: 30
+            configuration: skip-docker
           - os: windows-latest
-            os_name: 'Windows'
-          # test timeouts
-          - os: ubuntu-latest
-            os_timeout: 60
-          - os: windows-latest
-            os_timeout: 60
-          # configurations
-          - os: ubuntu-latest
-            configuration: ''
-          - os: windows-latest
-            # will skip docker build test since node image doesn't exist running inside a windows container
-            configuration: 'windows'
+            name: Windows
+            timeout: 60
+            configuration: skip-docker
         exclude:
-          # windows: only npm 20
+          - os: macos-latest
+            pm: pnpm
+          - os: macos-latest
+            pm: yarn
           - os: windows-latest
-            package_manager: yarn
+            pm: pnpm
           - os: windows-latest
-            package_manager: pnpm
-          - os: windows-latest
-            node_version: 18
+            pm: yarn
       fail-fast: false
 
-    name: E2E ${{ matrix.os_name }}/${{ matrix.package_manager }}/${{ matrix.node_version }} ${{ join(matrix.project) }}
+    name: E2E ${{ matrix.os }}/${{ matrix.pm }}/${{ matrix.node }} ${{ join(matrix.project) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node_version }}
+      - name: Install PNPM
+        run: npm install -g @pnpm/exe@8
+
+      - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node_version }}
+          node-version: ${{ matrix.node }}
           cache: 'yarn'
 
       - name: Cache node_modules
@@ -123,36 +103,93 @@ jobs:
         uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ matrix.node_version }}-${{ github.run_id }}
+          key: ${{ runner.os }}-modules-${{ matrix.node }}-${{ github.run_id }}
 
       - name: Install packages
         run: yarn install --immutable
 
-      - name: Set starting timestamp
-        id: before-e2e
-        run: |
-          echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
-
       - name: Run e2e tests
         id: e2e-run
         run: yarn nx e2e ${{ matrix.project }} -c ${{ matrix.configuration }}
-        timeout-minutes: ${{ matrix.os_timeout }}
+        timeout-minutes: ${{ matrix.timeout }}
         env:
+          CDWR_E2E_PACKAGE_MANAGER: ${{ matrix.pm }}
+          CDWR_E2E_VERDACCIO_HOST: ${{ matrix.verdaccio }}
+          CDWR_DEBUG_LOGGING: 'true'
           NX_CACHE_DIRECTORY: 'tmp'
           NX_PERF_LOGGING: 'false'
-          NX_NO_CLOUD: ${{ contains(github.head_ref || github.ref_name, 'renovate') }}
+          NX_NO_CLOUD: ${{ contains(github.head_ref || github.ref_name, 'renovate') || vars.NX_NO_CLOUD == 'true' }}
           # NX_DAEMON defaults to 'true' unless explicitly set to 'false'
           NX_DAEMON: ${{ env.NX_DAEMON == 'false' && 'false' || 'true' }}
           # NX_VERBOSE_LOGGING defaults to 'false' unless explicitly set to 'true'
-          NX_VERBOSE_LOGGING: ${{ env.NX_VERBOSE_LOGGING == 'true' && 'true' || 'false' }}
-          E2E_PACKAGE_MANAGER: ${{ env.E2E_PACKAGE_MANAGER }}
+          NX_VERBOSE_LOGGING: ${{ vars.NX_VERBOSE_LOGGING == 'true' && 'true' || 'false' }}
+          # Yarn workarounds
+          YARN_ENABLE_HARDENED_MODE: ${{ vars.YARN_ENABLE_HARDENED_MODE == 'true' && 1 || 0 }}
+          # TODO: fix flaky yarn lock issues when running `create-nx-workspace`
+          YARN_ENABLE_IMMUTABLE_INSTALLS: ${{ vars.YARN_ENABLE_IMMUTABLE_INSTALLS }}
+      - name: Save test result
+        if: always()
+        run: |
+          echo '{"os": "${{ matrix.os }}", "pm": "${{ matrix.pm }}", "node": "${{ matrix.node }}", "configuration": "${{ matrix.configuration }}", "status": "${{ job.status }}"}' > results-${{ matrix.os }}-${{ matrix.pm }}-${{ matrix.node }}.json
+        shell: bash
 
-      - name: Setup tmate session
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug-enabled && failure() }}
-        uses: mxschmitt/action-tmate@v3.18
-        timeout-minutes: 15
-        env:
-          # disable sudo for windows debugging
-          sudo: ${{ matrix.os != 'windows-latest' }}
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          sudo: ${{ env.sudo }}
+          name: results-${{ matrix.os }}-${{ matrix.pm }}-${{ matrix.node }}
+          path: results-${{ matrix.os }}-${{ matrix.pm }}-${{ matrix.node }}.json
+
+  summary:
+    name: E2E Test Summary
+    needs: e2e
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: results-*
+          merge-multiple: true
+      - name: Create summary
+        run: |
+          echo "# E2E Test Results Summary" > summary.md
+          echo "" >> summary.md
+          echo "| OS | Package Manager | Node Version | Configuration | Status |" >> summary.md
+          echo "|----|-----------------|--------------| ------------ | ------ |" >> summary.md
+          for artifact in artifacts/*.json; do
+            if [ -f "$artifact" ]; then
+              os=$(jq -r '.os' "$artifact")
+              pm=$(jq -r '.pm' "$artifact")
+              configuration=$(jq -r '.configuration' "$artifact")
+              node=$(jq -r '.node' "$artifact")
+              status=$(jq -r '.status' "$artifact")
+              echo "| $os | $pm | $node | $configuration | $status |" >> summary.md
+            fi
+          done
+
+          echo "" >> summary.md
+          echo "## Detailed Results" >> summary.md
+          echo "" >> summary.md
+          echo "<details><summary>Click to expand</summary>" >> summary.md
+          for artifact in artifacts/*.json; do
+            echo "$(basename $artifact)" >> summary.md
+            echo "" >> summary.md
+            echo '```json' >> summary.md
+            echo "" >> summary.md
+            jq -s '.' $artifact >> summary.md
+            echo "" >> summary.md
+            echo '```' >> summary.md
+            echo "" >> summary.md
+          done
+          echo "</details>" >> summary.md
+
+      - name: Upload summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-test-summary
+          path: summary.md
+
+      - name: Output summary
+        run: cat summary.md >> $GITHUB_STEP_SUMMARY

@@ -45,7 +45,7 @@
 ## Prerequisites
 
 - You have already created an Nx workspace
-- Node 18+
+- Node 20+
 - Docker
 
 ## Installation
@@ -111,6 +111,8 @@ Plugin configuration is created automatically, but you can opt out using one of 
 
 - Set `useInferencePlugins` in `nx.json` to `false`
 - Set environment variable `NX_ADD_PLUGINS` to `false`
+
+> `useInferencePlugins` has higher priority than `NX_ADD_PLUGINS`
 
 **Note!** Created targets will be limited to `build`, `payload-build` and `payload-cli`.
 

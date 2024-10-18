@@ -1,16 +1,19 @@
-import { mkdirSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync } from 'fs';
 import { basename, join } from 'path';
 
-import { detectPackageManager, readJsonFile } from '@nx/devkit';
+import { readJsonFile } from '@nx/devkit';
 import {
   cleanup,
   directoryExists,
   exists,
   runCommand,
+  runNxCommand,
   tmpProjPath,
   uniq
 } from '@nx/plugin/testing';
-import { logDebug, logError } from '@nx-plugins/core';
+import { logDebug, logError, logInfo } from '@nx-plugins/core';
+
+import { getE2EPackageManager } from './get-e2e-package-manager';
 
 export type CreateNxWorkspaceProject = {
   /** Generated application name */
@@ -21,25 +24,24 @@ export type CreateNxWorkspaceProject = {
   projectPath: string;
 };
 
-/** Package mananger options for `E2E_PACKAGE_MANAGER` */
-const PackageManagersEnv = ['bun', 'npm', 'pnpm', 'yarn', 'infer'] as const;
-type PackageManagerEnv = (typeof PackageManagersEnv)[number];
-
 /**
  * Ensure the creation of a new E2E Nx workspace project, using `create-nx-workspace`.
  *
  * It's an alternative to `ensureNxProject` which uses the plugin build from local `dist` folder.
  * This function uses the local registry instead to setup the workspace in a more real world scenario.
  *
- * Package mananger can be set via environment variable `E2E_PACKAGE_MANAGER`,
- * where the value can be `bun`, `npm`, `pnpm`, `yarn`, or `infer` (current workspace).
+ * Package mananger can be set via environment variable `CDWR_E2E_PACKAGE_MANAGER`.
  *
  * @param preset Which preset to use as option to `create-nx-workspace`
  * @returns Project workspace details
  */
-export function ensureCreateNxWorkspaceProject(
-  preset: 'apps' | '@cdwr/nx-payload'
-): CreateNxWorkspaceProject {
+export function ensureCreateNxWorkspaceProject({
+  preset,
+  ensurePluginIsInstalled
+}: {
+  preset: 'apps' | '@cdwr/nx-payload';
+  ensurePluginIsInstalled?: boolean;
+}): CreateNxWorkspaceProject {
   // Get the local version of `create-nx-workspace`
   let version = 'latest';
   const { dependencies } = readJsonFile<{
@@ -53,21 +55,20 @@ export function ensureCreateNxWorkspaceProject(
   try {
     cleanup();
   } catch (error) {
-    logError('Failed to cleanup e2e temp path', error.message);
+    logError('Failed to cleanup e2e temp path', (error as Error).message);
   }
+
+  const pm = getE2EPackageManager();
+  logDebug('Resolved test package manager', pm);
 
   // Prepare the options for `create-nx-workspace`
-  const options = ['--nxCloud', 'skip', '--no-interactive'];
-
-  // Select package manager from environment where `infer` use the current package manager
-  const packageManager = process.env['E2E_PACKAGE_MANAGER'] as
-    | PackageManagerEnv
-    | '';
-  if (packageManager in PackageManagersEnv) {
-    const pm =
-      packageManager === 'infer' ? detectPackageManager() : packageManager;
-    options.push('--packageManager', pm);
-  }
+  const options = [
+    '--nxCloud',
+    'skip',
+    '--no-interactive',
+    '--packageManager',
+    pm
+  ];
 
   let appName = '';
   let appDirectory = '';
@@ -95,19 +96,39 @@ export function ensureCreateNxWorkspaceProject(
     mkdirSync(runPath, { recursive: true });
   }
 
-  logDebug(`Creating Nx workspace project with preset '${preset}'`);
+  const cmd = `npx create-nx-workspace@${version} ${name} --preset ${preset} ${cliOptions}`;
 
-  const result = runCommand(
-    `npx create-nx-workspace@${version} ${name} --preset ${preset} ${cliOptions}`,
-    {
-      cwd: runPath
-    }
-  );
+  logDebug('Creating Nx workspace project', `Preset '${preset}'`);
+  logDebug('Run command', cmd);
+
+  const result = runCommand(cmd, {
+    cwd: runPath
+  });
 
   if (!exists(projectPath)) {
-    console.log('runPath', runPath);
-    console.log(result);
+    logDebug('Run path', runPath);
+    logError('Command output', result);
+
+    // Try to find and print error log content
+    const logMatch = result.match(/Log file: (?<errorLog>.*error\.log)/);
+    if (logMatch?.groups) {
+      const errorLog = logMatch.groups['errorLog'];
+      if (existsSync(errorLog)) {
+        logInfo(
+          `Output from ${errorLog}\n`,
+          readFileSync(errorLog, { encoding: 'utf-8' })
+        );
+      } else {
+        logInfo('Error log file could not be found', errorLog);
+      }
+    }
+
     throw new Error(`Failed to create test project in "${projectPath}"`);
+  }
+
+  if (preset === 'apps' && ensurePluginIsInstalled) {
+    logDebug('Install plugin in empty apps workspace');
+    runNxCommand('add @cdwr/nx-payload');
   }
 
   return {

@@ -9,6 +9,7 @@ type Options = {
   cwd?: string;
   env?: NodeJS.ProcessEnv;
   verbose?: boolean;
+  errorDetector?: RegExp;
 };
 
 /**
@@ -37,10 +38,12 @@ type Options = {
 export function runCommandWithPredicate(
   command: string,
   doneFn: (log: string) => boolean,
+
   options?: Options
 ): Promise<string> {
   const cwd = options?.cwd ?? tmpProjPath();
   const env = options?.env ?? process.env;
+  const errorDetector = options?.errorDetector ?? /Error:/;
   const verbose = options?.verbose;
 
   const execCmd = `nx ${command}`;
@@ -58,25 +61,34 @@ export function runCommandWithPredicate(
 
     // Check if the predicate function is met
     const checkDone = (log: string) => {
+      verbose && logDebug(log);
       output += log;
       if (doneFn(log) && !complete) {
         complete = true;
-        success(output);
+        terminate(output, 'success');
       }
     };
 
     // Kill the process tree and resolve when successful, otherwise reject with the error
-    const success = (result: string) => {
+    const terminate = (result: string, status: 'success' | 'fail') => {
       killProcessTree(Number(p.pid), 'SIGKILL')
-        .then(() => resolve(result))
+        .then(() => (status === 'success' ? resolve(result) : reject(result)))
         .catch(reject);
     };
 
-    // Listen for stdout and stderr events and pass to the predicate function
+    // Let predicate function check the output
     p.stdout?.on('data', checkDone);
-    p.stderr?.on('data', checkDone);
 
-    // Listen for the exit event
+    // Terminate with failure when error detector find a match, otherwise send to predicate function
+    p.stderr?.on('data', (data: string) =>
+      data.match(errorDetector) ? terminate(data, 'fail') : checkDone(data)
+    );
+
+    // Listen for error and exit events
+    p.on('error', (err) => {
+      logError('Received error event');
+      terminate(err.message, 'fail');
+    });
     p.on('exit', (code) => {
       if (!complete) {
         logError(
@@ -88,7 +100,7 @@ export function runCommandWithPredicate(
         );
         reject(`Exited with ${code}`);
       } else {
-        success(output);
+        terminate(output, 'success');
       }
     });
   });
