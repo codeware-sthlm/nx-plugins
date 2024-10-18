@@ -74,7 +74,9 @@
     },
     "version": {
       "conventionalCommits": true,
-      "generatorOptions": { "fallbackCurrentVersionResolver": "disk" }
+      "generatorOptions": {
+        "fallbackCurrentVersionResolver": "disk"
+      }
     },
     "conventionalCommits": {
       "types": {
@@ -148,5 +150,6 @@
         "targetName": "lint"
       }
     }
-  ]
+  ],
+  "useLegacyCache": true
 }
