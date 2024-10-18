@@ -1,4 +1,4 @@
-export { buildImage } from './lib/build-image';
+export { dockerBuild } from './lib/docker-build';
 export { killPort } from './lib/kill-port';
 export { killProcessAndPorts } from './lib/kill-process-and-ports';
 export { killProcessTree } from './lib/kill-process-tree';

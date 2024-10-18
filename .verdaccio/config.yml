@@ -7,14 +7,9 @@ uplinks:
     url: https://registry.npmjs.org/
     maxage: 60m
 
-# TODO: Codeware plugins needs to be stored in local registry during e2e tests, but all other packages can be proxied to npmjs.
-# There's a problem during e2e where public packages have localhost in lock file and install within Docker container are refused to connect.
-# Is it because e2e runs inside Docker containers and Verdaccio is running on host machine?
-# Is the problem inside Verdaccio configuration or Docker compose configuration?
+# give all users (including non-authenticated users) full access because it is a local registry
 packages:
   '@cdwr/*':
-    # give all users (including non-authenticated users) full access
-    # because it is a local registry
     access: $all
     publish: $all
     unpublish: $all
@@ -30,7 +25,7 @@ packages:
     proxy: npmjs
 
 # log settings
-logs:
+log:
   type: stdout
   format: pretty
   level: warn

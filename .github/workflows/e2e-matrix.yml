@@ -73,8 +73,8 @@ jobs:
           - 20
         package_manager:
           - npm
-          # - yarn
-          # - pnpm
+          - yarn
+          - pnpm
         project:
           - nx-payload-e2e
         include:
@@ -92,15 +92,26 @@ jobs:
             os_timeout: 30
           - os: windows-latest
             os_timeout: 60
-          # configurations
+          # Apply 'skip-docker' configuration for all but npm on Linux
           - os: ubuntu-latest
-            configuration: ''
+            package_manager: npm
+            verdaccio_host: 'localhost'
+            configuration: 'skip-docker' # temporary
+          - os: ubuntu-latest
+            package_manager: yarn
+            configuration: 'skip-docker'
+          - os: ubuntu-latest
+            package_manager: pnpm
+            configuration: 'skip-docker'
           - os: macos-latest
             configuration: 'skip-docker'
           - os: windows-latest
             configuration: 'skip-docker'
         exclude:
-          # run just npm on macos and windows
+          - os: ubuntu-latest
+            package_manager: yarn
+          - os: ubuntu-latest
+            package_manager: pnpm
           - os: macos-latest
             package_manager: yarn
           - os: macos-latest
@@ -146,6 +157,7 @@ jobs:
         timeout-minutes: ${{ matrix.os_timeout }}
         env:
           CDWR_E2E_PACKAGE_MANAGER: ${{ matrix.package_manager }}
+          CDWR_E2E_VERDACCIO_HOST: ${{ matrix.verdaccio_host }}
           CDWR_DEBUG_LOGGING: 'true'
           NX_CACHE_DIRECTORY: 'tmp'
           NX_PERF_LOGGING: 'false'

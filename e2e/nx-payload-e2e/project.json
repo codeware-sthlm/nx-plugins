@@ -13,6 +13,7 @@
         "runInBand": true
       },
       "configurations": {
+        "docker": { "testPathPattern": ["docker", "dx"] },
         "skip-docker": {
           "testPathIgnorePatterns": ["docker", "dx"]
         }

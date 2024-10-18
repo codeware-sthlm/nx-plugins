@@ -3,8 +3,6 @@ import { runCommandWithPredicate } from '@nx-plugins/core';
 import { ensureCreateNxWorkspaceProject } from '@nx-plugins/e2e/utils';
 import { agent } from 'supertest';
 
-// TODO: Docker tests are getting "ECONNREFUSED" during `npm install` in Dockerfile, using local Verdaccio registry
-
 describe('Developer experience', () => {
   let appName: string;
 
@@ -59,7 +57,7 @@ describe('Developer experience', () => {
     expect(output.includes(`[ started ] on port 3000 (test)`)).toBeTruthy();
   });
 
-  it.skip('should be able to start app and database', async () => {
+  it('should be able to start app and database', async () => {
     runNxCommand('start');
     expect((await agent('http://localhost:3000').get('/')).statusCode).toBe(
       200
@@ -71,7 +69,7 @@ describe('Developer experience', () => {
     );
   });
 
-  it.skip(`should build image using 'docker-build' target`, () => {
+  it(`should build image using 'docker-build' target`, () => {
     const result = runNxCommand('docker-build');
     expect(result).toContain('Successfully ran target docker:build');
   });
