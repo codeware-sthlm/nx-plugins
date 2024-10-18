@@ -6,7 +6,7 @@ describe('Verify local npm and create empty workspace', () => {
   jest.setTimeout(900_000);
 
   beforeAll(() => {
-    ensureCreateNxWorkspaceProject('apps');
+    ensureCreateNxWorkspaceProject({ preset: 'apps' });
   });
 
   afterAll(() => {

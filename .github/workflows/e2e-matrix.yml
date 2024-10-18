@@ -29,13 +29,10 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
+          - macos-latest
           - windows-latest
         node_version:
           - 20
-          - 18
-        exclude:
-          - os: windows-latest
-            node_version: 18
 
     name: Cache install (${{ matrix.os }}, node v${{ matrix.node_version }})
     steps:
@@ -70,10 +67,10 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
+          - macos-latest
           - windows-latest
         node_version:
           - 20
-          - 18
         package_manager:
           - npm
           # - yarn
@@ -84,33 +81,43 @@ jobs:
           # os short names
           - os: ubuntu-latest
             os_name: 'Linux'
+          - os: macos-latest
+            os_name: 'macOS'
           - os: windows-latest
             os_name: 'Windows'
           # test timeouts
           - os: ubuntu-latest
-            os_timeout: 60
+            os_timeout: 30
+          - os: macos-latest
+            os_timeout: 30
           - os: windows-latest
             os_timeout: 60
           # configurations
           - os: ubuntu-latest
             configuration: ''
+          - os: macos-latest
+            configuration: 'skip-docker'
           - os: windows-latest
-            # will skip docker build test since node image doesn't exist running inside a windows container
-            configuration: 'windows'
+            configuration: 'skip-docker'
         exclude:
-          # windows: only npm 20
+          # run just npm on macos and windows
+          - os: macos-latest
+            package_manager: yarn
+          - os: macos-latest
+            package_manager: pnpm
           - os: windows-latest
             package_manager: yarn
           - os: windows-latest
             package_manager: pnpm
-          - os: windows-latest
-            node_version: 18
       fail-fast: false
 
     name: E2E ${{ matrix.os_name }}/${{ matrix.package_manager }}/${{ matrix.node_version }} ${{ join(matrix.project) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install PNPM
+        run: npm install -g @pnpm/exe@8
 
       - name: Use Node.js ${{ matrix.node_version }}
         uses: actions/setup-node@v4
@@ -138,14 +145,15 @@ jobs:
         run: yarn nx e2e ${{ matrix.project }} -c ${{ matrix.configuration }}
         timeout-minutes: ${{ matrix.os_timeout }}
         env:
+          CDWR_E2E_PACKAGE_MANAGER: ${{ matrix.package_manager }}
+          CDWR_DEBUG_LOGGING: 'true'
           NX_CACHE_DIRECTORY: 'tmp'
           NX_PERF_LOGGING: 'false'
           NX_NO_CLOUD: ${{ contains(github.head_ref || github.ref_name, 'renovate') }}
           # NX_DAEMON defaults to 'true' unless explicitly set to 'false'
           NX_DAEMON: ${{ env.NX_DAEMON == 'false' && 'false' || 'true' }}
           # NX_VERBOSE_LOGGING defaults to 'false' unless explicitly set to 'true'
-          NX_VERBOSE_LOGGING: ${{ env.NX_VERBOSE_LOGGING == 'true' && 'true' || 'false' }}
-          E2E_PACKAGE_MANAGER: ${{ env.E2E_PACKAGE_MANAGER }}
+          NX_VERBOSE_LOGGING: ${{ vars.NX_VERBOSE_LOGGING == 'true' && 'true' || 'false' }}
 
       - name: Setup tmate session
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug-enabled && failure() }}

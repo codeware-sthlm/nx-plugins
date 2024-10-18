@@ -11,7 +11,9 @@ describe('Developer experience', () => {
   jest.setTimeout(900_000);
 
   beforeAll(() => {
-    const project = ensureCreateNxWorkspaceProject('@cdwr/nx-payload');
+    const project = ensureCreateNxWorkspaceProject({
+      preset: '@cdwr/nx-payload'
+    });
     appName = project.appName;
   });
 
