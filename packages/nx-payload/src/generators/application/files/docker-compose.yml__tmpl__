@@ -20,7 +20,7 @@ services:
     ports:
       - 5432:5432
     env_file:
-      .env
+      .env.local
     networks:
       - local
     volumes:
@@ -37,9 +37,9 @@ services:
     ports:
       - 3000:3000
     env_file:
-      - .env
+      - .env.local
     environment:
-      # Override the values different from .env
+      # Override the values different from .env.local
       - MONGO_URL=mongodb://mongodb/$MONGO_DB
       - POSTGRES_URL=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB
     networks:

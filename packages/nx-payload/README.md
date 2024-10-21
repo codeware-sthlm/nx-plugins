@@ -231,7 +231,7 @@ npx supabase init
 npx supabase start
 ```
 
-Edit `POSTGRES_URL` in `.env`.
+Edit `POSTGRES_URL` in `.env.local`.
 
 ### Serve Payload application in development mode
 
@@ -255,7 +255,7 @@ It's also an alternative to the docker compose commands `start` and `stop`, when
 npx nx docker-build [app-name]
 ```
 
-Edit application `.env` file to match the database setup and start the application
+Edit application `.env.local` file to match the database setup and start the application
 
 ```sh
 npx nx docker-run [app-name]
