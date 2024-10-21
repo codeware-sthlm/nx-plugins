@@ -72,7 +72,7 @@ export const createPayloadTargets = async (
   targets[options.postgresTargetName] = {
     executor: 'nx:run-commands',
     options: {
-      command: `docker ps -q -f name=postgres-${projectConfig.name} | grep . && echo '[Running] PostgreSQL init process complete' || docker run --name postgres-${projectConfig.name} --rm --env-file ${projectRoot}/.env -p 5432:5432 postgres`,
+      command: `docker ps -q -f name=postgres-${projectConfig.name} | grep . && echo '[Running] PostgreSQL init process complete' || docker run --name postgres-${projectConfig.name} --rm --env-file ${projectRoot}/.env.local -p 5432:5432 postgres`,
       readyWhen: 'PostgreSQL init process complete'
     },
     cache: false
@@ -109,7 +109,7 @@ export const createPayloadTargets = async (
   targets[options.dockerRunTargetName] = {
     executor: 'nx:run-commands',
     options: {
-      command: `docker run --name ${projectConfig.name} --rm --env-file ${projectRoot}/.env -d -p 3000:3000 ${projectConfig.name}`
+      command: `docker run --name ${projectConfig.name} --rm --env-file ${projectRoot}/.env.local -d -p 3000:3000 ${projectConfig.name}`
     },
     cache: false
   };

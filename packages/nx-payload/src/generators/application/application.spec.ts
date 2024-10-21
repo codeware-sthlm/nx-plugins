@@ -184,9 +184,11 @@ describe('application generator', () => {
   it('should add three dotenv files', async () => {
     await generator(tree, options);
 
-    expect(tree.exists(`${options.directory}/.env`)).toBeTruthy();
-    expect(tree.exists(`${options.directory}/.env.payload`)).toBeTruthy();
-    expect(tree.exists(`${options.directory}/.env.serve`)).toBeTruthy();
+    const envFiles = tree
+      .children(options.directory)
+      .filter((file) => file.match(/\.env/));
+
+    expect(envFiles).toEqual(['.env.local', '.env.payload', '.env.serve']);
   });
 
   it('should add folders for auto generated files', async () => {
