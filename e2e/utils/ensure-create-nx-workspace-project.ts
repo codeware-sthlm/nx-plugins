@@ -1,7 +1,6 @@
 import { existsSync, mkdirSync, readFileSync } from 'fs';
 import { basename, join } from 'path';
 
-import { readJsonFile } from '@nx/devkit';
 import {
   cleanup,
   directoryExists,
@@ -11,7 +10,12 @@ import {
   tmpProjPath,
   uniq
 } from '@nx/plugin/testing';
-import { logDebug, logError, logInfo } from '@nx-plugins/core';
+import {
+  getPackageVersion,
+  logDebug,
+  logError,
+  logInfo
+} from '@nx-plugins/core';
 
 import { getE2EPackageManager } from './get-e2e-package-manager';
 
@@ -26,6 +30,7 @@ export type CreateNxWorkspaceProject = {
 
 /**
  * Ensure the creation of a new E2E Nx workspace project, using `create-nx-workspace`.
+ * The version is resolved from the installed npm package.
  *
  * It's an alternative to `ensureNxProject` which uses the plugin build from local `dist` folder.
  * This function uses the local registry instead to setup the workspace in a more real world scenario.
@@ -35,21 +40,15 @@ export type CreateNxWorkspaceProject = {
  * @param preset Which preset to use as option to `create-nx-workspace`
  * @returns Project workspace details
  */
-export function ensureCreateNxWorkspaceProject({
+export async function ensureCreateNxWorkspaceProject({
   preset,
   ensurePluginIsInstalled
 }: {
   preset: 'apps' | '@cdwr/nx-payload';
   ensurePluginIsInstalled?: boolean;
-}): CreateNxWorkspaceProject {
+}): Promise<CreateNxWorkspaceProject> {
   // Get the local version of `create-nx-workspace`
-  let version = 'latest';
-  const { dependencies } = readJsonFile<{
-    dependencies: Record<string, string>;
-  }>(join(process.cwd(), 'package.json'));
-  if ('create-nx-workspace' in dependencies) {
-    version = dependencies['create-nx-workspace'];
-  }
+  const version = (await getPackageVersion('create-nx-workspace')) ?? 'latest';
 
   // Ensure the e2e temp path is removed
   try {
@@ -59,7 +58,10 @@ export function ensureCreateNxWorkspaceProject({
   }
 
   const pm = getE2EPackageManager();
-  logDebug('Resolved test package manager', pm);
+  logDebug(
+    'Resolved',
+    `create-nx-workspace: ${version}, test package manager: ${pm}`
+  );
 
   // Prepare the options for `create-nx-workspace`
   const options = [

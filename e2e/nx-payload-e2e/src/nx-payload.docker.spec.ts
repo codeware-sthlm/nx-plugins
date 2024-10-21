@@ -15,7 +15,7 @@ describe('Test Dockerfile and related targets', () => {
   jest.setTimeout(1000_000);
 
   beforeAll(async () => {
-    const project = ensureCreateNxWorkspaceProject({
+    const project = await ensureCreateNxWorkspaceProject({
       preset: '@cdwr/nx-payload'
     });
     appName = project.appName;

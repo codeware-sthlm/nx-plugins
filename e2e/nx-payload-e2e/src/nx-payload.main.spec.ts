@@ -53,11 +53,11 @@ describe('Main plugin targets no docker', () => {
     }
   };
 
-  beforeAll(() => {
+  beforeAll(async () => {
     originalEnv = process.env.NX_ADD_PLUGINS;
 
     resetInference();
-    project = ensureCreateNxWorkspaceProject({
+    project = await ensureCreateNxWorkspaceProject({
       preset: '@cdwr/nx-payload'
     });
   });
