@@ -74,6 +74,10 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           include: packages/**/package.json
+          # === Important ===
+          # Only specified versions are matched and updated,
+          #       i.e. no dynamic versions are affected.
+          # === Update logic ===
           # Match lines with "create-nx-workspace", "nx" or "@nx/*".
           # Package, version and separator are divided into match groups:
           # Eg. "@nx/express": "18.0.0"
