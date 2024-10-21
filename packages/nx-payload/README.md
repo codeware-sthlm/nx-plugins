@@ -41,11 +41,12 @@
 - [Plugin Executors](#plugin-executors)
 - [Plugin Migrations](#plugin-migrations)
 - [Versions Compatibility](#versions-compatibility)
+  - [Payload peer dependencies](#payload-peer-dependencies)
 
 ## Prerequisites
 
 - You have already created an Nx workspace
-- Node 18+
+- Node 20+
 - Docker
 
 ## Installation
@@ -111,6 +112,8 @@ Plugin configuration is created automatically, but you can opt out using one of 
 
 - Set `useInferencePlugins` in `nx.json` to `false`
 - Set environment variable `NX_ADD_PLUGINS` to `false`
+
+> `useInferencePlugins` has higher priority than `NX_ADD_PLUGINS`
 
 **Note!** Created targets will be limited to `build`, `payload-build` and `payload-cli`.
 
@@ -228,7 +231,7 @@ npx supabase init
 npx supabase start
 ```
 
-Edit `POSTGRES_URL` in `.env`.
+Edit `POSTGRES_URL` in `.env.local`.
 
 ### Serve Payload application in development mode
 
@@ -252,7 +255,7 @@ It's also an alternative to the docker compose commands `start` and `stop`, when
 npx nx docker-build [app-name]
 ```
 
-Edit application `.env` file to match the database setup and start the application
+Edit application `.env.local` file to match the database setup and start the application
 
 ```sh
 npx nx docker-run [app-name]
@@ -381,6 +384,7 @@ Later versions of Nx or Payload might work as well, but the versions below have 
 
 | Plugin version | Nx version | Payload version |
 | -------------- | ---------- | --------------- |
+| `^0.9.x`       | `19.x`     | `2.x`           |
 | `^0.9.5`       | `^19.5.7`  | `^2.8.2`        |
 | `^0.9.0`       | `^19.0.2`  | `^2.8.2`        |
 | `^0.8.0`       | `^18.3.4`  | `^2.8.2`        |
@@ -388,3 +392,16 @@ Later versions of Nx or Payload might work as well, but the versions below have 
 | `^0.6.0`       | `~18.1.1`  | `^2.8.2`        |
 | `^0.5.0`       | `~18.0.3`  | `^2.8.2`        |
 | `^0.1.0`       | `^17.0.0`  | `^2.5.0`        |
+
+### Payload peer dependencies
+
+Payload has a couple of peer dependencies which must be respected by the plugin.
+It's especially important when the plugin is used in a monorepo.
+
+These peer dependencies are defined as dependencies to the plugin.
+
+| Plugin version | Dependency         | Version   |
+| -------------- | ------------------ | --------- |
+| `^0.9.x`       | `react`            | `18.2.0`  |
+|                | `react-i18next`    | `11.18.6` |
+|                | `react-router-dom` | `5.3.4`   |

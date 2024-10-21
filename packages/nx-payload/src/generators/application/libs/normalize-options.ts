@@ -1,7 +1,6 @@
 import { type Tree, names } from '@nx/devkit';
-import { Linter } from '@nx/eslint';
 
-import { type AppGeneratorSchema } from '../schema';
+import type { AppGeneratorSchema } from '../schema';
 
 export type NormalizedSchema = Required<AppGeneratorSchema>;
 
@@ -13,7 +12,7 @@ export function normalizeOptions(
     name: names(options.name).fileName,
     directory: options.directory,
     database: options?.database || 'mongodb',
-    linter: options?.linter || Linter.EsLint,
+    linter: options?.linter || 'eslint',
     projectNameAndRootFormat: 'as-provided',
     skipFormat: options?.skipFormat || false,
     skipE2e: options?.skipE2e || false,

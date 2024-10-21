@@ -41,7 +41,7 @@ describe('application generator', () => {
   };
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace();
+    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
   });
 
   afterAll(() => {
@@ -174,12 +174,21 @@ describe('application generator', () => {
     ).toBeTruthy();
   });
 
+  it('should create Dockerfile for npm package manager', async () => {
+    await generator(tree, options);
+
+    const content = tree.read(`${options.directory}/Dockerfile`, 'utf-8');
+    expect(content).toMatchSnapshot();
+  });
+
   it('should add three dotenv files', async () => {
     await generator(tree, options);
 
-    expect(tree.exists(`${options.directory}/.env`)).toBeTruthy();
-    expect(tree.exists(`${options.directory}/.env.payload`)).toBeTruthy();
-    expect(tree.exists(`${options.directory}/.env.serve`)).toBeTruthy();
+    const envFiles = tree
+      .children(options.directory)
+      .filter((file) => file.match(/\.env/));
+
+    expect(envFiles).toEqual(['.env.local', '.env.payload', '.env.serve']);
   });
 
   it('should add folders for auto generated files', async () => {

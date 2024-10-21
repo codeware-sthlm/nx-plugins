@@ -1,18 +1,22 @@
 import chalk from 'chalk';
 
-const envVariable = 'NX_PLUGINS_LOG_PREFIX';
-const defaultPrefix = 'E2E';
-
 /**
- * Log a colored debug message to the console.
+ * Log a colored debug message to the console when `CDWR_DEBUG_LOGGING` or `NX_VERBOSE_LOGGING` is set to `true`.
  *
- * Log prefix can be customized by setting the `NX_PLUGINS_LOG_PREFIX` environment variable.
+ * Log prefix can be customized by setting the `CDWR_LOG_PREFIX` environment variable.
  * Default log prefix is `E2E`.
  *
  * @param title Log message title
  * @param body Log message body
  */
 export function logDebug(title: string, body?: string): void {
+  if (
+    process.env['CDWR_DEBUG_LOGGING'] !== 'true' &&
+    process.env['NX_VERBOSE_LOGGING'] !== 'true'
+  ) {
+    return;
+  }
+
   const message = `${chalk.reset.inverse.bold.cyan(
     ' DEBUG '
   )} ${chalk.bold.cyan(title)}`;
@@ -22,23 +26,23 @@ export function logDebug(title: string, body?: string): void {
 /**
  * Log a colored info message to the console.
  *
- * Log prefix can be customized by setting the `NX_PLUGINS_LOG_PREFIX` environment variable.
+ * Log prefix can be customized by setting the `CDWR_LOG_PREFIX` environment variable.
  * Default log prefix is `E2E`.
  *
  * @param title Log message title
  * @param body Log message body
  */
 export function logInfo(title: string, body?: string): void {
-  const message = `${chalk.reset.inverse.bold.white(
+  const message = `${chalk.reset.inverse.bold.blue(
     ' INFO '
-  )} ${chalk.bold.white(title)}`;
+  )} ${chalk.bold.blue(title)}`;
   return consoleLogger(message, body);
 }
 
 /**
  * Log a colored error message to the console.
  *
- * Log prefix can be customized by setting the `NX_PLUGINS_LOG_PREFIX` environment variable.
+ * Log prefix can be customized by setting the `CDWR_LOG_PREFIX` environment variable.
  * Default log prefix is `E2E`.
  *
  * @param title Log message title
@@ -54,7 +58,7 @@ export function logError(title: string, body?: string): void {
 /**
  * Log a colored success message to the console.
  *
- * Log prefix can be customized by setting the `NX_PLUGINS_LOG_PREFIX` environment variable.
+ * Log prefix can be customized by setting the `CDWR_LOG_PREFIX` environment variable.
  * Default log prefix is `E2E`.
  *
  * @param title Log message title
@@ -64,6 +68,22 @@ export function logSuccess(title: string, body?: string): void {
   const message = `${chalk.reset.inverse.bold.green(
     ' SUCCESS '
   )} ${chalk.bold.green(title)}`;
+  return consoleLogger(message, body);
+}
+
+/**
+ * Log a colored warning message to the console.
+ *
+ * Log prefix can be customized by setting the `CDWR_LOG_PREFIX` environment variable.
+ * Default log prefix is `E2E`.
+ *
+ * @param title Log message title
+ * @param body Log message body
+ */
+export function logWarning(title: string, body?: string): void {
+  const message = `${chalk.reset.inverse.bold.yellow(
+    ' WARNING '
+  )} ${chalk.bold.yellow(title)}`;
   return consoleLogger(message, body);
 }
 
@@ -79,6 +99,6 @@ function consoleLogger(message: string, body?: string): void {
 
 /** @private */
 function getLogPrefix(): string {
-  const prefix = process.env[envVariable] ?? defaultPrefix;
+  const prefix = process.env['CDWR_LOG_PREFIX'] ?? 'E2E';
   return `${chalk.reset.inverse.bold.keyword('orange')(` ${prefix.trim()} `)}`;
 }
