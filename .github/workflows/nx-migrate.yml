@@ -156,8 +156,14 @@ jobs:
           assignees: hakalb
 
       - name: Enable Pull Request Automerge
-        if: vars.NX_AUTO_MIGRATE == 'true' && steps.cpr.outputs.pull-request-operation == 'created'
+        if: vars.NX_AUTO_MIGRATE == 'true' && steps.workspace.outputs.majorUpdate != 'true' && steps.cpr.outputs.pull-request-operation == 'created'
         run: gh pr merge --rebase --auto ${{ steps.cpr.outputs.pull-request-number }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+
+      - name: Add Pull Request comment for disabled Automerge
+        if: vars.NX_AUTO_MIGRATE == 'true' && steps.workspace.outputs.majorUpdate == 'true' && steps.cpr.outputs.pull-request-operation == 'created'
+        run: gh pr comment ${{ steps.cpr.outputs.pull-request-number }} -b "Automerge is disabled for major version migrations"
         env:
           GH_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
 
