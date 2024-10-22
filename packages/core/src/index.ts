@@ -11,3 +11,4 @@ export {
   logWarning
 } from './lib/log-utils';
 export { runCommandWithPredicate } from './lib/run-command-with-predicate';
+export { whoami } from './lib/whoami';

@@ -1,4 +1,4 @@
-/* eslint-disable */
+ 
 export default {
   displayName: 'nx-payload-e2e',
   preset: '../../jest.preset.js',

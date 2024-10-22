@@ -1,4 +1,4 @@
-/* eslint-disable */
+ 
 export default {
   displayName: 'create-nx-payload',
   preset: '../../jest.preset.js',
