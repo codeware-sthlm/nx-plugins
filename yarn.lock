@@ -6489,12 +6489,12 @@ __metadata:
   linkType: hard
 
 "czg@npm:^1.8.0":
-  version: 1.9.3
-  resolution: "czg@npm:1.9.3"
+  version: 1.10.1
+  resolution: "czg@npm:1.10.1"
   bin:
     czg: bin/index.js
     git-czg: bin/index.js
-  checksum: 10/2908dc75e31877f2dbe560fc207613199e76bf0fdb56c1734500752e73004bb807850e362596be95bc17ed52ad2a1f1c83e378c54155e26053415d0142bfa7c2
+  checksum: 10/38058a62f9bd11191c9f80ba8dd966f0a8d839e14cd3adc15eec076086039181cd6aa09f27909ee8cf38064aaeb4d9008a0b357258a24ace06bebb1d8a1b70cd
   languageName: node
   linkType: hard
 
