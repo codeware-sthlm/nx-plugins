@@ -38,7 +38,7 @@
     "@swc/cli": "0.4.0",
     "@swc/core": "1.7.39",
     "@types/dockerode": "^3.3.23",
-    "@types/express": "4.17.21",
+    "@types/express": "5.0.0",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "29.5.13",
     "@types/kill-port": "^2.0.3",
