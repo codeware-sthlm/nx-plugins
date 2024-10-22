@@ -1,3 +1,61 @@
+## 0.10.0 (2024-10-22)
+
+
+### ✨ Features
+
+- plugin require nx 19 versions ([24c9d4a](https://github.com/codeware-sthlm/nx-plugins/commit/24c9d4a))
+
+
+### 🐞 Bug Fixes
+
+- **nx-payload:** run e2e for a specific package manager and fix docker tests ([05d0ca9](https://github.com/codeware-sthlm/nx-plugins/commit/05d0ca9))
+
+- **nx-payload:** add payload peers as plugin dependencies ([9580317](https://github.com/codeware-sthlm/nx-plugins/commit/9580317))
+
+- **nx-payload:** prevent local app env file from beeing ignored ([9e6b621](https://github.com/codeware-sthlm/nx-plugins/commit/9e6b621))
+
+
+### 🧹 Code Refactoring
+
+- convert to flat eslint configuration ([ced33ee](https://github.com/codeware-sthlm/nx-plugins/commit/ced33ee))
+
+- **nx-payload:** dockerfile should be npm only ([6972760](https://github.com/codeware-sthlm/nx-plugins/commit/6972760))
+
+
+### 🛠️ Build System
+
+- 📦 update nx workspace to 19.6.0 ([82cd8ae](https://github.com/codeware-sthlm/nx-plugins/commit/82cd8ae))
+
+- 📦 update nx workspace to 19.6.1 ([45fb6b5](https://github.com/codeware-sthlm/nx-plugins/commit/45fb6b5))
+
+- 📦 update nx workspace to 19.6.2 ([c39fefd](https://github.com/codeware-sthlm/nx-plugins/commit/c39fefd))
+
+- 📦 update nx workspace to 19.6.3 ([960d754](https://github.com/codeware-sthlm/nx-plugins/commit/960d754))
+
+- 📦 update nx workspace to 19.6.4 ([2864f9f](https://github.com/codeware-sthlm/nx-plugins/commit/2864f9f))
+
+- 📦 update nx workspace to 19.6.5 ([fd0c534](https://github.com/codeware-sthlm/nx-plugins/commit/fd0c534))
+
+- 📦 update nx workspace to 19.7.0 ([25548ad](https://github.com/codeware-sthlm/nx-plugins/commit/25548ad))
+
+- 📦 update nx workspace to 19.7.2 ([226ccf8](https://github.com/codeware-sthlm/nx-plugins/commit/226ccf8))
+
+- 📦 update nx workspace to 19.7.3 ([c9a20f7](https://github.com/codeware-sthlm/nx-plugins/commit/c9a20f7))
+
+- 📦 update nx workspace to 19.7.4 ([781ceb4](https://github.com/codeware-sthlm/nx-plugins/commit/781ceb4))
+
+- 📦 update nx workspace to 19.8.2 ([1914b00](https://github.com/codeware-sthlm/nx-plugins/commit/1914b00))
+
+- 📦 update nx workspace to 19.8.3 ([606b74a](https://github.com/codeware-sthlm/nx-plugins/commit/606b74a))
+
+- 📦 update nx workspace to 19.8.4 ([80f98da](https://github.com/codeware-sthlm/nx-plugins/commit/80f98da))
+
+
+### ❤️  Thank You
+
+- github-merge-queue @github-merge-queue
+- Håkan Ströberg
+
 ## 0.9.5 (2024-08-11)
 
 
