@@ -6482,9 +6482,9 @@ __metadata:
   linkType: hard
 
 "cz-git@npm:^1.8.0":
-  version: 1.9.3
-  resolution: "cz-git@npm:1.9.3"
-  checksum: 10/f44096d1759f3e8a4bfdd31cc2b546caf3fc3d96751d2f5056c3240c8e1e6f953de704fedbedc580acadbc86050ce59ecb56639934a12ce2a18fac6383df6acf
+  version: 1.10.1
+  resolution: "cz-git@npm:1.10.1"
+  checksum: 10/2ae5b930a9178c617b390ff51ce5872592306a1a5a6a4c52d3763757d920f2044e0891bf99558323a34ae7c534fc2cf27f56be2252e9dce7c4cf284f2b1c00a3
   languageName: node
   linkType: hard
 
