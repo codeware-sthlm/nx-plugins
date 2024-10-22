@@ -3,7 +3,7 @@ import { check as portCheck } from 'tcp-port-used';
 
 import { logError, logInfo, logSuccess } from './log-utils';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+ 
 const KILL_PORT_DELAY = 5000;
 
 /**

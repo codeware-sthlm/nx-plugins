@@ -12,6 +12,7 @@ import { releaseVersion } from 'nx/release';
 
 import { changelogs } from './release/changelogs';
 import { publish } from './release/publish';
+import { whoami } from './whoami';
 
 const modes = ['publish', 'release'] as const;
 type Mode = (typeof modes)[number];
@@ -146,6 +147,21 @@ const dryRunOutro = (): void =>
   }
 
   console.log('');
+
+  // Verify npm authentication before running publish
+  if (otp) {
+    const npmUser = await whoami();
+    if (!npmUser) {
+      console.log(
+        `${chalk.red('🚫 Npm publish requires you to be logged in.\n')}`
+      );
+      console.log(
+        `You need to authorize using ${chalk.yellow.bold('npm login')} and follow the instructions.`
+      );
+      console.log('After a successful login, try to publish again.');
+      process.exit(0);
+    }
+  }
 
   switch (mode) {
     case 'publish':

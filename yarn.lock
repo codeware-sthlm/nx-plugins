@@ -3643,6 +3643,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/npm-whoami@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@types/npm-whoami@npm:1.1.2"
+  checksum: 10/8331c213cdba717a8196022ef084e973dfb6043aaebbf26fad68acab9340e645c28902183217c464d86a7c2c3e04cc072f3b0cdd08229c0f2bd20a6bab0c5402
+  languageName: node
+  linkType: hard
+
 "@types/npmlog@npm:^7.0.0":
   version: 7.0.0
   resolution: "@types/npmlog@npm:7.0.0"
@@ -11965,6 +11972,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"npm-whoami@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "npm-whoami@npm:1.1.4"
+  dependencies:
+    which: "npm:^1.1.1"
+  checksum: 10/4481e2911d9eff0a5c89c338bb173f7c3da1d9017ebb469d42639f1e1aec23b805c8946b4f30b5fd3dab1846cc53829bebd032b0916ddbe3d711fca9d68c89be
+  languageName: node
+  linkType: hard
+
 "npmlog@npm:^7.0.1":
   version: 7.0.1
   resolution: "npmlog@npm:7.0.1"
@@ -12022,6 +12038,7 @@ __metadata:
     "@types/jest": "npm:29.5.13"
     "@types/kill-port": "npm:^2.0.3"
     "@types/node": "npm:20.16.14"
+    "@types/npm-whoami": "npm:^1.1.2"
     "@types/npmlog": "npm:^7.0.0"
     "@types/semantic-release": "npm:^20.0.6"
     "@types/supertest": "npm:^6.0.2"
@@ -12049,6 +12066,7 @@ __metadata:
     jsonc-eslint-parser: "npm:^2.1.0"
     kill-port: "npm:^2.0.1"
     lint-staged: "npm:^15.2.0"
+    npm-whoami: "npm:^1.1.4"
     npmlog: "npm:^7.0.1"
     nx: "npm:19.8.4"
     prettier: "npm:^3.1.1"
@@ -16206,7 +16224,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"which@npm:^1.2.14, which@npm:^1.2.9":
+"which@npm:^1.1.1, which@npm:^1.2.14, which@npm:^1.2.9":
   version: 1.3.1
   resolution: "which@npm:1.3.1"
   dependencies:
