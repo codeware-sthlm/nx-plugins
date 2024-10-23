@@ -2,8 +2,8 @@
   "name": "@cdwr/core",
   "version": "0.0.1",
   "peerDependencies": {
-    "@nx/plugin": "19.x",
-    "nx": "19.x"
+    "@nx/plugin": "20.x",
+    "nx": "20.x"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
