@@ -103,8 +103,8 @@ jobs:
           include: packages/**/package.json
           # Logic is the same as the previous step,
           # except dynamic versions are matched (<major>.x)
-          find: (\"(?:create\-nx\-workspace|nx|@nx\/[^\"]*))(\":\s\")(\d+)\.x
-          replace: ${1}${2}${{ steps.workspace.outputs.latestMajor }}
+          find: (\"(?:create\-nx\-workspace|nx|@nx\/[^\"]*))(\":\s\")(\d+)(\.x)
+          replace: ${1}${2}${{ steps.workspace.outputs.latestMajor }}${4}
 
       - name: Save file changes state before the tests
         if: steps.workspace.outputs.outdated == 'true'
