@@ -52,5 +52,8 @@
   "main": "./index.js",
   "typings": "./index.d.ts",
   "executors": "./executors.json",
-  "generators": "./generators.json"
+  "generators": "./generators.json",
+  "nx-migrations": {
+    "migrations": "./migrations.json"
+  }
 }

@@ -29,6 +29,11 @@
             "glob": "generators.json",
             "input": "./packages/nx-payload",
             "output": "."
+          },
+          {
+            "glob": "migrations.json",
+            "input": "./packages/nx-payload",
+            "output": "."
           }
         ]
       }
