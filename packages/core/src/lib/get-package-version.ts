@@ -19,10 +19,12 @@ export async function getPackageVersion(packageName: string): Promise<string> {
   let version: string | undefined;
 
   try {
-    const { stdout } = await execAsync(
-      'npm',
-      ['list', packageName, '--depth=0', '--json']
-    );
+    const { stdout } = await execAsync('npm', [
+      'list',
+      packageName,
+      '--depth=0',
+      '--json'
+    ]);
     const { dependencies }: NpmList = JSON.parse(stdout);
 
     const pkg = dependencies && dependencies[packageName];

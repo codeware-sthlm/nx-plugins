@@ -16,7 +16,19 @@ module.exports = [
   },
   {
     files: ['**/*.json'],
-    rules: { '@nx/dependency-checks': 'error' },
+    rules: {
+      '@nx/dependency-checks': [
+        'error',
+        {
+          ignoredDependencies: [
+            'react',
+            'react-i18next',
+            'react-router-dom',
+            'rimraf'
+          ]
+        }
+      ]
+    },
     languageOptions: { parser: require('jsonc-eslint-parser') }
   },
   {

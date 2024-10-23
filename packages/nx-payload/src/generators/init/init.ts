@@ -8,32 +8,15 @@ import {
 } from '@nx/devkit';
 import { initGenerator as expressInitGenerator } from '@nx/express/src/generators/init/init';
 
-import {
-  mongodbMemoryServerVersion,
-  payloadPeerVersions,
-  payloadPluginsVersions,
-  payloadVersion,
-  reactDomVersion,
-  rimrafVersion,
-  tsLibVersion
-} from '../../utils/versions';
+import { payloadPluginsVersions, payloadVersion } from '../../utils/versions';
 
-import { type Schema } from './schema';
+import type { Schema } from './schema';
 
 function updateDependencies(tree: Tree) {
   return addDependenciesToPackageJson(
     tree,
-    {
-      payload: payloadVersion,
-      ...payloadPluginsVersions,
-      ...payloadPeerVersions,
-      tslib: tsLibVersion
-    },
-    {
-      'mongodb-memory-server': mongodbMemoryServerVersion,
-      'react-dom': reactDomVersion,
-      rimraf: rimrafVersion
-    }
+    { ...payloadPluginsVersions, payload: payloadVersion },
+    {}
   );
 }
 

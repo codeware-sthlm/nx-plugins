@@ -1,4 +1,3 @@
- 
 export default {
   displayName: 'nx-payload',
   preset: '../../jest.preset.js',
