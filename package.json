@@ -40,7 +40,7 @@
     "@types/dockerode": "^3.3.23",
     "@types/express": "5.0.0",
     "@types/fs-extra": "^11.0.4",
-    "@types/jest": "29.5.13",
+    "@types/jest": "29.5.14",
     "@types/kill-port": "^2.0.3",
     "@types/node": "20.16.14",
     "@types/npm-whoami": "^1.1.2",
