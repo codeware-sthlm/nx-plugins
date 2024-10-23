@@ -2,7 +2,6 @@ import { exec } from 'child_process';
 
 import { tmpProjPath } from '@nx/plugin/testing';
 
-import { killProcessTree } from './kill-process-tree';
 import { logDebug, logError } from './log-utils';
 
 type Options = {
@@ -49,10 +48,14 @@ export function runCommandWithPredicate(
   const execCmd = `nx ${command}`;
   verbose && logDebug('Running command...', execCmd);
 
+  const controller = new AbortController();
+  const { signal } = controller;
+
   const p = exec(execCmd, {
     cwd,
     encoding: 'utf-8',
-    env
+    env,
+    signal
   });
 
   return new Promise((resolve, reject) => {
@@ -65,15 +68,21 @@ export function runCommandWithPredicate(
       output += log;
       if (doneFn(log) && !complete) {
         complete = true;
+        logDebug('Terminate long running command successfully', log);
         terminate(output, 'success');
       }
     };
 
-    // Kill the process tree and resolve when successful, otherwise reject with the error
+    // Abort the process and resolve when successful, otherwise reject with the error
     const terminate = (result: string, status: 'success' | 'fail') => {
-      killProcessTree(Number(p.pid), 'SIGKILL')
-        .then(() => (status === 'success' ? resolve(result) : reject(result)))
-        .catch(reject);
+      if (!signal.aborted) {
+        controller.abort();
+      }
+      if (status === 'success') {
+        resolve(result);
+      } else {
+        reject(result);
+      }
     };
 
     // Let predicate function check the output
@@ -84,11 +93,16 @@ export function runCommandWithPredicate(
       data.match(errorDetector) ? terminate(data, 'fail') : checkDone(data)
     );
 
-    // Listen for error and exit events
+    // Listen for error and terminate when process is still running
     p.on('error', (err) => {
+      if (signal.aborted) {
+        return;
+      }
       logError('Received error event');
       terminate(err.message, 'fail');
     });
+
+    // Listen for exit event
     p.on('exit', (code) => {
       if (!complete) {
         logError(
