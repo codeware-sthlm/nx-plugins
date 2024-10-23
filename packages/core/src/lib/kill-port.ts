@@ -3,7 +3,6 @@ import { check as portCheck } from 'tcp-port-used';
 
 import { logError, logInfo, logSuccess } from './log-utils';
 
- 
 const KILL_PORT_DELAY = 5000;
 
 /**
