@@ -384,7 +384,8 @@ Later versions of Nx or Payload might work as well, but the versions below have 
 
 | Plugin version | Nx version | Payload version |
 | -------------- | ---------- | --------------- |
-| `^0.9.x`       | `19.x`     | `2.x`           |
+| `^0.10.1`      | `19.x`     | `^2.30.3`       |
+| `^0.10.0`      | `19.x`     | `^2.8.2`        |
 | `^0.9.5`       | `^19.5.7`  | `^2.8.2`        |
 | `^0.9.0`       | `^19.0.2`  | `^2.8.2`        |
 | `^0.8.0`       | `^18.3.4`  | `^2.8.2`        |

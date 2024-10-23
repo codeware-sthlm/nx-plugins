@@ -1,0 +1,30 @@
+{
+  "generators": {},
+  "packageJsonUpdates": {
+    "0.10.1": {
+      "version": "0.10.1",
+      "packages": {
+        "@payloadcms/bundler-webpack": {
+          "version": "^1.0.7",
+          "alwaysAddToPackageJson": false
+        },
+        "@payloadcms/db-mongodb": {
+          "version": "^1.7.3",
+          "alwaysAddToPackageJson": false
+        },
+        "@payloadcms/db-postgres": {
+          "version": "^0.8.9",
+          "alwaysAddToPackageJson": false
+        },
+        "@payloadcms/richtext-slate": {
+          "version": "^1.5.2",
+          "alwaysAddToPackageJson": false
+        },
+        "payload": {
+          "version": "^2.30.3",
+          "alwaysAddToPackageJson": true
+        }
+      }
+    }
+  }
+}
