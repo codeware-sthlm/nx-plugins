@@ -18,6 +18,7 @@ describe('Payload Build Executor', () => {
           testapp: { root: 'apps/testapp', sourceRoot: 'apps/testapp/src' }
         }
       },
+      projectGraph: { dependencies: {}, nodes: {} },
       nxJsonConfiguration: {},
       isVerbose: false,
       projectName: 'testapp',

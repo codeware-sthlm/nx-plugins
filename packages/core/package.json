@@ -2,8 +2,8 @@
   "name": "@cdwr/core",
   "version": "0.0.1",
   "peerDependencies": {
-    "@nx/plugin": "19.x",
-    "nx": "19.x"
+    "@nx/plugin": "20.x",
+    "nx": "20.x"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
@@ -11,10 +11,10 @@
     "docker-cli-js": "^2.10.0",
     "kill-port": "^2.0.1",
     "npmlog": "^7.0.1",
+    "npm-whoami": "^1.1.4",
     "tcp-port-used": "^1.0.2",
     "tree-kill": "^1.2.2",
-    "tslib": "^2.3.0",
-    "npm-whoami": "^1.1.4"
+    "tslib": "^2.3.0"
   },
   "type": "commonjs",
   "main": "./index.js",

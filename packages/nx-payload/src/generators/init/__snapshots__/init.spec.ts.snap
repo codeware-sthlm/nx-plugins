@@ -11,7 +11,7 @@ exports[`init should generate correct package.json 1`] = `
     "payload": "^2.30.3",
   },
   "devDependencies": {
-    "@nx/express": "19.8.4",
+    "@nx/express": "20.0.5",
   },
   "name": "@proj/source",
 }

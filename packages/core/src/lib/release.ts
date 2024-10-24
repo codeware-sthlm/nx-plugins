@@ -216,10 +216,14 @@ const dryRunOutro = (): void =>
       break;
   }
 
-  // Publish releases and exit when it fails
-  const publishStatus = await publish({ dryRun, otp, verbose });
-  if (publishStatus) {
-    process.exit(publishStatus);
+  const publishStats = await publish({ dryRun, otp, verbose });
+  if (!publishStats) {
+    process.exit(1);
+  }
+  const { successful, total } = publishStats;
+  if (!total) {
+    outro('No packages to publish');
+    process.exit(0);
   }
 
   const term = mode === 'publish' ? 'Publish' : 'Release';
@@ -228,9 +232,13 @@ const dryRunOutro = (): void =>
   dryRun
     ? dryRunOutro()
     : outro(
-        publishStatus === 0
+        successful === total
           ? chalk.green(`🚀 ${termed} successfully!`)
-          : chalk.red(`🚫 ${term} failed`)
+          : successful > 0
+            ? chalk.yellow(
+                `🚀 ${termed} ${successful} successfully, while ${total - successful} failed`
+              )
+            : chalk.red(`🚫 ${term} failed`)
       );
 
   process.exit(0);

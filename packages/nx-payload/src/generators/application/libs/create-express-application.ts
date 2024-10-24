@@ -15,7 +15,6 @@ export async function createExpressApplication(
     js: false,
     skipFormat: true,
     skipPackageJson: false,
-    pascalCaseFiles: false,
     ...e2e
   });
 
