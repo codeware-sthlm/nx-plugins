@@ -24,6 +24,7 @@ describe('Build Executor', () => {
           }
         }
       },
+      projectGraph: { dependencies: {}, nodes: {} },
       nxJsonConfiguration: {},
       isVerbose: false,
       projectName: 'testapp',
