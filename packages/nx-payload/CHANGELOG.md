@@ -1,3 +1,26 @@
+## 0.11.0 (2024-10-25)
+
+### ✨ Features
+
+- update nx to major version 20 ([60849d4](https://github.com/codeware-sthlm/nx-plugins/commit/60849d4))
+
+### 🐞 Bug Fixes
+
+- 📦 bump dependency react-i18next to v15 ([ad33852](https://github.com/codeware-sthlm/nx-plugins/commit/ad33852))
+- 📦 bump dependency react-router-dom to v6 ([b0085dc](https://github.com/codeware-sthlm/nx-plugins/commit/b0085dc))
+- 📦 bump dependency react to v18.3.1 ([3eaf13a](https://github.com/codeware-sthlm/nx-plugins/commit/3eaf13a))
+- **nx-payload:** add migrations ([2e9f52e](https://github.com/codeware-sthlm/nx-plugins/commit/2e9f52e))
+- **nx-payload:** only install direct payload packages to user workspace ([de23fe8](https://github.com/codeware-sthlm/nx-plugins/commit/de23fe8))
+
+### ⚙️ Miscellaneous Chores
+
+- verify user is logged in to npm before local publish ([51793ad](https://github.com/codeware-sthlm/nx-plugins/commit/51793ad))
+
+### ❤️  Thank You
+
+- github-merge-queue @github-merge-queue
+- Håkan Ströberg
+
 ## 0.10.0 (2024-10-22)
 
 

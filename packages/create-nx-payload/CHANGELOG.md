@@ -1,3 +1,22 @@
+## 0.7.0 (2024-10-25)
+
+### ✨ Features
+
+- update nx to major version 20 ([60849d4](https://github.com/codeware-sthlm/nx-plugins/commit/60849d4))
+
+### 🐞 Bug Fixes
+
+- **nx-payload:** only install direct payload packages to user workspace ([de23fe8](https://github.com/codeware-sthlm/nx-plugins/commit/de23fe8))
+
+### ⚙️ Miscellaneous Chores
+
+- verify user is logged in to npm before local publish ([51793ad](https://github.com/codeware-sthlm/nx-plugins/commit/51793ad))
+
+### ❤️  Thank You
+
+- github-merge-queue @github-merge-queue
+- Håkan Ströberg
+
 ## 0.6.0 (2024-10-22)
 
 
