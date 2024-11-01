@@ -58,7 +58,7 @@
     "docker-cli-js": "^2.10.0",
     "dockerode": "^4.0.2",
     "enquirer": "^2.4.1",
-    "eslint": "9.13.0",
+    "eslint": "9.14.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "^2.26.0",
     "fs-extra": "^11.2.0",
