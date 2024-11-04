@@ -10,6 +10,7 @@ export const normalizeOptions = (
   payloadBuildTargetName: options?.payloadBuildTargetName ?? 'payload-build',
   payloadCliTargetName: options?.payloadCliTargetName ?? 'payload-cli',
   postgresTargetName: options?.postgresTargetName ?? 'postgres',
+  serveTargetName: options?.serveTargetName ?? 'serve',
   startTargetName: options?.startTargetName ?? 'start',
   stopTargetName: options?.stopTargetName ?? 'stop'
 });

@@ -6,6 +6,7 @@ export type PayloadPluginOptions = {
   payloadBuildTargetName?: string;
   payloadCliTargetName?: string;
   postgresTargetName?: string;
+  serveTargetName?: string;
   startTargetName?: string;
   stopTargetName?: string;
 };

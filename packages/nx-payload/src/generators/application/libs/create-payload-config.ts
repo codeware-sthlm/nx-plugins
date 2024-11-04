@@ -17,7 +17,7 @@ export function createPayloadConfig(
   if (database === 'mongodb') {
     importDbAdapter = `import { mongooseAdapter } from '@payloadcms/db-mongodb';`;
     configDb = `db: mongooseAdapter({
-  url: process.env.MONGO_URL,
+  url: String(process.env.MONGO_URL),
   migrationDir: resolve(__dirname, 'migrations'),
 }),`;
   } else {

@@ -265,10 +265,7 @@ describe('application generator', () => {
     expect(nxJson.plugins).toEqual(['@cdwr/nx-payload/plugin']);
 
     const projectJson = readProjectConfiguration(tree, options.name);
-    expect(Object.keys(projectJson.targets).length).toBe(3);
-    expect(projectJson.targets['build']).toBeUndefined();
-    expect(projectJson.targets['payload-build']).toBeUndefined();
-    expect(projectJson.targets['payload-cli']).toBeUndefined();
+    expect(projectJson).toMatchSnapshot();
   });
 
   it("should setup plugin inference when 'useInferencePlugins' is 'true'", async () => {
@@ -280,10 +277,7 @@ describe('application generator', () => {
     expect(nxJson.plugins).toEqual(['@cdwr/nx-payload/plugin']);
 
     const projectJson = readProjectConfiguration(tree, options.name);
-    expect(Object.keys(projectJson.targets).length).toBe(3);
-    expect(projectJson.targets['build']).toBeUndefined();
-    expect(projectJson.targets['payload-build']).toBeUndefined();
-    expect(projectJson.targets['payload-cli']).toBeUndefined();
+    expect(projectJson).toMatchSnapshot();
   });
 
   it("should not setup plugin inference when 'useInferencePlugins' is 'false'", async () => {
@@ -295,10 +289,7 @@ describe('application generator', () => {
     expect(nxJson.plugins).toBeUndefined();
 
     const projectJson = readProjectConfiguration(tree, options.name);
-    expect(Object.keys(projectJson.targets).length).toBe(6);
-    expect(projectJson.targets['build']).toBeDefined();
-    expect(projectJson.targets['payload-build']).toBeDefined();
-    expect(projectJson.targets['payload-cli']).toBeDefined();
+    expect(projectJson).toMatchSnapshot();
   });
 
   it('should skip setup plugin inference when plugin exists as string', async () => {
@@ -328,6 +319,7 @@ describe('application generator', () => {
         payloadBuildTargetName: 'my-payload-build',
         payloadCliTargetName: 'my-payload-cli',
         postgresTargetName: 'my-postgres',
+        serveTargetName: 'my-serve',
         startTargetName: 'my-start',
         stopTargetName: 'my-stop'
       }
@@ -346,6 +338,7 @@ describe('application generator', () => {
           payloadBuildTargetName: 'my-payload-build',
           payloadCliTargetName: 'my-payload-cli',
           postgresTargetName: 'my-postgres',
+          serveTargetName: 'my-serve',
           startTargetName: 'my-start',
           stopTargetName: 'my-stop'
         }

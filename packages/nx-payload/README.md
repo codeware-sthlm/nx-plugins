@@ -66,6 +66,7 @@ The plugin automatically creates tasks for projects with a `payload.config.ts` c
 - `payload-build`
 - `payload-cli`
 - `postgres`
+- `serve`
 - `start`
 - `stop`
 - `docker-build`
@@ -98,6 +99,7 @@ or use `options` to assign custom target names
         "payloadBuildTargetName": "my-payload-build",
         "payloadCliTargetName": "my-payload-cli",
         "postgresTargetName": "my-postgres",
+        "serveTargetName": "my-serve",
         "startTargetName": "my-start",
         "stopTargetName": "my-stop"
       }
@@ -244,6 +246,9 @@ npx nx serve [app-name]
 ```
 
 Open your browser and navigate to <http://localhost:3000>.
+
+> **Note!** File changes are detected and the application will restart automatically.  
+> However, the browser must currently be refreshed manually.
 
 ### Build and run application in Docker
 
