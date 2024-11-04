@@ -78,6 +78,27 @@ export const createPayloadTargets = async (
     cache: false
   };
 
+  // Add `serve` target
+  targets[options.serveTargetName] = {
+    executor: '@nx/js:node',
+    options: {
+      buildTarget: `${options.buildTargetName}:development`,
+      runBuildTargetDependencies: true,
+      watch: true
+    },
+    configurations: {
+      development: {
+        buildTarget: `${options.buildTargetName}:build:development`
+      },
+      production: {
+        buildTarget: `${options.buildTargetName}:build:production`
+      }
+    },
+    defaultConfiguration: 'development',
+    dependsOn: [options.buildTargetName],
+    cache: false
+  };
+
   // Add `start` target
   targets[options.startTargetName] = {
     executor: 'nx:run-commands',

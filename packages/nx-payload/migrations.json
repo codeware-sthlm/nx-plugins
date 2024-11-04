@@ -1,5 +1,11 @@
 {
-  "generators": {},
+  "generators": {
+    "remove-serve-target": {
+      "version": "0.11.1",
+      "description": "Remove serve target from payload projects",
+      "implementation": "./src/migrations/update-0.11.1/remove-serve-target"
+    }
+  },
   "packageJsonUpdates": {
     "0.10.1": {
       "version": "0.10.1",

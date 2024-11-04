@@ -52,6 +52,7 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
       ...projectServe,
       options: {
         ...projectServe?.options,
+        runBuildTargetDependencies: true,
         watch: true
       },
       configurations: {
@@ -85,7 +86,8 @@ export function updateProjectConfig(host: Tree, options: NormalizedSchema) {
   const inferredTargets: Array<Target> = [
     'build',
     'payload-build',
-    'payload-cli'
+    'payload-cli',
+    'serve'
   ];
 
   // Targets which should be added to the project configuration

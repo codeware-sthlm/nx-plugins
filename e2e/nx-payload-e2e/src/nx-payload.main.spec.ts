@@ -152,7 +152,7 @@ describe('Main plugin targets no docker', () => {
   }> = [
     {
       name: 'using inference',
-      projectTargets: ['lint', 'serve', 'test'],
+      projectTargets: ['lint', 'test'],
       resolvedTargets: [
         'build',
         'docker-build',

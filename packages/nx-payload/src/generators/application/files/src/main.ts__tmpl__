@@ -20,7 +20,7 @@ app.get('/', (_, res) => {
 
 // Initialize Payload
 payload.init({
-  secret: process.env.PAYLOAD_SECRET_KEY,
+  secret: String(process.env.PAYLOAD_SECRET_KEY),
   express: app,
   onInit: () => {
     payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`);
