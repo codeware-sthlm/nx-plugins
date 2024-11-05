@@ -1,3 +1,13 @@
+## 0.7.1 (2024-11-05)
+
+### 🐞 Bug Fixes
+
+- **nx-payload:** serve target should detect file changes ([d416850](https://github.com/codeware-sthlm/nx-plugins/commit/d416850))
+
+### ❤️  Thank You
+
+- Håkan Ströberg
+
 ## 0.7.0 (2024-10-25)
 
 ### ✨ Features
