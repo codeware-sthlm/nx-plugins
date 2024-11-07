@@ -25,7 +25,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@nx/devkit": "20.0.5",
+    "@nx/devkit": "20.0.10",
     "react": "18.3.1",
     "react-i18next": "15.1.0",
     "react-router-dom": "6.27.0",
