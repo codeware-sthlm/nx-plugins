@@ -28,7 +28,7 @@
     "access": "public"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
+    "chalk": "^5.0.0",
     "create-nx-workspace": "20.x",
     "enquirer": "^2.4.1",
     "tslib": "^2.4.1",
