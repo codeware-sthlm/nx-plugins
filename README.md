@@ -20,6 +20,10 @@
   <br />
 </p>
 
+### ⚠️ This repository is no longer maintained!
+
+Plugin source code has moved to [codeware](https://github.com/codeware-sthlm/codeware) repository.
+
 ## Plugins
 
 ### [`@cdwr/nx-payload`](packages/nx-payload)
